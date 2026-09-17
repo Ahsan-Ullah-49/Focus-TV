@@ -1,0 +1,87 @@
+/*
+  FocusTV Design Tokens
+  Primary Brand Color: #bf8b25
+  Supports Light theme (default) and Dark theme ([data-theme="dark"])
+*/
+
+:root {
+  /* Brand */
+  --color-brand: #bf8b25;
+  --color-brand-hover: #a3751e;
+
+  /* Light Theme (Default) */
+  --color-bg: #f5f3ee;
+  --color-surface: #ffffff;
+  --color-surface-muted: #ece9e2;
+  --color-text: #121212;
+  --color-text-secondary: #686868;
+  --color-border: rgba(18, 18, 18, 0.12);
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Typography Scale */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+
+  --display-sm: clamp(2rem, 4vw, 3rem);
+  --display-md: clamp(2.75rem, 6vw, 4.5rem);
+  --display-lg: clamp(3.5rem, 8vw, 6.5rem);
+
+  --line-height-tight: 1.15;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+
+  /* Container Widths */
+  --container-sm: 720px;
+  --container-md: 1080px;
+  --container-lg: 1440px;
+  --page-gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --header-height: 80px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Z-Index Scale */
+  --z-page: 1;
+  --z-header: 100;
+  --z-mobile-nav: 200;
+  --z-overlay: 300;
+  --z-cursor: 9999;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html[data-theme="dark"] {
+  /* Dark Theme Tokens */
+  --color-bg: #0b0b0b;
+  --color-surface: #131313;
+  --color-surface-muted: #1a1a1a;
+  --color-text: #f3f0e8;
+  --color-text-secondary: #a5a5a5;
+  --color-border: rgba(255, 255, 255, 0.12);
+}
