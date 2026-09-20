@@ -39,7 +39,8 @@ const themeInitScript = `
   (function() {
     try {
       var savedTheme = localStorage.getItem('focustv-theme');
-      var theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      // Default to light theme for new visitors. Explicit saved preference wins.
+      var theme = savedTheme || 'light';
       document.documentElement.setAttribute('data-theme', theme);
     } catch (e) {}
   })();

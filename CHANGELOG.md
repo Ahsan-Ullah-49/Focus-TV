@@ -10,11 +10,40 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
-### Planned for Sprint 2
+### Planned for Sprint 2B
 
 - Full-screen cinematic video hero
 - Video poster/fallback and responsive cropping
 - Hero reveal animation and transition into content
+
+---
+
+## [0.5.0] - 2026-09-20
+
+### Added / Changed
+
+- Finalized responsive FocusTV Header and navigation
+- Integrated official desktop/mobile logo assets
+- Added theme-aware Header contrast and Light Theme default
+- Finalized animated navigation states and Contact Us CTA
+- Finalized responsive gold/glass mobile navigation drawer
+
+---
+
+## [0.4.0] - 2026-09-18
+
+### Added (Sprint 2A — Header Finalization)
+
+- Official FocusTV `logo.png` in Header via `next/image` with retina support
+- Official `favicon.png` registered as App Router `icon.png`
+- Final desktop navigation links: Home, Cast, Team, Gallery, The Answer AI + Contact CTA
+- Final mobile navigation links matching desktop
+- Transparent Header over hero, solid Header after scroll via `IntersectionObserver` sentinel
+- Smooth `300ms` transparent → solid state transition with backdrop blur
+- Animated thin gold underline on nav link hover (scaleX left-to-right)
+- Persistent gold underline on active navigation link
+- Cinematic dark-sweep hover effect on Contact button (pseudo-element wipe)
+- Temporary clean `100svh` homepage placeholder for header contrast testing
 
 ---
 

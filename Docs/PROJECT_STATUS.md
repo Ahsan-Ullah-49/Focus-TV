@@ -2,8 +2,8 @@
 
 ## Project Status
 
-**Last Updated:** 17 September 2026  
-**Current Stage:** Sprint 2 (Homepage Cinematic Hero)
+**Last Updated:** 20 September 2026  
+**Current Stage:** Sprint 2A — Header Finalization (COMPLETED / APPROVED)
 **Overall Status:** In Progress
 
 ---
@@ -70,9 +70,26 @@
 
 ---
 
+### Sprint 2A — Header Finalization
+
+- Official FocusTV `logo.png` integrated into Header via `next/image` (replaces temporary text mark)
+- Official `favicon.png` registered as `src/app/icon.png` via Next.js App Router conventions
+- Final desktop navigation: Home, Cast, Team, Gallery, The Answer AI (with Contact as a CTA button)
+- Final mobile navigation: matching the desktop link set
+- Header uses `position: fixed` and starts transparent over the hero
+- `IntersectionObserver` on a `#top-sentinel` sentinel element drives the transparent → solid header state change (no scroll event per frame)
+- Scrolled state: Light theme warm off-white + backdrop blur / Dark theme deep charcoal + backdrop blur
+- Nav link hover: text transitions to brand gold + thin animated gold underline grows left-to-right
+- Active nav link: persistent gold underline indicator
+- Contact button: cinematic dark-sweep hover (pseudo-element `scaleX` wipe from left)
+- Homepage temporary surface: clean `100svh` placeholder for header contrast testing
+- All Sprint 2A changes are **approved** and finalized in source control.
+
+---
+
 ## 5. Active Sprint
 
-**Sprint:** 2 - Homepage Cinematic Hero
+**Sprint:** Sprint 2B — Homepage Hero Video Integration
 ---
 
 ## 6. Risks
@@ -114,6 +131,6 @@ Production deployment details remain intentionally deferred until the Hostinger 
 
 ## 8. Next Recommended Action
 
-Initialize the repository and complete Sprint 0.
+Visually review the Sprint 2A Header, then approve for commit and push.
 
-After setup, move into Design Foundation before building the homepage hero.
+Next sprint: begin Sprint 2B — Homepage Hero Video Integration once the video file is provided.

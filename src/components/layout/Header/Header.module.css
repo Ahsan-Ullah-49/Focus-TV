@@ -1,3 +1,12 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   FocusTV Header Styles
+   Two contexts controlled by data-header-tone attribute:
+     light-page  → dark text (default, no hero)
+     dark-media  → warm white text (future cinematic hero overlay)
+   The .scrolled class drives the solid background state in both themes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Outer Shell ─────────────────────────────────────────────────────────── */
 .header {
   position: fixed;
   top: 0;
@@ -5,184 +14,545 @@
   width: 100%;
   height: var(--header-height);
   z-index: var(--z-header);
-  background-color: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
   transition:
     background-color var(--duration-normal) var(--ease-out),
     border-color var(--duration-normal) var(--ease-out),
     box-shadow var(--duration-normal) var(--ease-out);
 }
 
+/* ── Scrolled / Solid State ──────────────────────────────────────────────── */
 .scrolled {
-  background-color: rgba(245, 243, 238, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(245, 243, 238, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom-color: var(--color-border);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
 }
 
 html[data-theme="dark"] .scrolled {
-  background-color: rgba(11, 11, 11, 0.85);
+  background-color: rgba(11, 11, 11, 0.97);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
 }
 
+/* ── Inner Layout ────────────────────────────────────────────────────────── */
 .headerInner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-}
-
-.logo {
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--color-text);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-out);
-}
-
-.logo:hover {
-  color: var(--color-brand);
-}
-
-.desktopNav {
-  display: flex;
-  align-items: center;
   gap: var(--space-8);
 }
 
-.navLink {
-  font-size: var(--text-sm);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--color-text-secondary);
-  transition: color var(--duration-fast) var(--ease-out);
+/* ══════════════════════════════════════════════════════════════════════════
+   LOGO
+   Target: 70–85% of the 88px header height ≈ 62–75px visible height.
+   Use max-width clamp; the PNG aspect ratio then determines the rendered height.
+   No padding added to the outer header.
+   ══════════════════════════════════════════════════════════════════════════ */
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  /* Remove any implicit padding that would push the logo down */
+  padding: 0;
 }
 
+.logoImage {
+  /* 1.5x of previous sizes */
+  width: clamp(210px, 16vw, 270px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DESKTOP NAVIGATION
+   ══════════════════════════════════════════════════════════════════════════ */
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--space-6), 2.2vw, var(--space-8));
+  /* Allow nav to grow so it sits comfortably between logo and actions */
+  flex: 1;
+  justify-content: center;
+}
+
+/*
+ * NAV LINK — header-tone aware foreground colours
+ *
+ * Default (light-page, transparent):
+ *   Dark charcoal text so links are visible over the off-white background.
+ *
+ * dark-media context (future hero):
+ *   Warm white so links are visible over cinematic dark video.
+ *
+ * Scrolled (solid bg):
+ *   Uses var(--color-text) which maps correctly for both themes.
+ */
+.navLink {
+  position: relative;
+  /* ~15px – 17px per spec */
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  padding-bottom: 2px;
+  transition: color 280ms var(--ease-out);
+  white-space: nowrap;
+
+  /*
+   * Light-page default: dark charcoal so links read over off-white.
+   * Using #151515 (slightly softer than pure black).
+   */
+  color: #151515;
+}
+
+/* Dark theme transparent header — warm white text */
+html[data-theme="dark"] .navLink {
+  color: var(--color-text);
+}
+
+/*
+ * Future dark-media hero context.
+ * A Hero component will set data-header-tone="dark-media" on <header>.
+ * Both light and dark themes use warm white in this context.
+ */
+.header[data-header-tone="dark-media"] .navLink {
+  color: rgba(243, 240, 232, 0.92);
+}
+
+/* Scrolled state always uses theme text token (correct for both themes) */
+.scrolled .navLink {
+  color: var(--color-text);
+}
+
+/* ── Underline pseudo-element (grows left → right) ── */
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  /* 300ms — smooth, premium easing */
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Hover ── */
 .navLink:hover {
   color: var(--color-brand);
 }
 
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Active ── */
 .activeNavLink {
   color: var(--color-brand);
 }
 
+.activeNavLink::after {
+  transform: scaleX(1);
+}
+
+/* ── Focus-visible (keyboard) ── */
+.navLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DESKTOP RIGHT ACTIONS
+   ══════════════════════════════════════════════════════════════════════════ */
 .actions {
   display: flex;
   align-items: center;
   gap: var(--space-4);
+  flex-shrink: 0;
 }
 
-/* Mobile Toggle & Layout */
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE CONTROLS (theme toggle + hamburger)
+   Hidden on desktop, visible on mobile breakpoint.
+   ══════════════════════════════════════════════════════════════════════════ */
 .mobileControls {
   display: none;
   align-items: center;
   gap: var(--space-3);
 }
 
+/* ── Hamburger Button ──────────────────────────────────────────────────── */
+/*
+ * Minimal touch target with no heavy border.
+ * Three animated bars transform to an X on open.
+ * The button itself provides the 44×44 touch area via min-width/height.
+ */
 .menuButton {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  /* No heavy border — just a very subtle ring for keyboard visibility */
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-  transition:
-    border-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 0;
+  transition: border-color var(--duration-fast) var(--ease-out);
 }
 
 .menuButton:hover {
   border-color: var(--color-brand);
-  color: var(--color-brand);
 }
 
-.hamburgerIcon {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-  stroke-width: 2;
-  fill: none;
+.menuButton:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
 }
 
-/* Mobile Navigation Overlay */
+/*
+ * Three-bar hamburger lines.
+ * Default: charcoal on light-page (readable over off-white).
+ * .menuButtonOpen: bars transform into an X via CSS.
+ */
+.hamburgerBar {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  border-radius: 2px;
+  background-color: #151515;
+  transform-origin: center;
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 250ms var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+/* Dark theme: warm white bars */
+html[data-theme="dark"] .hamburgerBar {
+  background-color: var(--color-text);
+}
+
+/* When over dark media (future hero) */
+.header[data-header-tone="dark-media"] .hamburgerBar {
+  background-color: rgba(243, 240, 232, 0.92);
+}
+
+/* Scrolled — always uses theme text color */
+.scrolled .hamburgerBar {
+  background-color: var(--color-text);
+}
+
+/* Brand gold on hover */
+.menuButton:hover .hamburgerBar {
+  background-color: var(--color-brand);
+}
+
+/* Open state — animate bars to X */
+.menuButtonOpen .hamburgerBar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.menuButtonOpen .hamburgerBar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menuButtonOpen .hamburgerBar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE NAVIGATION — DOUBLE-LAYER ANIMATION
+   ══════════════════════════════════════════════════════════════════════════
+
+   Structure:
+     .mobileOverlay      — fixed container (pointer-events gate)
+       .mobileBackdrop   — Layer 1: accent backing (slides in first)
+       .mobilePanel      — Layer 2: main content (follows ~80ms later)
+
+   Closed default: translateX(100%) on both layers.
+   Open: translateX(0) on both layers, with backdrop leading.
+   ══════════════════════════════════════════════════════════════════════════ */
 .mobileOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   z-index: var(--z-mobile-nav);
-  background-color: var(--color-bg);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: var(--space-8) var(--page-gutter);
-  opacity: 0;
-  visibility: hidden;
   pointer-events: none;
-  transition:
-    opacity var(--duration-normal) var(--ease-out),
-    visibility var(--duration-normal) var(--ease-out);
+  /* visibility hidden keeps it out of tab order when closed */
+  visibility: hidden;
+  /* delay visibility hidden on close so animations finish */
+  transition: visibility 0s 500ms;
 }
 
 .mobileOverlayOpen {
-  opacity: 1;
-  visibility: visible;
   pointer-events: auto;
+  visibility: visible;
+  transition: visibility 0s 0s;
 }
 
+/* ── Full-screen blur backdrop ───────────────────────────────────────────── */
+.mobileBlurBg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out) 100ms; /* slightly delayed close */
+}
+
+.mobileOverlayOpen .mobileBlurBg {
+  opacity: 1;
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Layer 1: Backing accent ─────────────────────────────────────────────── */
+.mobileBackdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: min(68vw, 460px);
+  /* Solid brand gold */
+  background-color: #bf8b25;
+  transform: translateX(100%);
+  transition: transform 400ms var(--ease-out) 50ms; /* faster exit */
+  will-change: transform;
+}
+
+html[data-theme="dark"] .mobileBackdrop {
+  /* No opacity reduction in dark theme to preserve gold identity */
+  background-color: #bf8b25;
+}
+
+.mobileOverlayOpen .mobileBackdrop {
+  transform: translateX(0);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
+}
+
+/* ── Layer 2: Main panel ─────────────────────────────────────────────────── */
+.mobilePanel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: min(68vw, 460px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 var(--page-gutter) var(--space-8);
+
+  /* Glassy gold treatment */
+  background-color: rgba(191, 139, 37, 0.84);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+
+  transform: translateX(100%);
+  transition: transform 400ms var(--ease-out); /* fastest exit */
+  will-change: transform;
+  overflow-y: auto;
+}
+
+.mobileOverlayOpen .mobilePanel {
+  transform: translateX(0);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
+}
+
+/* ── Panel header row ────────────────────────────────────────────────────── */
 .mobileOverlayHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
+  flex-shrink: 0;
 }
 
+/* Logo inside mobile panel */
+.mobileLogoImage {
+  width: clamp(210px, 52vw, 260px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Navigation links ────────────────────────────────────────────────────── */
 .mobileNavLinks {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   margin-top: var(--space-8);
+  flex: 1;
 }
 
+/*
+ * Link stagger reveal.
+ * Links animate in with a subtle translateY + opacity.
+ * Open state: each link animates in after a per-link delay (--link-i CSS var).
+ * Closed state: immediate (no reverse stagger needed — panel slides out).
+ */
 .mobileNavLink {
   display: flex;
   align-items: baseline;
   gap: var(--space-4);
   font-size: clamp(1.75rem, 6vw, 3rem);
   font-weight: 600;
-  color: var(--color-text);
+  /* Dark text reads well on gold glass */
+  color: #151515;
   text-decoration: none;
+  opacity: 0;
+  transform: translateY(16px);
+  /* Fast fade out on close */
   transition:
-    color var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+/* Open: fade + slide links in with stagger */
+.mobileOverlayOpen .mobileNavLink {
+  opacity: 1;
+  transform: translateY(0);
+  /* Delay = panel offset (150ms) + panel open (700ms) + stagger */
+  transition-delay: calc(750ms + (var(--link-i) * 75ms));
 }
 
 .mobileNavLink:hover {
-  color: var(--color-brand);
-  transform: translateX(6px);
+  color: #ffffff;
+}
+
+.mobileNavLink:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.mobileNavLinkActive {
+  color: #ffffff;
 }
 
 .mobileNavIndex {
   font-size: var(--text-sm);
   font-weight: 400;
   font-family: var(--font-serif);
-  color: var(--color-brand);
+  color: #ffffff;
+  opacity: 0.6;
 }
 
+.mobileNavLinkActive .mobileNavIndex {
+  opacity: 1;
+}
+
+/* ── Mobile CTA ──────────────────────────────────────────────────────────── */
+.mobileCtaWrapper {
+  margin-top: auto;
+  padding: var(--space-6) 0;
+  /* subtle fade in */
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.mobileOverlayOpen .mobileCtaWrapper {
+  opacity: 1;
+  transform: translateY(0);
+  /* Reveal last */
+  transition:
+    opacity 400ms var(--ease-out) 1150ms,
+    transform 400ms var(--ease-out) 1150ms;
+}
+
+/* Distinctive styling against the gold drawer */
+.mobileCtaButton {
+  position: relative;
+  width: 100%;
+  background-color: #151515 !important;
+  color: #f3f0e8 !important;
+  border: 1px solid rgba(243, 240, 232, 0.2) !important;
+  overflow: hidden;
+  z-index: 1;
+  transition:
+    transform 150ms var(--ease-out),
+    color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 400ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Hover layer sweeping left to right */
+.mobileCtaButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #f3f0e8;
+  z-index: -1;
+  transform: translateX(-101%);
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mobileCtaButton:hover::before {
+  transform: translateX(0);
+}
+
+.mobileCtaButton:hover {
+  background-color: transparent !important;
+  color: #151515 !important;
+  border-color: rgba(21, 21, 21, 0.3) !important;
+}
+
+/* Touch active state */
+.mobileCtaButton:active {
+  transform: scale(0.975) !important;
+  transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Keyboard Focus */
+.mobileCtaButton:focus-visible {
+  outline: 2px solid #f3f0e8 !important;
+  outline-offset: 4px;
+}
+
+/* ── Panel footer ────────────────────────────────────────────────────────── */
 .mobileOverlayFooter {
   padding-top: var(--space-8);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(21, 21, 21, 0.15); /* darker border on gold */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 
-/* Media Queries */
-@media (max-width: 991px) {
+.mobileOverlayFooter p {
+  color: rgba(21, 21, 21, 0.75) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * Switch to hamburger layout at 1200px.
+ * With the larger logo (~240px) + nav links + actions, the
+ * 1024–1200px range would be cramped on desktop layout.
+ */
+@media (max-width: 1200px) {
   .desktopNav {
     display: none;
   }
@@ -193,5 +563,59 @@ html[data-theme="dark"] .scrolled {
 
   .mobileControls {
     display: flex;
+  }
+}
+
+/* Small desktop / large tablet gap fix — shrink logo slightly */
+@media (max-width: 900px) {
+  .logoImage {
+    width: clamp(180px, 22vw, 240px);
+  }
+}
+
+/* Mobile logo tightening */
+@media (max-width: 600px) {
+  .logoImage {
+    width: clamp(150px, 32vw, 190px);
+  }
+
+  .mobileLogoImage {
+    width: clamp(180px, 45vw, 220px);
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .mobileBackdrop,
+  .mobilePanel {
+    width: min(80vw, 320px);
+  }
+}
+
+@media (max-width: 360px) {
+  .logoImage {
+    width: 140px;
+  }
+
+  .mobileLogoImage {
+    width: 170px;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mobileBackdrop,
+  .mobilePanel,
+  .mobileNavLink,
+  .hamburgerBar {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Still apply visible state immediately */
+  .mobileOverlayOpen .mobileNavLink {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0ms !important;
   }
 }

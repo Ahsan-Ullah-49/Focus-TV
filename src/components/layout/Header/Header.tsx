@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container } from "@/components/layout/Container/Container";
@@ -8,13 +8,16 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle/ThemeToggle";
 import { Button } from "@/components/ui/Button/Button";
 import styles from "./Header.module.css";
 
+import Image from "next/image";
+import logoPng from "@/Assets/Logos/logo.png";
+import whiteLogoPng from "@/Assets/Logos/White-logo.png";
+
 const NAV_LINKS = [
-  { href: "/the-answer", label: "The Answer", index: "01" },
+  { href: "/", label: "Home", index: "01" },
   { href: "/cast", label: "Cast", index: "02" },
-  { href: "/crew", label: "Crew", index: "03" },
+  { href: "/crew", label: "Team", index: "03" },
   { href: "/gallery", label: "Gallery", index: "04" },
   { href: "/the-answer-ai", label: "The Answer AI", index: "05" },
-  { href: "/contact", label: "Contact", index: "06" },
 ];
 
 export function Header() {
@@ -23,25 +26,47 @@ export function Header() {
   const pathname = usePathname();
   const [prevPathname, setPrevPathname] = useState(pathname);
 
-  // Close mobile menu on route change during render
+  // Ref for the hamburger trigger — focus returns here on menu close
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  // Ref for the first focusable item in the mobile menu
+  const firstFocusRef = useRef<HTMLAnchorElement>(null);
+
+  // Close mobile menu on route change (during render is safe for this pattern)
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
     setMobileOpen(false);
   }
 
+  // ── Scroll / intersection sentinel ──────────────────────────────────────────
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const sentinel = document.getElementById("top-sentinel");
+    if (!sentinel) {
+      // Fallback: pages without a hero sentinel use scroll position
+      const handleScroll = () => setScrolled(window.scrollY > 20);
+      handleScroll();
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setScrolled(!entry.isIntersecting);
+      },
+      { root: null, rootMargin: "0px", threshold: 0 }
+    );
 
-  // Lock body scroll when mobile menu is open
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  // ── Body scroll lock ─────────────────────────────────────────────────────────
   useEffect(() => {
     if (mobileOpen) {
       document.body.classList.add("no-scroll");
+      // Move focus into the menu for keyboard users
+      requestAnimationFrame(() => {
+        firstFocusRef.current?.focus();
+      });
     } else {
       document.body.classList.remove("no-scroll");
     }
@@ -51,11 +76,12 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  // Close mobile menu on Escape key press
+  // ── Escape key closes menu ───────────────────────────────────────────────────
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && mobileOpen) {
         setMobileOpen(false);
+        menuTriggerRef.current?.focus();
       }
     };
 
@@ -63,13 +89,36 @@ export function Header() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [mobileOpen]);
 
+  const handleMenuClose = () => {
+    setMobileOpen(false);
+    menuTriggerRef.current?.focus();
+  };
+
+  const handleLinkClick = () => {
+    setMobileOpen(false);
+  };
+
   return (
     <>
-      <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
+      {/*
+       * data-header-tone controls foreground colour independently of theme.
+       * "light-page"  → use dark nav text (default while no hero video)
+       * "dark-media"  → use warm white nav text (set by a future dark Hero)
+       * The .scrolled class drives the solid background state.
+       */}
+      <header
+        className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}
+        data-header-tone="light-page"
+      >
         <Container size="lg" className={styles.headerInner}>
-          {/* Logo Mark */}
-          <Link href="/" className={styles.logo} data-cursor="interactive">
-            FOCUSTV
+          {/* Logo */}
+          <Link
+            href="/"
+            className={styles.logo}
+            data-cursor="interactive"
+            aria-label="FocusTV Home"
+          >
+            <Image src={logoPng} alt="FocusTV" priority className={styles.logoImage} />
           </Link>
 
           {/* Desktop Navigation */}
@@ -93,80 +142,120 @@ export function Header() {
           <div className={`${styles.actions} ${styles.desktopActions}`}>
             <ThemeToggle />
             <Button href="/contact" variant="primary">
-              Contact
+              Contact Us
             </Button>
           </div>
 
-          {/* Mobile Controls */}
+          {/* Mobile Controls — theme toggle + hamburger */}
           <div className={styles.mobileControls}>
             <ThemeToggle />
             <button
+              ref={menuTriggerRef}
               type="button"
-              className={styles.menuButton}
+              className={`${styles.menuButton} ${mobileOpen ? styles.menuButtonOpen : ""}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               data-cursor="interactive"
             >
-              <svg className={styles.hamburgerIcon} viewBox="0 0 24 24">
-                {mobileOpen ? (
-                  <path d="M18 6L6 18M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              {/* Animated 3-bar hamburger → X */}
+              <span className={styles.hamburgerBar} />
+              <span className={styles.hamburgerBar} />
+              <span className={styles.hamburgerBar} />
             </button>
           </div>
         </Container>
       </header>
 
-      {/* Full-Screen Mobile Navigation Overlay */}
+      {/*
+       * Mobile Navigation — double-layer animation
+       * Layer 1: .mobileBackdrop  — accent backing slide
+       * Layer 2: .mobilePanel     — main content surface
+       */}
       <div
+        id="mobile-navigation"
         className={`${styles.mobileOverlay} ${mobileOpen ? styles.mobileOverlayOpen : ""}`}
         aria-hidden={!mobileOpen}
+        aria-modal={mobileOpen}
+        role="dialog"
+        aria-label="Mobile navigation"
       >
-        <div className={styles.mobileOverlayHeader}>
-          <Link
-            href="/"
-            className={styles.logo}
-            onClick={() => setMobileOpen(false)}
-            data-cursor="interactive"
-          >
-            FOCUSTV
-          </Link>
-          <button
-            type="button"
-            className={styles.menuButton}
-            onClick={() => setMobileOpen(false)}
-            aria-label="Close menu"
-            data-cursor="interactive"
-          >
-            <svg className={styles.hamburgerIcon} viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+        {/* Full-screen backdrop blur */}
+        <div className={styles.mobileBlurBg} onClick={handleMenuClose} aria-hidden="true" />
 
-        <nav className={styles.mobileNavLinks} aria-label="Mobile Navigation">
-          {NAV_LINKS.map((link) => (
+        {/* Layer 1 — backing accent */}
+        <div className={styles.mobileBackdrop} aria-hidden="true" />
+
+        {/* Layer 2 — main panel */}
+        <div className={styles.mobilePanel}>
+          {/* Panel header row */}
+          <div className={styles.mobileOverlayHeader}>
             <Link
-              key={link.href}
-              href={link.href}
-              className={styles.mobileNavLink}
-              onClick={() => setMobileOpen(false)}
+              href="/"
+              className={styles.logo}
+              onClick={handleLinkClick}
               data-cursor="interactive"
+              aria-label="FocusTV Home"
+              tabIndex={mobileOpen ? 0 : -1}
             >
-              <span className={styles.mobileNavIndex}>{link.index}</span>
-              <span>{link.label}</span>
+              <Image src={whiteLogoPng} alt="FocusTV" className={styles.mobileLogoImage} />
             </Link>
-          ))}
-        </nav>
+            <button
+              type="button"
+              className={`${styles.menuButton} ${styles.menuButtonOpen}`}
+              onClick={handleMenuClose}
+              aria-label="Close menu"
+              data-cursor="interactive"
+              tabIndex={mobileOpen ? 0 : -1}
+            >
+              <span className={styles.hamburgerBar} />
+              <span className={styles.hamburgerBar} />
+              <span className={styles.hamburgerBar} />
+            </button>
+          </div>
 
-        <div className={styles.mobileOverlayFooter}>
-          <p style={{ fontSize: "var(--text-xs)", color: "var(--color-text-secondary)" }}>
-            Creative Studio & Media
-          </p>
-          <ThemeToggle />
+          {/* Navigation links with staggered reveal */}
+          <nav className={styles.mobileNavLinks} aria-label="Mobile Navigation">
+            {NAV_LINKS.map((link, i) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  ref={i === 0 ? firstFocusRef : undefined}
+                  className={`${styles.mobileNavLink} ${isActive ? styles.mobileNavLinkActive : ""}`}
+                  onClick={handleLinkClick}
+                  data-cursor="interactive"
+                  tabIndex={mobileOpen ? 0 : -1}
+                  style={{ "--link-i": i } as React.CSSProperties}
+                >
+                  <span className={styles.mobileNavIndex}>{link.index}</span>
+                  <span>{link.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Mobile CTA */}
+          <div className={styles.mobileCtaWrapper}>
+            <Button
+              href="/contact"
+              variant="primary"
+              className={styles.mobileCtaButton}
+              onClick={handleLinkClick}
+            >
+              Contact Us
+            </Button>
+          </div>
+
+          {/* Panel footer */}
+          <div className={styles.mobileOverlayFooter}>
+            <p style={{ fontSize: "var(--text-xs)", color: "var(--color-text-secondary)" }}>
+              Creative Studio &amp; Media
+            </p>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </>

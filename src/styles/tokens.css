@@ -54,7 +54,7 @@
   --container-md: 1080px;
   --container-lg: 1440px;
   --page-gutter: clamp(1.25rem, 4vw, 3.5rem);
-  --header-height: 80px;
+  --header-height: 88px;
 
   /* Radii */
   --radius-sm: 4px;

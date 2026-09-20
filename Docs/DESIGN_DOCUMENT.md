@@ -311,11 +311,15 @@ Possible behavior:
 
 ### Mobile
 
-- Dedicated mobile menu
-- Large enough touch targets
-- Clear close control
+- Larger responsive logo maintaining brand presence
+- Right-side partial-width drawer (approx. 2/3 width)
+- Official `White-logo` displayed cleanly inside drawer
+- FocusTV gold/glass visual treatment (`#BF8B25` base with blur)
+- Double-layer transition opening sequence
+- Blurred cinematic background dimming the underlying page
+- Dedicated Contact Us CTA with tactile active states
 - Theme toggle remains accessible
-- Menu should feel designed for mobile, not like compressed desktop navigation
+- Menu feels designed for mobile, not like compressed desktop navigation
 
 Avoid:
 
