@@ -1,150 +1,368 @@
-.heroSection {
+/*
+ * Hero.module.css
+ * Full-bleed cinematic Hero for The Answer.
+ * Uses native <video> — no iframe, no Vimeo.
+ *
+ * Z-index map inside .frame:
+ *   0   video
+ *   1   poster image
+ *   2   gradientTop / gradientBottom
+ *   3   clickLayer (transparent, click-to-toggle)
+ *   4   muteBtn / blockedOverlay / brandingPanel / controlBar
+ */
+
+/* ── Section shell ─────────────────────────────────────────────────────────── */
+/*
+ * Occupies the first full viewport, starting at the very top of the page.
+ * The fixed Header overlays this — we do NOT add padding-top here.
+ * Using height with 100svh (small viewport) + dvh fallback for mobile browsers
+ * that dynamically resize the viewport height as browser chrome shows/hides.
+ */
+.hero {
   position: relative;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  width: 100%;
+  height: 100vh;
+  /* svh: stable viewport height — ignores mobile browser chrome */
+  height: 100svh;
   overflow: hidden;
-  /* Dark text context over video regardless of site theme */
-  color: var(--color-surface);
-  /* The padding is handled by the inner container, but we need some space at bottom */
-  padding-bottom: clamp(2rem, 6vw, 5rem);
-  padding-top: calc(var(--header-height, 80px) + 2rem);
+  /* Ensure page content underneath starts right after */
+  margin: 0;
+  padding: 0;
 }
 
-/* ── Media Architecture ── */
-.mediaContainer {
+/* ── Frame (fills the section) ─────────────────────────────────────────────── */
+.frame {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  background-color: #0a0a0a; /* Near-black shown while video loads */
+  overflow: hidden;
+}
+
+/* ── Video element ─────────────────────────────────────────────────────────── */
+.video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  z-index: -2;
-  /* Placeholder cinematic background */
-  background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
-  /* Prepares for video */
+  object-fit: cover;
+  /*
+   * Keep the automobile (action center) visible.
+   * 'center 30%' biases toward the upper-center for landscape videos
+   * where the key action is in the middle portion of the frame.
+   */
+  object-position: center 30%;
+  /* Remove any browser default controls */
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Poster (Next/Image fill) ──────────────────────────────────────────────── */
+.poster {
+  /* next/image fill sets position:absolute, inset:0 internally.
+     We layer it above the video while the video initializes. */
+  z-index: 1 !important;
+  object-fit: cover;
+  object-position: center 30%;
+  transition: opacity 600ms var(--ease-out);
+  pointer-events: none;
+}
+
+.posterHidden {
+  opacity: 0;
+}
+
+/* ── Click layer (transparent — toggles play/pause on click) ───────────────── */
+.clickLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  /* No background — purely a click target */
+  background: transparent;
+  cursor: none; /* Custom cursor handles this */
+}
+
+/* ── Mute button — centered near the top, just below the Header ────────────── */
+.muteBtn {
+  position: absolute;
+  /* Header is 88px; place the button below it with some breathing room */
+  top: calc(var(--header-height) + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  /* Glass treatment, slightly darker to ensure contrast on bright video frames */
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  pointer-events: auto;
+  transition:
+    border-color 200ms var(--ease-out),
+    background 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
 }
 
-.mediaPlaceholder {
-  color: rgba(255, 255, 255, 0.2);
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.muteBtn:hover {
+  border-color: rgba(191, 139, 37, 0.8);
+  background: rgba(0, 0, 0, 0.65);
+  transform: translateX(-50%) scale(1.06);
+}
+
+.muteBtn:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+/* ── Icon base ─────────────────────────────────────────────────────────────── */
+.icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Autoplay-blocked overlay ──────────────────────────────────────────────── */
+.blockedOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: auto;
+}
+
+.blockedPlayBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(191, 139, 37, 0.6);
+  color: #ffffff;
+  pointer-events: auto;
+  transition:
+    border-color 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.blockedPlayBtn:hover {
+  border-color: var(--color-brand);
+  transform: scale(1.08);
+}
+
+.blockedPlayBtn .icon {
+  width: 28px;
+  height: 28px;
+  margin-left: 3px; /* optical center for play triangle */
+}
+
+/* ── Branding panel removed ───────────────────────────────────────────────── */
+
+/* ── Control bar — bottom of Hero ──────────────────────────────────────────── */
+.controlBar {
+  position: absolute;
+  bottom: calc(40px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  pointer-events: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(90vw, 600px);
+
+  /* Subtle glass surface, much slimmer */
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 40px;
+  padding: 8px 24px 8px 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Play/Pause button inside the control bar */
+.playPauseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+  border: none;
+  pointer-events: auto;
+  transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+}
+
+.playPauseBtn:hover {
+  color: #ffffff;
+  transform: scale(1.15);
+}
+
+.playPauseBtn:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+.playPauseBtn .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Time labels */
+.timeLabel {
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 3.2ch;
   text-align: center;
+  user-select: none;
 }
 
-/* ── Overlay ── */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  /* Subtle dark gradient for text readability at bottom left */
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.1) 40%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-}
-
-/* ── Content Composition ── */
-.contentInner {
+/* Progress track */
+.progressTrack {
+  flex: 1;
   position: relative;
-  z-index: 1;
-  max-width: 900px; /* Restrain text width */
+  height: 2px; /* Slim track */
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  cursor: pointer;
+  /* Expand hit area without growing visually */
+  padding: 12px 0;
+  margin: -12px 0;
+  pointer-events: auto;
+  transition: opacity 150ms var(--ease-out);
 }
 
-/* Masked reveal container */
-.lineMask {
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: top;
+.progressTrack:hover .progressFill,
+.progressTrack:focus-visible .progressFill {
+  background: var(--color-brand);
 }
 
-.label {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--color-brand);
-  font-weight: 600;
-  margin-bottom: var(--space-6);
-  opacity: 0; /* GSAP reveals */
+.progressTrack:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 6px;
+  border-radius: 4px;
 }
 
-.headline {
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 8vw, 7.5rem);
-  line-height: 1.05;
-  font-weight: 400;
-  color: #ffffff; /* Explicit white to guarantee contrast against video */
-  margin-bottom: var(--space-6);
-}
-
-.headlineLine {
-  display: inline-block;
-  transform: translateY(100%);
-  opacity: 0; /* GSAP reveals */
-}
-
-.supportCopy {
-  font-size: clamp(1rem, 2vw, 1.375rem);
-  line-height: var(--line-height-relaxed);
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 500px;
-  margin-bottom: var(--space-8);
-  opacity: 0; /* GSAP reveals */
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-6);
-  opacity: 0; /* GSAP reveals */
-}
-
-/* ── Scroll Indicator ── */
-.scrollIndicator {
+/* Filled portion */
+.progressFill {
   position: absolute;
-  bottom: clamp(1rem, 3vw, 2rem);
-  right: var(--page-gutter);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-  z-index: 1;
-  opacity: 0; /* GSAP reveals */
+  top: 50%;
+  left: 0;
+  height: 2px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: background 150ms var(--ease-out);
 }
 
-.scrollLabel {
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.5);
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+/* Drag thumb */
+.progressThumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  pointer-events: none;
+  transition: transform 150ms var(--ease-out);
 }
 
-.scrollLine {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+.progressTrack:hover .progressThumb,
+.progressTrack:focus-visible .progressThumb {
+  transform: translate(-50%, -50%) scale(1);
 }
 
-/* ── Reduced Motion ── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ─────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .controlBar {
+    width: min(92vw, 500px);
+  }
+}
+
+/* ── Mobile (≤ 768px) ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .video {
+    /*
+     * On mobile portrait, shift focus toward center-top
+     * so the key subject of the automotive film stays prominent.
+     */
+    object-position: 65% 20%;
+  }
+
+  .poster {
+    object-position: 65% 20%;
+  }
+
+  .muteBtn {
+    /* On mobile, header collapses; keep mute below it */
+    top: calc(var(--header-height) + 16px);
+    width: 44px;
+    height: 44px;
+  }
+
+  .controlBar {
+    gap: 12px;
+    padding: 6px 16px 6px 8px;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .timeLabel {
+    font-size: 0.7rem;
+  }
+}
+
+/* ── Small mobile (≤ 480px) ────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .controlBar {
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    width: calc(100vw - 32px);
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .label,
-  .headlineLine,
-  .supportCopy,
-  .actions,
-  .scrollIndicator {
-    opacity: 1 !important;
-    transform: none !important;
+  .poster {
+    transition: none !important;
+  }
+
+  .muteBtn,
+  .blockedPlayBtn,
+  .playPauseBtn,
+  .progressThumb {
+    transition: none !important;
   }
 }

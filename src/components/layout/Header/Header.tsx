@@ -37,26 +37,17 @@ export function Header() {
     setMobileOpen(false);
   }
 
-  // ── Scroll / intersection sentinel ──────────────────────────────────────────
   useEffect(() => {
-    const sentinel = document.getElementById("top-sentinel");
-    if (!sentinel) {
-      // Fallback: pages without a hero sentinel use scroll position
-      const handleScroll = () => setScrolled(window.scrollY > 20);
-      handleScroll();
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
+    const handleScroll = () => {
+      // Transition Header to solid state after 60px of scroll
+      setScrolled(window.scrollY > 60);
+    };
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setScrolled(!entry.isIntersecting);
-      },
-      { root: null, rootMargin: "0px", threshold: 0 }
-    );
+    // Initial check on mount
+    handleScroll();
 
-    observer.observe(sentinel);
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
   // ── Body scroll lock ─────────────────────────────────────────────────────────
@@ -102,13 +93,13 @@ export function Header() {
     <>
       {/*
        * data-header-tone controls foreground colour independently of theme.
-       * "light-page"  → use dark nav text (default while no hero video)
-       * "dark-media"  → use warm white nav text (set by a future dark Hero)
+       * On the homepage, the Hero video sits underneath the transparent header,
+       * so we force "dark-media" (warm white text) until scrolled.
        * The .scrolled class drives the solid background state.
        */}
       <header
         className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}
-        data-header-tone="light-page"
+        data-header-tone={pathname === "/" && !scrolled ? "dark-media" : "light-page"}
       >
         <Container size="lg" className={styles.headerInner}>
           {/* Logo */}
@@ -140,7 +131,7 @@ export function Header() {
 
           {/* Desktop Right Actions */}
           <div className={`${styles.actions} ${styles.desktopActions}`}>
-            <ThemeToggle />
+            <ThemeToggle className={styles.headerThemeToggle} />
             <Button href="/contact" variant="primary">
               Contact Us
             </Button>
@@ -148,7 +139,7 @@ export function Header() {
 
           {/* Mobile Controls — theme toggle + hamburger */}
           <div className={styles.mobileControls}>
-            <ThemeToggle />
+            <ThemeToggle className={styles.headerThemeToggle} />
             <button
               ref={menuTriggerRef}
               type="button"
