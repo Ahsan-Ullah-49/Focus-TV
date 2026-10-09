@@ -4,9 +4,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./Hero.module.css";
 
-const VIDEO_SRC =
-  "/media/hero/THE%20ANSWER%20-%20The%20Birth%20Of%20The%20Automobile%20%28Pilot%29.mp4";
+const VIDEO_SRC = "/media/hero/focustv-hero-compressed.mp4";
 const POSTER_SRC = "/media/hero/focustv-hero-poster.webp";
+
 
 // ─── Helper: format seconds as m:ss ──────────────────────────────────────────
 function fmtTime(secs: number): string {
