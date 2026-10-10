@@ -1,14 +1,13 @@
 /*
  * Hero.module.css
  * Full-bleed cinematic Hero for The Answer.
- * Uses native <video> — no iframe, no Vimeo.
+ * Uses a direct Vimeo iframe + postMessage API — no @vimeo/player SDK.
  *
  * Z-index map inside .frame:
- *   0   video
+ *   0   vimeoWrapper / vimeoIframe
  *   1   poster image
- *   2   gradientTop / gradientBottom
  *   3   clickLayer (transparent, click-to-toggle)
- *   4   muteBtn / blockedOverlay / brandingPanel / controlBar
+ *   4   muteBtn
  */
 
 /* ── Section shell ─────────────────────────────────────────────────────────── */
@@ -22,10 +21,8 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  /* svh: stable viewport height — ignores mobile browser chrome */
   height: 100svh;
   overflow: hidden;
-  /* Ensure page content underneath starts right after */
   margin: 0;
   padding: 0;
 }
@@ -34,37 +31,45 @@
 .frame {
   position: absolute;
   inset: 0;
-  background-color: #0a0a0a; /* Near-black shown while video loads */
+  background-color: #0a0a0a;
   overflow: hidden;
 }
 
-/* ── Video element ─────────────────────────────────────────────────────────── */
-.video {
+/* ── Vimeo wrapper ──────────────────────────────────────────────────────────── */
+/*
+ * Hosts the full-bleed iframe. Scaled to 126% to eliminate cinematic black bars.
+ * Centered with translate(-50%,-50%) so the scale expands outward symmetrically.
+ * overflow:hidden on .frame clips the scaled edges cleanly.
+ */
+.vimeoWrapper {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /*
-   * Keep the automobile (action center) visible.
-   * 'center 30%' biases toward the upper-center for landscape videos
-   * where the key action is in the middle portion of the frame.
-   */
-  object-position: center 30%;
-  /* Remove any browser default controls */
-  display: block;
+  transform: translate(-50%, -50%) scale(1.26);
+  transform-origin: center center;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Poster (Next/Image fill) ──────────────────────────────────────────────── */
+/* The iframe must fill its wrapper completely */
+.vimeoIframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+  display: block;
+}
+
+/* ── Poster ────────────────────────────────────────────────────────────────── */
 .poster {
-  /* next/image fill sets position:absolute, inset:0 internally.
-     We layer it above the video while the video initializes. */
   z-index: 1 !important;
   object-fit: cover;
   object-position: center 30%;
-  transition: opacity 600ms var(--ease-out);
+  transition: opacity 700ms var(--ease-out);
   pointer-events: none;
 }
 
@@ -72,21 +77,36 @@
   opacity: 0;
 }
 
-/* ── Click layer (transparent — toggles play/pause on click) ───────────────── */
+/* ── Click layer ───────────────────────────────────────────────────────────── */
 .clickLayer {
   position: absolute;
   inset: 0;
   z-index: 3;
-  /* No background — purely a click target */
   background: transparent;
-  cursor: none; /* Custom cursor handles this */
+  cursor: none;
 }
 
-/* ── Mute button — centered near the top, just below the Header ────────────── */
+/* ══════════════════════════════════════════════════════════════════════════════
+   LIQUID GLASS DESIGN TOKENS (local to this module)
+   ══════════════════════════════════════════════════════════════════════════════ */
+/*
+ * All glass surfaces share these characteristics:
+ *   – Semi-transparent dark fill
+ *   – backdrop-filter blur + saturation boost
+ *   – 1px border with soft white translucency
+ *   – Faint inset highlight on the top edge
+ *   – Restrained box-shadow for depth
+ */
+
+/* ── Audio (mute/unmute) button ─────────────────────────────────────────────── */
+/*
+ * Positioned at the top-center, slightly higher than the old placement
+ * (12px below the header instead of 20px) so it sits in the breathing room
+ * between the nav bar and the video content.
+ */
 .muteBtn {
   position: absolute;
-  /* Header is 88px; place the button below it with some breathing room */
-  top: calc(var(--header-height) + 20px);
+  top: calc(var(--header-height) + 14px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
@@ -94,29 +114,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
 
-  /* Glass treatment, slightly darker to ensure contrast on bright video frames */
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* Liquid glass surface */
+  background: rgba(10, 10, 10, 0.38);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* Inset top highlight mimics glass refraction */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 4px 24px rgba(0, 0, 0, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.92);
 
   pointer-events: auto;
   transition:
-    border-color 200ms var(--ease-out),
-    background 200ms var(--ease-out),
-    transform 200ms var(--ease-out);
+    border-color 220ms var(--ease-out),
+    background 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
 }
 
 .muteBtn:hover {
-  border-color: rgba(191, 139, 37, 0.8);
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(10, 10, 10, 0.52);
+  border-color: rgba(191, 139, 37, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 6px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(191, 139, 37, 0.2);
   transform: translateX(-50%) scale(1.06);
+}
+
+.muteBtn:active {
+  transform: translateX(-50%) scale(0.96);
+  transition-duration: 100ms;
 }
 
 .muteBtn:focus-visible {
@@ -124,182 +158,12 @@
   outline-offset: 3px;
 }
 
-/* ── Icon base ─────────────────────────────────────────────────────────────── */
+/* Icon base — used by all control icons */
 .icon {
   display: block;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-/* ── Autoplay-blocked overlay ──────────────────────────────────────────────── */
-.blockedOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.25);
-  pointer-events: auto;
-}
-
-.blockedPlayBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(191, 139, 37, 0.6);
-  color: #ffffff;
-  pointer-events: auto;
-  transition:
-    border-color 200ms var(--ease-out),
-    transform 200ms var(--ease-out);
-}
-
-.blockedPlayBtn:hover {
-  border-color: var(--color-brand);
-  transform: scale(1.08);
-}
-
-.blockedPlayBtn .icon {
-  width: 28px;
-  height: 28px;
-  margin-left: 3px; /* optical center for play triangle */
-}
-
-/* ── Branding panel removed ───────────────────────────────────────────────── */
-
-/* ── Control bar — bottom of Hero ──────────────────────────────────────────── */
-.controlBar {
-  position: absolute;
-  bottom: calc(40px + env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
-  pointer-events: auto;
-
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: min(90vw, 600px);
-
-  /* Subtle glass surface, much slimmer */
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 40px;
-  padding: 8px 24px 8px 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-/* Play/Pause button inside the control bar */
-.playPauseBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.9);
-  background: transparent;
-  border: none;
-  pointer-events: auto;
-  transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
-}
-
-.playPauseBtn:hover {
-  color: #ffffff;
-  transform: scale(1.15);
-}
-
-.playPauseBtn:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 3px;
-  border-radius: 50%;
-}
-
-.playPauseBtn .icon {
   width: 18px;
   height: 18px;
-}
-
-/* Time labels */
-.timeLabel {
-  font-size: 0.75rem;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.85);
-  white-space: nowrap;
   flex-shrink: 0;
-  min-width: 3.2ch;
-  text-align: center;
-  user-select: none;
-}
-
-/* Progress track */
-.progressTrack {
-  flex: 1;
-  position: relative;
-  height: 2px; /* Slim track */
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 2px;
-  cursor: pointer;
-  /* Expand hit area without growing visually */
-  padding: 12px 0;
-  margin: -12px 0;
-  pointer-events: auto;
-  transition: opacity 150ms var(--ease-out);
-}
-
-.progressTrack:hover .progressFill,
-.progressTrack:focus-visible .progressFill {
-  background: var(--color-brand);
-}
-
-.progressTrack:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 6px;
-  border-radius: 4px;
-}
-
-/* Filled portion */
-.progressFill {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  height: 2px;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 2px;
-  pointer-events: none;
-  transition: background 150ms var(--ease-out);
-}
-
-/* Drag thumb */
-.progressThumb {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-brand);
-  pointer-events: none;
-  transition: transform 150ms var(--ease-out);
-}
-
-.progressTrack:hover .progressThumb,
-.progressTrack:focus-visible .progressThumb {
-  transform: translate(-50%, -50%) scale(1);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -308,49 +172,23 @@
 
 /* ── Tablet (≤ 1024px) ─────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .controlBar {
-    width: min(92vw, 500px);
-  }
 }
 
 /* ── Mobile (≤ 768px) ──────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .video {
-    /*
-     * On mobile portrait, shift focus toward center-top
-     * so the key subject of the automotive film stays prominent.
-     */
-    object-position: 65% 20%;
-  }
-
   .poster {
     object-position: 65% 20%;
   }
 
   .muteBtn {
-    /* On mobile, header collapses; keep mute below it */
-    top: calc(var(--header-height) + 16px);
-    width: 44px;
-    height: 44px;
-  }
-
-  .controlBar {
-    gap: 12px;
-    padding: 6px 16px 6px 8px;
-    bottom: calc(24px + env(safe-area-inset-bottom));
-  }
-
-  .timeLabel {
-    font-size: 0.7rem;
+    top: calc(var(--header-height) + 12px);
+    width: 42px;
+    height: 42px;
   }
 }
 
 /* ── Small mobile (≤ 480px) ────────────────────────────────────────────────── */
 @media (max-width: 480px) {
-  .controlBar {
-    bottom: calc(16px + env(safe-area-inset-bottom));
-    width: calc(100vw - 32px);
-  }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────────── */
@@ -359,10 +197,7 @@
     transition: none !important;
   }
 
-  .muteBtn,
-  .blockedPlayBtn,
-  .playPauseBtn,
-  .progressThumb {
+  .muteBtn {
     transition: none !important;
   }
 }

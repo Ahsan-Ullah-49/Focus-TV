@@ -9,15 +9,15 @@ console.log(`Using ffmpeg at: ${ffmpeg}`);
 console.log(`Input: ${input}`);
 console.log(`Output: ${output}`);
 
-// Scale to 1080p, CRF 28 for good compression, fast preset
+// Scale to 720p, CRF 33 for higher compression to fit in < 90MB, veryfast preset to speed it up
 const args = [
   '-i', input,
-  '-vf', 'scale=-2:1080',
+  '-vf', 'scale=-2:720',
   '-vcodec', 'libx264',
-  '-crf', '28',
-  '-preset', 'fast',
+  '-crf', '33',
+  '-preset', 'veryfast',
   '-acodec', 'aac',
-  '-b:a', '128k',
+  '-b:a', '96k',
   '-y', // Overwrite output file
   output
 ];
