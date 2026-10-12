@@ -2,39 +2,24 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { heroConfig, buildVimeoEmbedUrl } from "./hero.config";
 import styles from "./Hero.module.css";
 
-// ─── Vimeo constants ──────────────────────────────────────────────────────────
-// The Vimeo player iframe URL. We talk to it via postMessage (Vimeo Player API),
-// which avoids the @vimeo/player SDK dynamic-import issues in Turbopack.
-const VIMEO_VIDEO_ID = "1074560834";
-const VIMEO_H = "8084672e6d";
-const VIMEO_ORIGIN = "https://player.vimeo.com";
-const POSTER_SRC = "/media/hero/focustv-hero-poster.webp";
-
-// Build the iframe src with all embed parameters baked in
-const VIMEO_SRC = [
-  `${VIMEO_ORIGIN}/video/${VIMEO_VIDEO_ID}`,
-  `?h=${VIMEO_H}`,
-  "&autoplay=1",
-  "&muted=1",
-  "&loop=1",
-  "&playsinline=1",
-  "&controls=0",         // hide Vimeo's own controls
-  "&title=0",
-  "&byline=0",
-  "&portrait=0",
-  "&autopause=0",
-  "&transparent=1",
-  "&background=0",
-  "&api=1",              // enable postMessage API
-  "&color=000000",
-].join("");
+// ─── Vimeo embed URL ──────────────────────────────────────────────────────────
+// Pre-built with all Vimeo parameters (clean chrome, muted autoplay, API enabled).
+// To replace video or tweak parameters, edit `src/components/sections/Hero/hero.config.ts`.
+const VIMEO_SRC = buildVimeoEmbedUrl();
 
 // ─── postMessage helpers ──────────────────────────────────────────────────────
 /**
- * Send a Vimeo postMessage command to the iframe.
- * The Vimeo Player API uses the froogaloop2 / postmessage protocol.
+ * Dispatches a Vimeo Player API command via window postMessage.
+ *
+ * The Vimeo player uses the froogaloop2 / postMessage protocol.
+ * We communicate directly with the iframe Window to avoid Turbopack dynamic-import
+ * issues with `@vimeo/player` SDK while maintaining identical control fidelity.
+ *
+ * To add future controls (e.g. seek, speed, fullscreen):
+ * Call `vimeoPost(iframe, "<methodName>", <value>)`.
  */
 function vimeoPost(
   iframe: HTMLIFrameElement,
@@ -44,7 +29,7 @@ function vimeoPost(
   if (!iframe.contentWindow) return;
   const data: Record<string, unknown> = { method };
   if (value !== undefined) data.value = value;
-  iframe.contentWindow.postMessage(JSON.stringify(data), VIMEO_ORIGIN);
+  iframe.contentWindow.postMessage(JSON.stringify(data), heroConfig.vimeoOrigin);
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -166,8 +151,8 @@ export function HeroPlayer() {
     const iframe = iframeRef.current;
     if (!iframe) return;
     if (isMuted) {
-      // Unmute: restore volume to 0.8
-      vimeoPost(iframe, "setVolume", 0.8);
+      // Unmute: restore volume to configured level
+      vimeoPost(iframe, "setVolume", heroConfig.unmuteVolume);
       setIsMuted(false);
     } else {
       vimeoPost(iframe, "setVolume", 0);
@@ -185,7 +170,8 @@ export function HeroPlayer() {
     <div className={styles.frame}>
 
       {/*
-        Vimeo iframe — full-bleed, scaled to 126% via .vimeoWrapper CSS.
+        Vimeo iframe — full-bleed on desktop, scaled via .vimeoWrapper CSS.
+        On mobile/tablet (≤ 1024px), sized to natural 16:9 aspect ratio without zoom.
         suppressHydrationWarning prevents React complaining that the server
         rendered an empty wrapper while the client renders the iframe-populated
         wrapper (the iframe is injected by the browser, not React).
@@ -200,7 +186,7 @@ export function HeroPlayer() {
           src={VIMEO_SRC}
           className={styles.vimeoIframe}
           allow="autoplay; fullscreen; picture-in-picture"
-          title="The Answer — The Birth of the Automobile"
+          title={heroConfig.title}
           aria-hidden="true"
           tabIndex={-1}
           // Tell React not to warn about server/client mismatch on the
@@ -211,7 +197,7 @@ export function HeroPlayer() {
 
       {/* ── Poster (fades out once playback starts) ── */}
       <Image
-        src={POSTER_SRC}
+        src={heroConfig.posterSrc}
         alt=""
         fill
         priority
