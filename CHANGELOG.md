@@ -10,11 +10,28 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
-### Planned for Sprint 2B
+### Planned for Sprint 4
+- Cast section and story detail exploration
 
-- Full-screen cinematic video hero
-- Video poster/fallback and responsive cropping
-- Hero reveal animation and transition into content
+---
+
+## [0.6.0] - 2026-10-13
+
+### Added (Sprint 2B & Sprint 3)
+- Cinematic Vimeo hero video integration with postMessage API communication (`HeroPlayer.tsx`)
+- Centralized Hero video configuration in `src/components/sections/Hero/hero.config.ts`
+- High-resolution video poster fallback (`public/media/hero/focustv-Hero-poster.png`)
+- Custom liquid-glass audio toggle and full-screen video click-to-play/pause
+- Homepage Introduction Section: "The Answer to Creation" (`src/components/sections/Intro/`)
+- Monochrome / grayscale gradient typography on "The Answer" (charcoal → graphite → silver → ivory)
+- Cinematic uppercase gold title with dimensional emboss on "TO CREATION"
+- Dual-tier host credit: "Hosted by Hammad Chaudhry"
+- 1.5× body paragraph font size with proportional line-height and selective bold emphasis
+- Art-directed signature pull quote "Turning thoughts into reality." with champagne/gold/ivory gradient and gold accent line
+- Multi-layer feathering system (`imageFeatherLeft`, `imageFeatherRight`, `imageFeatherTop`, `imageFeatherBottom`, `imageTone`) and radial edge mask
+- Zero image hover pop/zoom: stable, still photograph
+- Responsive mobile & tablet layout: complete editorial text content first, full-width edge-to-edge image placed underneath with vertical gradient transition
+- Full Light Theme (`#f5f3ee`) and Dark Theme (`#0b0b0b`) support with zero visual regressions
 
 ---
 

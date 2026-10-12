@@ -114,36 +114,72 @@ Do not generate or redesign the entire site in one step.
 
 ---
 
-## Local Development
+## Implemented Components & Architecture
 
-After the project is initialized:
+### 1. Global Header (`src/components/layout/Header/`)
+- **Fixed Position & Transparency**: The Header is fixed with `position: fixed; z-index: 100`. On initial page load over the Hero video, it begins transparent (`data-header-tone="dark-media"`) ensuring white text and high-contrast navigation over the video surface.
+- **Scroll Transition**: When scrolling past 60px (`window.scrollY > 60`), the Header transitions smoothly to a solid background with backdrop blur (`#f5f3ee` in Light mode, `#0b0b0b` in Dark mode).
+- **Navigation & Interactions**: Links have animated gold hover indicators (`scaleX` expansion) and persistent active-state indicators. The Contact Us button has an editorial sweep hover effect.
+- **Mobile Menu**: Full-screen accessible drawer with body scroll lock, Escape key handler, and auto-focus management.
+
+### 2. Cinematic Hero Section (`src/components/sections/Hero/`)
+- **Component**: `HeroPlayer.tsx` embeds the Vimeo cinematic showcase via a responsive iframe utilizing Vimeo's Player SDK and postMessage API.
+- **Playback Controls**:
+  - Starts autoplaying, looping, and muted by default (`playsinline`).
+  - Full-surface click/tap toggles play and pause.
+  - Liquid-glass audio toggle button in the bottom corner allows unmuting/muting with volume restoration.
+- **Configuration & Future Replacement**:
+  - Video settings are centralized in `src/components/sections/Hero/hero.config.ts`.
+  - **To replace the video**:
+    1. Update `heroConfig.videoId` with the new Vimeo ID.
+    2. Update `heroConfig.hash` with the unlisted privacy hash (`?h=...`).
+    3. Update `heroConfig.posterSrc` with the path to the new high-resolution poster image (placed in `public/media/hero/`).
+    4. The embed URL generator (`buildVimeoEmbedUrl`) and player API automatically adapt.
+- **Poster Fallback**: `public/media/hero/focustv-Hero-poster.png` is displayed immediately before video frames load, preventing layout shifts and blank backgrounds.
+
+### 3. "The Answer to Creation" Intro Section (`src/components/sections/Intro/`)
+- **Component**: `Intro.tsx` and `Intro.module.css`.
+- **Typographic Composition**:
+  - Title "The Answer": High-contrast monochrome gradient (charcoal → graphite → silver → soft ivory) set in *Cormorant Garamond* italic.
+  - Subtitle "TO CREATION": Tracked uppercase sans-serif with gold gradient and subtle dimensional emboss filter.
+  - Host Credit: "Hosted by Hammad Chaudhry" with dual-tier hierarchy.
+  - Body Copy: Three narrative paragraphs scaled to a balanced 1.5× desktop size with proportional line-height and selective bold emphasis (`.paraEmphasis`).
+  - Signature Pull Quote: "Turning thoughts into reality." rendered in oversized italic serif with a champagne/warm-gold/ivory gradient and a fine gold accent rule.
+- **Image Integration & 4-Sided Feathering**:
+  - Image Asset: `public/media/hero/focustv-Intro-poster.webp` (Bugatti design sketch).
+  - A 4-sided gradient overlay system (`imageFeatherLeft`, `imageFeatherRight`, `imageFeatherTop`, `imageFeatherBottom`, and `imageTone`) combined with a radial edge mask dissolves all four borders and corners into the page background.
+  - In Dark mode, exact `#0b0b0b` stops are used; in Light mode, `#f5f3ee` stops are used, eliminating any rectangular container edges.
+  - Image is completely static on hover (all zoom/pop/translate effects removed).
+- **Responsive Layout**:
+  - Desktop: 54% / 46% split grid (text left, bleeding image right).
+  - Tablet & Mobile (≤ 1024px): Stacked layout with all editorial text placed first, followed by the full-width edge-to-edge image below; gradient transitions vertically into the image.
+
+---
+
+## Local Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open:
-
-```text
-http://localhost:3000
-```
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ---
 
-## Validation
+## Validation Commands
 
-Before approved commits:
-
-```bash
-npm run lint
-npm run build
-```
-
-If a separate type-check script exists:
+Before committing or pushing:
 
 ```bash
+# Type check TypeScript files without emitting
 npm run typecheck
+
+# Lint all files with ESLint
+npm run lint
+
+# Compile and test full production build (Turbopack)
+npm run build
 ```
 
 ---

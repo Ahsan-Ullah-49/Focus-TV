@@ -2,8 +2,8 @@
 
 ## Project Status
 
-**Last Updated:** 20 September 2026  
-**Current Stage:** Sprint 2A — Header Finalization (COMPLETED / APPROVED)
+**Last Updated:** 13 October 2026  
+**Current Stage:** Sprint 3 — Homepage Introduction Section (COMPLETED / APPROVED)
 **Overall Status:** In Progress
 
 ---
@@ -77,19 +77,44 @@
 - Final desktop navigation: Home, Cast, Team, Gallery, The Answer AI (with Contact as a CTA button)
 - Final mobile navigation: matching the desktop link set
 - Header uses `position: fixed` and starts transparent over the hero
-- `IntersectionObserver` on a `#top-sentinel` sentinel element drives the transparent → solid header state change (no scroll event per frame)
+- Scroll detection drives the transparent → solid header state change
 - Scrolled state: Light theme warm off-white + backdrop blur / Dark theme deep charcoal + backdrop blur
 - Nav link hover: text transitions to brand gold + thin animated gold underline grows left-to-right
 - Active nav link: persistent gold underline indicator
 - Contact button: cinematic dark-sweep hover (pseudo-element `scaleX` wipe from left)
-- Homepage temporary surface: clean `100svh` placeholder for header contrast testing
-- All Sprint 2A changes are **approved** and finalized in source control.
+
+---
+
+### Sprint 2B — Cinematic Hero Video Finalization
+
+- Vimeo-hosted cinematic video player with postMessage API communication (`HeroPlayer.tsx`)
+- Centralized configuration in `src/components/sections/Hero/hero.config.ts` (`videoId`, `hash`, `posterSrc`)
+- Autoplay, muted looping, click-to-play/pause, and liquid-glass audio toggle
+- High-resolution fallback poster (`public/media/hero/focustv-Hero-poster.png`)
+- Fully responsive across desktop, tablet, and mobile devices
+- All Hero changes verified and approved
+
+---
+
+### Sprint 3 — Homepage Introduction Section ("The Answer to Creation")
+
+- Seamless split editorial composition: left text column, right edge-bleeding photograph
+- High-contrast monochrome gradient typography on "The Answer" (charcoal, graphite, silver, soft ivory)
+- Cinematic uppercase gold title with dimensional emboss on "TO CREATION"
+- Host credit: "Hosted by Hammad Chaudhry" with dual-tier hierarchy
+- 1.5× body text sizing for prominent, comfortable editorial reading with selective bold emphasis
+- Art-directed signature pull quote "Turning thoughts into reality." with champagne/gold/ivory gradient and gold accent hairline
+- Multi-layer feathering system (`imageFeatherLeft`, `imageFeatherRight`, `imageFeatherTop`, `imageFeatherBottom`, `imageTone`) and radial edge mask eliminating all hard container borders
+- Zero image hover pop/zoom: stable, still photograph
+- Responsive mobile & tablet layout: all intro text placed first, full-width edge-to-edge image placed underneath with vertical gradient transition
+- Full theme compatibility: light mode warm ivory (`#f5f3ee`) and dark mode deep charcoal (`#0b0b0b`)
+- All Sprint 3 changes verified and approved
 
 ---
 
 ## 5. Active Sprint
 
-**Sprint:** Sprint 2B — Homepage Hero Video Integration
+**Sprint:** Sprint 4 — Cast & Story Exploration
 ---
 
 ## 6. Risks
