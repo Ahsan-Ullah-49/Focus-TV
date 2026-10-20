@@ -271,3 +271,21 @@ Automotive Legends is a separate project and must not be included in the FocusTV
 3. **Desktop Fine-Pointer Cursor:** `CustomCursor` is enabled exclusively on `(pointer: fine)` devices without `prefers-reduced-motion`.
 4. **Smooth Scroll Isolation:** Single `Lenis` instance configured via `SmoothScrollProvider`, with instant fallback under `prefers-reduced-motion`.
 5. **Temporary Brand Mark:** Use clean text mark `FOCUSTV` until official visual assets are provided.
+
+---
+
+## DEC-021 - Homepage Cast Cascade
+
+**Status:** Accepted
+
+**Decision:**
+
+Present the 14 owner-supplied cast members in the requested order as square portrait cards on the homepage. On desktop, the cards rise from the bottom into a layered deck as visitors scroll; tablet and mobile use a responsive card grid. Keep the section in the FocusTV light/dark theme system and provide a static grid for reduced-motion preferences.
+
+**Reason:**
+
+The cast is a key credibility moment for sponsors, investors, guests, and other visitors. The owner requested a more cinematic, interactive treatment based on the supplied Cards Cascade reference.
+
+**Impact:**
+
+Use the approved names and titles already in the cast data. Do not add unprovided people or credentials. The homepage CTA links to `/cast`; the Cast page remains a placeholder until its approved full roster is available.

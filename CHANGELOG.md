@@ -10,8 +10,10 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
-### Planned for Sprint 4
-- Cast section and story detail exploration
+### Changed
+- Rebuilt the homepage cast section as an editorial introduction and scroll-driven portrait cascade
+- Added optimized WebP variants for the 14 numbered cast stills; original SVG files remain unchanged
+- Added the “Explore Full Cast” CTA linking to `/cast`
 
 ---
 

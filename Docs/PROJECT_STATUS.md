@@ -2,8 +2,8 @@
 
 ## Project Status
 
-**Last Updated:** 13 October 2026  
-**Current Stage:** Sprint 3 — Homepage Introduction Section (COMPLETED / APPROVED)
+**Last Updated:** 20 October 2026
+**Current Stage:** Sprint 4 — Homepage Cast Section (IN REVIEW)
 **Overall Status:** In Progress
 
 ---
@@ -114,7 +114,18 @@
 
 ## 5. Active Sprint
 
-**Sprint:** Sprint 4 — Cast & Story Exploration
+**Sprint:** Sprint 4 — Homepage Cast Section
+
+### Sprint 4 — Homepage Cast Section (in review)
+
+- Editorial split layout pairs the “OUR PROUD / Cast” heading, short description, and Cast page CTA with a square portrait deck
+- All 14 supplied portraits and existing titles are mapped to the requested numeric order
+- Desktop cards rise into a layered stack while scrolling; tablet and mobile use a responsive card grid
+- Original stills remain intact; optimized square WebP versions reduce the 14 image files from 28.11 MB to 0.72 MB
+- Light and dark themes use the existing FocusTV tokens; reduced-motion users receive the complete static grid
+- The CTA routes to `/cast`; that page is still a development placeholder and needs the remaining approved cast data to fulfill the expanded-cast link
+- TypeScript, ESLint, and the production build pass
+
 ---
 
 ## 6. Risks
