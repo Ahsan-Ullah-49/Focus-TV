@@ -63,8 +63,8 @@ export const CAST: CastMember[] = [
   },
   {
     id: "netease-games",
-    name: "NetEase Games",
-    title: "Global Gaming & Interactive Entertainment",
+    name: "Li Wei (李炜)",
+    title: "Vice President of NetEase Games / Head of Leihuo Studio",
     imageSrc: "/media/Stills/optimized/6.webp",
     imageAlt: "NetEase Games — global gaming organisation",
     isOrg: true,
@@ -79,7 +79,7 @@ export const CAST: CastMember[] = [
   {
     id: "chris-bangle",
     name: "Chris Bangle",
-    title: "Former BMW Group Design Chief · Rolls-Royce design oversight",
+    title: "Former Chief Designer, BMW Group",
     imageSrc: "/media/Stills/optimized/8.webp",
     imageAlt: "Portrait of Chris Bangle",
   },
@@ -107,7 +107,7 @@ export const CAST: CastMember[] = [
   {
     id: "sasha-selipanov",
     name: "Sasha Selipanov",
-    title: "Automotive Designer · Founder & CEO, Nilu27",
+    title: "Founder & CEO, Nilu27",
     imageSrc: "/media/Stills/optimized/12.webp",
     imageAlt: "Portrait of Sasha Selipanov",
   },
