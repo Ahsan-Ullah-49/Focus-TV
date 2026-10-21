@@ -1,0 +1,263 @@
+.partners {
+  overflow: hidden;
+  padding-block: var(--space-16);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.label {
+  margin: 0 0 24px;
+  padding-inline-start: 32px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.loop :global(.logoloop) {
+  --logoloop-gap: 32px;
+  --logoloop-logoHeight: 28px;
+  --logoloop-pad: 0px;
+  position: relative;
+  overflow: hidden;
+  overflow: clip;
+  padding-top: var(--logoloop-pad);
+  padding-bottom: var(--logoloop-pad);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.loop :global(.logoloop--vertical) {
+  display: inline-block;
+  height: 100%;
+  padding: 0 var(--logoloop-pad);
+}
+
+.loop :global(.logoloop[data-draggable]) {
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+}
+
+.loop :global(.logoloop--vertical[data-draggable]) {
+  touch-action: pan-x pinch-zoom;
+}
+
+.loop :global(.logoloop[data-dragging]),
+.loop :global(.logoloop[data-dragging]) * {
+  cursor: grabbing;
+}
+
+.loop :global(.logoloop__track) {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.loop :global(.logoloop--vertical .logoloop__track) {
+  flex-direction: column;
+  width: 100%;
+  height: max-content;
+}
+
+.loop :global(.logoloop__list) {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loop :global(.logoloop--vertical .logoloop__list) {
+  flex-direction: column;
+}
+
+.loop :global(.logoloop__item) {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: var(--logoloop-logoHeight);
+  height: var(--logoloop-logoHeight);
+  margin-right: var(--logoloop-gap);
+  font-size: var(--logoloop-logoHeight);
+  line-height: 1;
+}
+
+.loop :global(.logoloop--vertical .logoloop__item) {
+  width: 100%;
+  height: calc(var(--logoloop-logoHeight) * var(--logoloop-box, 2.5));
+  margin-right: 0;
+  margin-bottom: var(--logoloop-gap);
+}
+
+.loop :global(.logoloop[data-intro] .logoloop__item) {
+  opacity: 0;
+}
+
+.loop :global(.logoloop__content) {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--logoloop-logoHeight) * 0.3);
+  border-radius: 4px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    opacity 0.35s ease,
+    filter 0.35s ease,
+    color 0.35s ease;
+}
+
+.loop :global(.logoloop--horizontal .logoloop__content) {
+  height: var(--logoloop-logoHeight);
+  max-width: calc(var(--logoloop-logoHeight) * 4.5);
+}
+
+.loop :global(.logoloop[data-labels="below"] .logoloop__content) {
+  flex-direction: column;
+  gap: calc(var(--logoloop-logoHeight) * 0.22);
+}
+
+.loop :global(.logoloop__content:focus-visible) {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.loop :global(.logoloop__node) {
+  display: inline-flex;
+  align-items: center;
+}
+
+.loop :global(.logoloop__item img) {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.loop :global(.logoloop--horizontal .logoloop__item img) {
+  height: 100%;
+  max-width: calc(var(--logoloop-logoHeight) * 4.5);
+}
+
+.loop :global(.logoloop__node),
+.loop :global(.logoloop__item img) {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loop :global(.logoloop--scale-hover .logoloop__item:hover img),
+.loop :global(.logoloop--scale-hover .logoloop__item:hover .logoloop__node) {
+  transform: scale(1.2);
+}
+
+.loop :global(.logoloop__label) {
+  font-size: max(12px, calc(var(--logoloop-logoHeight) * 0.5));
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.loop :global(.logoloop[data-labels="below"] .logoloop__label) {
+  font-size: max(11px, calc(var(--logoloop-logoHeight) * 0.26));
+  font-weight: 500;
+  letter-spacing: 0;
+  opacity: 0.72;
+}
+
+.loop :global(.logoloop__tip) {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-top: calc(var(--logoloop-logoHeight) * 0.2);
+  font-size: max(11px, calc(var(--logoloop-logoHeight) * 0.26));
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  translate: -50% 4px;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    translate 0.25s ease;
+}
+
+.loop :global(.logoloop--vertical .logoloop__tip) {
+  top: 50%;
+  left: 100%;
+  margin-top: 0;
+  margin-left: calc(var(--logoloop-logoHeight) * 0.25);
+  translate: 4px -50%;
+}
+
+.loop :global(.logoloop__item:hover .logoloop__tip),
+.loop :global(.logoloop__item:focus-within .logoloop__tip),
+.loop :global(.logoloop__item[data-active] .logoloop__tip) {
+  opacity: 0.8;
+  translate: -50% 0;
+}
+
+.loop :global(.logoloop--vertical .logoloop__item:hover .logoloop__tip),
+.loop :global(.logoloop--vertical .logoloop__item:focus-within .logoloop__tip),
+.loop :global(.logoloop--vertical .logoloop__item[data-active] .logoloop__tip) {
+  translate: 0 -50%;
+}
+
+.loop :global(.logoloop[data-muted] .logoloop__content) {
+  filter: grayscale(var(--logoloop-gray, 1));
+  opacity: var(--logoloop-dim, 0.5);
+}
+
+.loop :global(.logoloop[data-muted] .logoloop__item:hover .logoloop__content),
+.loop :global(.logoloop[data-muted] .logoloop__item:focus-within .logoloop__content),
+.loop :global(.logoloop[data-muted] .logoloop__item[data-active] .logoloop__content) {
+  filter: none;
+  opacity: 1;
+}
+
+.loop :global(.logoloop__item[data-color]:hover .logoloop__content),
+.loop :global(.logoloop__item[data-color]:focus-within .logoloop__content),
+.loop :global(.logoloop__item[data-color][data-active] .logoloop__content) {
+  color: var(--logoloop-item-color);
+}
+
+.loop
+  :global(.logoloop:not([data-muted]) .logoloop__item:not([data-color]) a.logoloop__content:hover) {
+  opacity: 0.8;
+}
+
+:global(html[data-theme="light"]) .loop :global(.logoloop__item[data-low-contrast="light"]) img {
+  filter: brightness(0);
+}
+
+:global(html[data-theme="dark"]) .loop :global(.logoloop__item[data-low-contrast="dark"]) img {
+  filter: brightness(0) invert(1);
+}
+
+:global(html[data-theme="light"]) .loop :global(.logoloop__item[data-outline-light]) img {
+  filter: drop-shadow(0 0 1px var(--color-text));
+}
+
+:global(html[data-theme="dark"]) .loop :global(.logoloop__item[data-outline-dark]) img {
+  filter: drop-shadow(0 0 1px var(--color-text));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loop :global(.logoloop__content),
+  .loop :global(.logoloop__node),
+  .loop :global(.logoloop__item img),
+  .loop :global(.logoloop__tip) {
+    transition: none;
+  }
+}

@@ -1,0 +1,120 @@
+export interface PartnerLogo {
+  filename: string;
+  name: string;
+  width: number;
+  height: number;
+  lowContrast?: "light" | "dark";
+  outlineOnLight?: boolean;
+  outlineOnDark?: boolean;
+}
+
+export const PARTNER_LOGOS = [
+  { filename: "APPLE.png", name: "Apple", width: 408, height: 500, lowContrast: "light" },
+  {
+    filename: "ARISE RACING.png",
+    name: "Arise Racing",
+    width: 295,
+    height: 63,
+    outlineOnLight: true,
+  },
+  { filename: "Atari.png", name: "Atari", width: 972, height: 972 },
+  { filename: "BANDAI NAMCO.png", name: "Bandai Namco", width: 1954, height: 1334 },
+  {
+    filename: "BEAST PHILANTHROPY.png",
+    name: "Beast Philanthropy",
+    width: 1224,
+    height: 296,
+    outlineOnLight: true,
+  },
+  { filename: "BMW.png", name: "BMW", width: 1200, height: 1200 },
+  { filename: "BUGATTI.png", name: "Bugatti", width: 2189, height: 1116 },
+  {
+    filename: "CAMPOS RACING.png",
+    name: "Campos Racing",
+    width: 2560,
+    height: 596,
+    outlineOnDark: true,
+  },
+  { filename: "CEC.png", name: "CEC", width: 1197, height: 451, outlineOnDark: true },
+  {
+    filename: "DANUBE PROPERTIES.png",
+    name: "Danube Properties",
+    width: 987,
+    height: 83,
+    outlineOnDark: true,
+  },
+  { filename: "Darpa.png", name: "DARPA", width: 602, height: 305, lowContrast: "dark" },
+  { filename: "Gameloft.png", name: "Gameloft", width: 1810, height: 1261, lowContrast: "light" },
+  { filename: "Gracie.png", name: "Gracie", width: 925, height: 922, lowContrast: "dark" },
+  { filename: "GTR.png", name: "GTR", width: 807, height: 564, outlineOnDark: true },
+  { filename: "HAGERTY.png", name: "Hagerty", width: 2803, height: 526, lowContrast: "light" },
+  { filename: "Hasbro.png", name: "Hasbro", width: 1477, height: 1615 },
+  { filename: "heraldsun.png", name: "Herald Sun", width: 1119, height: 247, lowContrast: "light" },
+  {
+    filename: "IOInteractive.png",
+    name: "IO Interactive",
+    width: 1106,
+    height: 614,
+    lowContrast: "dark",
+  },
+  {
+    filename: "Jurassic World.png",
+    name: "Jurassic World",
+    width: 841,
+    height: 766,
+    lowContrast: "dark",
+  },
+  { filename: "Koenigsegg.png", name: "Koenigsegg", width: 1830, height: 2560 },
+  {
+    filename: "LAMBORGHINI.png",
+    name: "Lamborghini",
+    width: 1836,
+    height: 2065,
+    outlineOnDark: true,
+  },
+  { filename: "Monopoly.png", name: "Monopoly", width: 2190, height: 408 },
+  {
+    filename: "Moon Express.png",
+    name: "Moon Express",
+    width: 1274,
+    height: 789,
+    lowContrast: "dark",
+  },
+  { filename: "Nerf.png", name: "Nerf", width: 2560, height: 1172 },
+  { filename: "NETEASE GAMES.png", name: "NetEase Games", width: 695, height: 287 },
+  {
+    filename: "news-be-on-it.png",
+    name: "News Be On It",
+    width: 788,
+    height: 160,
+    outlineOnDark: true,
+  },
+  { filename: "NILU.png", name: "NILU", width: 1069, height: 444, lowContrast: "dark" },
+  { filename: "NISSAN.png", name: "Nissan", width: 257, height: 220, lowContrast: "dark" },
+  {
+    filename: "PBD Podcast.png",
+    name: "PBD Podcast",
+    width: 1111,
+    height: 661,
+    lowContrast: "dark",
+  },
+  { filename: "Pong.png", name: "Pong", width: 1127, height: 288 },
+  { filename: "RENTALS.png", name: "Rentals", width: 1718, height: 847 },
+  { filename: "ROLLS ROYCE.png", name: "Rolls Royce", width: 1101, height: 1798 },
+  { filename: "tekken8.png", name: "Tekken 8", width: 1371, height: 189 },
+  { filename: "tesla.png", name: "Tesla", width: 1032, height: 1335 },
+  { filename: "The Sims.png", name: "The Sims", width: 2189, height: 1292 },
+  {
+    filename: "THE TELEGRAPH.png",
+    name: "The Telegraph",
+    width: 1164,
+    height: 184,
+    lowContrast: "light",
+  },
+  { filename: "Tonka.png", name: "Tonka", width: 1439, height: 420 },
+  { filename: "UBI SOFT.png", name: "Ubisoft", width: 2560, height: 826, lowContrast: "dark" },
+  { filename: "UFC.png", name: "UFC", width: 2367, height: 824 },
+  { filename: "VALUETAINMENT.png", name: "Valuetainment", width: 600, height: 132 },
+  { filename: "Viome.png", name: "Viome", width: 2047, height: 274, outlineOnDark: true },
+  { filename: "weeklytimesnow.png", name: "Weekly Times Now", width: 874, height: 160 },
+] satisfies PartnerLogo[];
