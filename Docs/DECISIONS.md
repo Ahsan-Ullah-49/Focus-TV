@@ -280,7 +280,7 @@ Automotive Legends is a separate project and must not be included in the FocusTV
 
 **Decision:**
 
-Present the 14 owner-supplied cast members in the requested order as square portrait cards on the homepage. On desktop, the cards rise from the bottom into a layered deck as visitors scroll; tablet and mobile use a responsive card grid. Keep the section in the FocusTV light/dark theme system and provide a static grid for reduced-motion preferences.
+Present the 14 owner-supplied cast members in the requested order as square portrait cards on the homepage. On desktop, the cards rise from the bottom into a layered deck as visitors scroll; tablet and mobile use a one-card-per-row layout. Keep the section in the FocusTV light/dark theme system and provide a static card layout for reduced-motion preferences.
 
 **Reason:**
 
@@ -288,4 +288,40 @@ The cast is a key credibility moment for sponsors, investors, guests, and other 
 
 **Impact:**
 
-Use the approved names and titles already in the cast data. Do not add unprovided people or credentials. The homepage CTA links to `/cast`; the Cast page remains a placeholder until its approved full roster is available.
+Use the approved names and titles in `src/components/sections/Cast/cast.config.ts`; do not add unprovided people or credentials. The optimized square portrait assets live in `public/media/Stills/optimized/`. Keep the responsive CTA after the cards. The homepage CTA links to `/cast`; that page remains a placeholder until its approved full roster is available.
+
+---
+
+## DEC-022 - Homepage Story Section Editorial Redesign
+
+**Status:** Accepted
+
+**Decision:**
+
+Recompose the homepage Story section around a restrained editorial heading, clear series and host details, a direct documentary image treatment, and readable narrative copy. Keep the existing approved Story content, theme tokens, and reduced-motion behavior.
+
+**Reason:**
+
+The project owner requested a more distinctive, modern, and premium presentation for the Story section, using the Fleet Rise Logistics About page as inspiration while retaining FocusTV's visual identity.
+
+**Impact:**
+
+Use typography, a clear image, and simple rules to establish hierarchy. Avoid decorative gradients and image feathering in this section. Keep the composition responsive and legible in both themes. The implementation lives in `src/components/sections/Intro/`; update the `STORY` content and `/media/hero/focustv-Intro-poster.webp` asset there. Tablet layouts stack the image before full-width narrative copy; mobile also stacks the heading details, and both themes use shared tokens. GSAP reveals are scoped to the section and skipped for reduced-motion preferences.
+
+---
+
+## DEC-023 - Official Header Logo
+
+**Status:** Accepted (supersedes DEC-020 point 5)
+
+**Decision:**
+
+Use the supplied official FocusTV logo assets in the global Header rather than the temporary text mark. The Header selects the appropriate light/dark logo asset from `src/Assets/Logos/`.
+
+**Reason:**
+
+The official logo assets were provided and integrated during Header finalization.
+
+**Impact:**
+
+Keep both theme variants available and use the existing Header theme selection when maintaining the logo.

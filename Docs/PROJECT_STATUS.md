@@ -2,8 +2,8 @@
 
 ## Project Status
 
-**Last Updated:** 20 October 2026
-**Current Stage:** Sprint 4 — Homepage Cast Section (IN REVIEW)
+**Last Updated:** 21 October 2026
+**Current Stage:** Homepage sections — final implementation audit (OWNER REVIEW)
 **Overall Status:** In Progress
 
 ---
@@ -96,44 +96,30 @@
 
 ---
 
-### Sprint 3 — Homepage Introduction Section ("The Answer to Creation")
+### Homepage Sections — Implementation Complete
 
-- Seamless split editorial composition: left text column, right edge-bleeding photograph
-- High-contrast monochrome gradient typography on "The Answer" (charcoal, graphite, silver, soft ivory)
-- Cinematic uppercase gold title with dimensional emboss on "TO CREATION"
-- Host credit: "Hosted by Hammad Chaudhry" with dual-tier hierarchy
-- 1.5× body text sizing for prominent, comfortable editorial reading with selective bold emphasis
-- Art-directed signature pull quote "Turning thoughts into reality." with champagne/gold/ivory gradient and gold accent hairline
-- Multi-layer feathering system (`imageFeatherLeft`, `imageFeatherRight`, `imageFeatherTop`, `imageFeatherBottom`, `imageTone`) and radial edge mask eliminating all hard container borders
-- Zero image hover pop/zoom: stable, still photograph
-- Responsive mobile & tablet layout: all intro text placed first, full-width edge-to-edge image placed underneath with vertical gradient transition
-- Full theme compatibility: light mode warm ivory (`#f5f3ee`) and dark mode deep charcoal (`#0b0b0b`)
-- All Sprint 3 changes verified and approved
+- Home renders Hero, The Story, and Our Proud Cast in sequence from `src/app/page.tsx`.
+- The Hero uses a configured Vimeo iframe, direct postMessage controls, and a local poster fallback.
+- The Story section uses the approved editorial composition, current copy, theme tokens, and the Bugatti sketch at `public/media/hero/focustv-Intro-poster.webp`.
+- Our Proud Cast uses the 14 supplied entries in `cast.config.ts` and square optimized WebP portraits. Desktop uses the scroll-driven deck; tablet and mobile use a one-card-per-row layout with the CTA after the cards.
+- Story and Cast use scoped GSAP/ScrollTrigger reveals and provide static behavior when reduced motion is requested. Theme styling comes from shared tokens.
+- Final code and documentation audit is complete. Lint, typecheck, and production build pass; mobile, tablet, desktop, theme, and reduced-motion behavior were checked in a local browser.
+- No automated test script or test suite is currently configured.
+- `/cast` remains a placeholder page; the homepage CTA currently routes there.
 
 ---
 
-## 5. Active Sprint
+## 5. Active Review
 
-**Sprint:** Sprint 4 — Homepage Cast Section
-
-### Sprint 4 — Homepage Cast Section (in review)
-
-- Editorial split layout pairs the “OUR PROUD / Cast” heading, short description, and Cast page CTA with a square portrait deck
-- All 14 supplied portraits and existing titles are mapped to the requested numeric order
-- Desktop cards rise into a layered stack while scrolling; tablet and mobile use a responsive card grid
-- Original stills remain intact; optimized square WebP versions reduce the 14 image files from 28.11 MB to 0.72 MB
-- Light and dark themes use the existing FocusTV tokens; reduced-motion users receive the complete static grid
-- The CTA routes to `/cast`; that page is still a development placeholder and needs the remaining approved cast data to fulfill the expanded-cast link
-- TypeScript, ESLint, and the production build pass
+The implemented Home page sections and audited diff are ready for owner review. No push has been made.
 
 ---
 
 ## 6. Risks
 
-### Hero Video Weight
+### Hero Video Dependency
 
-Mitigation:
-Use optimized video + poster, avoid heavy initial embed.
+The Hero currently depends on a third-party Vimeo iframe for playback; the local poster remains visible until player frames are available. Final hosting and playback behavior should be checked before launch.
 
 ### AI Regression
 
@@ -167,6 +153,4 @@ Production deployment details remain intentionally deferred until the Hostinger 
 
 ## 8. Next Recommended Action
 
-Visually review the Sprint 2A Header, then approve for commit and push.
-
-Next sprint: begin Sprint 2B — Homepage Hero Video Integration once the video file is provided.
+Review the audited implementation and diff. Commit or push only when the project owner explicitly requests it.

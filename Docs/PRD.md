@@ -3,7 +3,7 @@
 ## Product Requirements Document (PRD)
 
 **Version:** 1.0  
-**Status:** Approved for Design & Technical Planning  
+**Status:** Approved — implementation in progress
 **Project:** FocusTV Website Rebuild  
 **Domain:** focustv.tv  
 **Primary Language:** English  
@@ -214,6 +214,10 @@ The client has delegated the content sequence after the hero to the project team
 The homepage should progressively communicate FocusTV's identity, credibility, The Answer, notable people, partnerships, production quality, and contact opportunities.
 
 Only a curated selection of the most internationally recognizable personalities should be featured on the homepage.
+
+### Current Implementation Snapshot (21 October 2026)
+
+The Home page currently renders the Hero, The Story, and Our Proud Cast in that order (`src/app/page.tsx`). Their implementation is documented in the repository README and Design Document. Other content in the proposed homepage narrative remains planned and is not represented as completed.
 
 ---
 

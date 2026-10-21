@@ -73,6 +73,10 @@
   margin-top: clamp(1.5rem, 3vw, 2.25rem);
 }
 
+.exploreButtonResponsive {
+  display: none;
+}
+
 .exploreButton svg {
   fill: none;
   stroke: currentColor;
@@ -215,7 +219,7 @@
   height: clamp(28rem, 64svh, 42rem);
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .card:hover .portraitImage {
     transform: scale(1.035);
   }
@@ -245,15 +249,21 @@
 }
 
 @media (max-width: 1099px) {
+  .cast {
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
   .storyTrack {
+    position: relative;
     grid-template-columns: minmax(0, 1fr);
-    gap: clamp(3rem, 7vw, 5rem);
-    padding-top: max(calc(var(--header-height) + var(--space-4)), clamp(4rem, 10vw, 7rem));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(1.75rem, 4vw, 3rem);
   }
 
   .introduction {
+    z-index: 1;
     position: static;
-    max-width: 39rem;
+    max-width: none;
     padding-top: 0;
   }
 
@@ -262,7 +272,17 @@
   }
 
   .description {
-    max-width: 36rem;
+    max-width: none;
+  }
+
+  .exploreButtonDesktop {
+    display: none;
+  }
+
+  .exploreButtonResponsive {
+    display: inline-flex;
+    justify-self: center;
+    margin-top: 0;
   }
 
   .deckStage {
@@ -275,7 +295,7 @@
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(1rem, 2.4vw, 2rem);
     height: auto;
   }
@@ -294,10 +314,14 @@
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 640px) {
+  .cast {
+    padding-bottom: 2.5rem;
+  }
+
   .storyTrack {
-    gap: clamp(2.5rem, 10vw, 4rem);
-    padding-top: calc(var(--header-height) + clamp(1rem, 5vw, 1.5rem));
+    gap: 1.5rem;
+    padding-top: clamp(1.25rem, 5vw, 2rem);
   }
 
   .heading {
@@ -319,11 +343,11 @@
   }
 
   .cards {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .card {
+    aspect-ratio: 1;
     width: min(100%, 34rem);
     margin-inline: auto;
   }
@@ -375,10 +399,10 @@
   .progressRail {
     display: none;
   }
+}
 
-  @media (max-width: 639px) {
-    .cards {
-      grid-template-columns: minmax(0, 1fr);
-    }
+@media (prefers-reduced-motion: reduce) and (max-width: 1099px) {
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

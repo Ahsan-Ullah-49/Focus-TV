@@ -12,6 +12,21 @@ interface CastCardProps {
   member: CastMember;
 }
 
+interface ExploreCastButtonProps {
+  className: string;
+}
+
+function ExploreCastButton({ className }: ExploreCastButtonProps) {
+  return (
+    <Button href="/cast" variant="primary" className={`${styles.exploreButton} ${className}`}>
+      Explore Full Cast
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+        <path d="M3 8h9M8 4l4 4-4 4" />
+      </svg>
+    </Button>
+  );
+}
+
 function CastCard({ member }: CastCardProps) {
   return (
     <li className={styles.card} data-cast-card>
@@ -20,7 +35,7 @@ function CastCard({ member }: CastCardProps) {
           src={member.imageSrc}
           alt={member.imageAlt}
           fill
-          sizes="(min-width: 1440px) 44vw, (min-width: 1100px) 48vw, (max-width: 639px) 100vw, 50vw"
+          sizes="(min-width: 1440px) 44vw, (min-width: 1100px) 48vw, 100vw"
           className={styles.portraitImage}
           loading="lazy"
         />
@@ -62,13 +77,16 @@ export function Cast() {
     const ctx = gsap.context(() => {
       const cards = Array.from(cardList.querySelectorAll<HTMLElement>("[data-cast-card]"));
       const headingLines = Array.from(
-        section.querySelectorAll<HTMLElement>("[data-cast-heading-line]"),
+        section.querySelectorAll<HTMLElement>("[data-cast-heading-line]")
       );
       const topRule = section.querySelector<HTMLElement>("[data-cast-rule]");
       const description = section.querySelector<HTMLElement>("[data-cast-description]");
-      const exploreButton = section.querySelector<HTMLElement>(`.${styles.exploreButton}`);
+      const responsiveLayout = window.matchMedia("(max-width: 1099px)").matches;
+      const exploreButton = responsiveLayout
+        ? null
+        : section.querySelector<HTMLElement>(`.${styles.exploreButtonDesktop}`);
       const desktopDeck = window.matchMedia(
-        "(min-width: 1100px) and (prefers-reduced-motion: no-preference)",
+        "(min-width: 1100px) and (prefers-reduced-motion: no-preference)"
       ).matches;
 
       const introductionReveal = gsap.timeline({
@@ -98,7 +116,7 @@ export function Cast() {
             stagger: 0.12,
             ease: "power3.out",
           },
-          "-=0.55",
+          "-=0.55"
         );
       }
 
@@ -106,7 +124,7 @@ export function Cast() {
         introductionReveal.from(
           description,
           { y: 20, autoAlpha: 0, duration: 0.65, ease: "power3.out" },
-          "-=0.38",
+          "-=0.38"
         );
       }
 
@@ -114,7 +132,7 @@ export function Cast() {
         introductionReveal.from(
           exploreButton,
           { y: 14, autoAlpha: 0, duration: 0.55, ease: "power3.out" },
-          "-=0.32",
+          "-=0.32"
         );
       }
 
@@ -155,14 +173,13 @@ export function Cast() {
               duration: 1,
               ease: "power2.out",
             },
-            transitionStart,
+            transitionStart
           );
 
           for (let previousIndex = 0; previousIndex < activeIndex; previousIndex += 1) {
             const depth = activeIndex - previousIndex;
-            const previousCaption = cards[previousIndex].querySelector<HTMLElement>(
-              "[data-card-caption]",
-            );
+            const previousCaption =
+              cards[previousIndex].querySelector<HTMLElement>("[data-card-caption]");
 
             timeline.to(
               cards[previousIndex],
@@ -173,14 +190,14 @@ export function Cast() {
                 duration: 1,
                 ease: "power2.out",
               },
-              transitionStart,
+              transitionStart
             );
 
             if (previousCaption) {
               timeline.to(
                 previousCaption,
                 { y: 12, autoAlpha: 0, duration: 0.55, ease: "power2.out" },
-                transitionStart,
+                transitionStart
               );
             }
           }
@@ -192,7 +209,7 @@ export function Cast() {
             progressRef.current,
             { scaleY: 0 },
             { scaleY: 1, duration: deckDuration, ease: "none" },
-            0,
+            0
           );
         }
       } else {
@@ -211,7 +228,7 @@ export function Cast() {
                 start: "top 88%",
                 toggleActions: "play none none none",
               },
-            },
+            }
           );
         });
       }
@@ -238,12 +255,7 @@ export function Cast() {
             From technology and automotive design to gaming, entrepreneurship and creative culture,
             these voices bring different worlds into one conversation.
           </p>
-          <Button href="/cast" variant="primary" className={styles.exploreButton}>
-            Explore Full Cast
-            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-              <path d="M3 8h9M8 4l4 4-4 4" />
-            </svg>
-          </Button>
+          <ExploreCastButton className={styles.exploreButtonDesktop} />
         </header>
 
         <div className={styles.deckColumn}>
@@ -264,6 +276,8 @@ export function Cast() {
             ))}
           </ol>
         </div>
+
+        <ExploreCastButton className={styles.exploreButtonResponsive} />
       </div>
     </section>
   );

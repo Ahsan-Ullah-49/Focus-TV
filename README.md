@@ -57,13 +57,13 @@ No CMS or database is required for the initial release.
 
 Read these files before major development work:
 
-- `PRD.md` - Product requirements
-- `DESIGN_DOCUMENT.md` - Visual and interaction system
-- `TECHNICAL_PLAN.md` - Technical architecture
-- `DEVELOPMENT_PLAN.md` - Development phases and workflow
+- `Docs/PRD.md` - Product requirements
+- `Docs/DESIGN_DOCUMENT.md` - Visual and interaction system
+- `Docs/TECHNICAL_PLAN.md` - Technical architecture
+- `Docs/DEVELOPMENT_PLAN.md` - Development phases and workflow
 - `AGENTS.md` - Mandatory AI coding rules
-- `PROJECT_STATUS.md` - Current progress
-- `DECISIONS.md` - Important project decisions
+- `Docs/PROJECT_STATUS.md` - Current progress
+- `Docs/DECISIONS.md` - Important project decisions
 - `CHANGELOG.md` - Project change history
 
 AI coding tools must read `AGENTS.md` before modifying the repository.
@@ -117,17 +117,19 @@ Do not generate or redesign the entire site in one step.
 ## Implemented Components & Architecture
 
 ### 1. Global Header (`src/components/layout/Header/`)
+
 - **Fixed Position & Transparency**: The Header is fixed with `position: fixed; z-index: 100`. On initial page load over the Hero video, it begins transparent (`data-header-tone="dark-media"`) ensuring white text and high-contrast navigation over the video surface.
 - **Scroll Transition**: When scrolling past 60px (`window.scrollY > 60`), the Header transitions smoothly to a solid background with backdrop blur (`#f5f3ee` in Light mode, `#0b0b0b` in Dark mode).
 - **Navigation & Interactions**: Links have animated gold hover indicators (`scaleX` expansion) and persistent active-state indicators. The Contact Us button has an editorial sweep hover effect.
 - **Mobile Menu**: Full-screen accessible drawer with body scroll lock, Escape key handler, and auto-focus management.
 
 ### 2. Cinematic Hero Section (`src/components/sections/Hero/`)
-- **Component**: `HeroPlayer.tsx` embeds the Vimeo cinematic showcase via a responsive iframe utilizing Vimeo's Player SDK and postMessage API.
+
+- **Component**: `HeroPlayer.tsx` embeds the Vimeo cinematic showcase in a responsive iframe and communicates through Vimeo's `postMessage` API; it does not use the Vimeo SDK.
 - **Playback Controls**:
   - Starts autoplaying, looping, and muted by default (`playsinline`).
-  - Full-surface click/tap toggles play and pause.
-  - Liquid-glass audio toggle button in the bottom corner allows unmuting/muting with volume restoration.
+  - Full-surface click/tap and keyboard activation toggle play and pause.
+  - Liquid-glass audio toggle allows unmuting/muting with volume restoration.
 - **Configuration & Future Replacement**:
   - Video settings are centralized in `src/components/sections/Hero/hero.config.ts`.
   - **To replace the video**:
@@ -138,21 +140,23 @@ Do not generate or redesign the entire site in one step.
 - **Poster Fallback**: `public/media/hero/focustv-Hero-poster.png` is displayed immediately before video frames load, preventing layout shifts and blank backgrounds.
 
 ### 3. "The Answer to Creation" Intro Section (`src/components/sections/Intro/`)
+
 - **Component**: `Intro.tsx` and `Intro.module.css`.
-- **Typographic Composition**:
-  - Title "The Answer": High-contrast monochrome gradient (charcoal → graphite → silver → soft ivory) set in *Cormorant Garamond* italic.
-  - Subtitle "TO CREATION": Tracked uppercase sans-serif with gold gradient and subtle dimensional emboss filter.
-  - Host Credit: "Hosted by Hammad Chaudhry" with dual-tier hierarchy.
-  - Body Copy: Three narrative paragraphs scaled to a balanced 1.5× desktop size with proportional line-height and selective bold emphasis (`.paraEmphasis`).
-  - Signature Pull Quote: "Turning thoughts into reality." rendered in oversized italic serif with a champagne/warm-gold/ivory gradient and a fine gold accent rule.
-- **Image Integration & 4-Sided Feathering**:
-  - Image Asset: `public/media/hero/focustv-Intro-poster.webp` (Bugatti design sketch).
-  - A 4-sided gradient overlay system (`imageFeatherLeft`, `imageFeatherRight`, `imageFeatherTop`, `imageFeatherBottom`, and `imageTone`) combined with a radial edge mask dissolves all four borders and corners into the page background.
-  - In Dark mode, exact `#0b0b0b` stops are used; in Light mode, `#f5f3ee` stops are used, eliminating any rectangular container edges.
-  - Image is completely static on hover (all zoom/pop/translate effects removed).
-- **Responsive Layout**:
-  - Desktop: 54% / 46% split grid (text left, bleeding image right).
-  - Tablet & Mobile (≤ 1024px): Stacked layout with all editorial text placed first, followed by the full-width edge-to-edge image below; gradient transitions vertically into the image.
+- **Content**: The `STORY` constant holds the heading, series and host details, three narrative paragraphs, pull quote, and image path/alt text. Body emphasis is rendered by `RichParagraph`.
+- **Image**: `public/media/hero/focustv-Intro-poster.webp` (Bugatti design sketch), displayed as a direct rectangular image with a simple border; the approved section does not use feathering or decorative gradients.
+- **Responsive layout**: Desktop shows the image and narrative side by side. At tablet widths, the image precedes full-width copy and the heading/details share a row. On mobile, heading details stack and the image uses a 4:3 crop.
+- **Motion/theme**: Scoped GSAP/ScrollTrigger reveals run only when reduced motion is not requested. Shared CSS tokens keep light and dark themes aligned.
+- **Maintenance**: Edit `STORY` to update approved copy; replace `imageSrc` and `imageAlt` when replacing the image.
+
+### 4. Our Proud Cast Section (`src/components/sections/Cast/`)
+
+- **Component/data**: `Cast.tsx` renders `CAST` from `cast.config.ts`; the data contains the approved 14 names, titles, square WebP paths, and alt text.
+- **Portraits**: `public/media/Stills/optimized/1.webp` through `14.webp` are the optimized square versions. Keep their paths and alt text synchronized when replacing images.
+- **Layout/motion**: Desktop uses a GSAP/ScrollTrigger layered portrait deck and a sticky editorial introduction. At widths up to 1099px, portrait cards are square and stacked one per row, with the CTA centered after the list. Reduced motion uses a static grid (one column at tablet/mobile sizes).
+- **Theme/interaction**: Card surfaces use shared theme tokens; the approved portrait treatment and hover zoom remain scoped to fine-pointer users who have not requested reduced motion.
+- **Maintenance**: Update member copy, order, image paths, and alt text in `cast.config.ts`; keep `id` values unique. The CTA links to `/cast`, which is still a placeholder.
+
+Shared design tokens are in `src/styles/tokens.css`; the CTA reuses `src/components/ui/Button/Button.tsx`.
 
 ---
 
@@ -178,9 +182,11 @@ npm run typecheck
 # Lint all files with ESLint
 npm run lint
 
-# Compile and test full production build (Turbopack)
+# Create an optimized production build (Turbopack)
 npm run build
 ```
+
+There is currently no automated test script or test suite configured.
 
 ---
 

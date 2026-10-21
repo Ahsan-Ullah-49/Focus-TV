@@ -19,7 +19,6 @@ export const heroConfig = {
 
   // ── Source URLs & Assets ────────────────────────────────────────────────────
   vimeoOrigin: "https://player.vimeo.com",
-  videoUrl: "https://vimeo.com/1074560834/8084672e6d",
   posterSrc: "/media/hero/focustv-Hero-poster.png",
   title: "The Answer — The Birth of the Automobile",
 

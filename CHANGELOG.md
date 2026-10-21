@@ -11,15 +11,25 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 ## [Unreleased]
 
 ### Changed
+
 - Rebuilt the homepage cast section as an editorial introduction and scroll-driven portrait cascade
+- Replaced the Story section's previous gradient and feathered treatment with the approved editorial image-and-copy composition
+- Refined Story and Cast tablet/mobile layouts, including full-width Story copy and square single-column Cast cards
 - Added optimized WebP variants for the 14 numbered cast stills; original SVG files remain unchanged
 - Added the “Explore Full Cast” CTA linking to `/cast`
+
+### Fixed
+
+- Corrected Cast image `sizes` so single-column tablet portraits request a suitable source size
+- Prevented the Cast image hover zoom when reduced motion is preferred
+- Made the Hero play/pause surface keyboard operable and limited player messages to its configured Vimeo iframe
 
 ---
 
 ## [0.6.0] - 2026-10-13
 
 ### Added (Sprint 2B & Sprint 3)
+
 - Cinematic Vimeo hero video integration with postMessage API communication (`HeroPlayer.tsx`)
 - Centralized Hero video configuration in `src/components/sections/Hero/hero.config.ts`
 - High-resolution video poster fallback (`public/media/hero/focustv-Hero-poster.png`)

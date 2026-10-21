@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { heroConfig, buildVimeoEmbedUrl } from "./hero.config";
 import styles from "./Hero.module.css";
@@ -15,17 +15,13 @@ const VIMEO_SRC = buildVimeoEmbedUrl();
  * Dispatches a Vimeo Player API command via window postMessage.
  *
  * The Vimeo player uses the froogaloop2 / postMessage protocol.
- * We communicate directly with the iframe Window to avoid Turbopack dynamic-import
- * issues with `@vimeo/player` SDK while maintaining identical control fidelity.
+ * We communicate directly with the iframe Window to keep the player integration
+ * small and avoid loading an SDK for the few controls used here.
  *
  * To add future controls (e.g. seek, speed, fullscreen):
  * Call `vimeoPost(iframe, "<methodName>", <value>)`.
  */
-function vimeoPost(
-  iframe: HTMLIFrameElement,
-  method: string,
-  value?: unknown
-) {
+function vimeoPost(iframe: HTMLIFrameElement, method: string, value?: unknown) {
   if (!iframe.contentWindow) return;
   const data: Record<string, unknown> = { method };
   if (value !== undefined) data.value = value;
@@ -39,11 +35,17 @@ function MuteIcon() {
     <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path
         d="M4 10h3.2L12 6.4v11.2L7.2 14H4v-4Z"
-        fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
       />
       <path
         d="M16 9.2 20.8 14M20.8 9.2 16 14"
-        fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   );
@@ -54,11 +56,17 @@ function UnmuteIcon() {
     <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path
         d="M4 10h3.2L12 6.4v11.2L7.2 14H4v-4Z"
-        fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
       />
       <path
         d="M15.4 9.2a3.6 3.6 0 0 1 0 5.6M17.8 7a6.4 6.4 0 0 1 0 10"
-        fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   );
@@ -73,30 +81,26 @@ export function HeroPlayer() {
   const [isPaused, setIsPaused] = useState(false); // assume playing (autoplay=1)
   const [isMuted, setIsMuted] = useState(true);
   const [posterVisible, setPosterVisible] = useState(true);
-  const [iframeReady, setIframeReady] = useState(false);
 
   // ── Listen to Vimeo postMessage events ───────────────────────────────────
   useEffect(() => {
     const handleMessage = (evt: MessageEvent) => {
-      // Only accept messages from Vimeo's player origin
-      if (!evt.origin.includes("vimeo.com")) return;
+      const iframe = iframeRef.current;
+      if (evt.origin !== heroConfig.vimeoOrigin || evt.source !== iframe?.contentWindow) return;
 
-      let data: Record<string, unknown>;
+      let data: unknown;
       try {
         data = typeof evt.data === "string" ? JSON.parse(evt.data) : evt.data;
       } catch {
         return;
       }
 
-      const { event, value } = data as {
-        event?: string;
-        value?: unknown;
-      };
+      if (typeof data !== "object" || data === null || Array.isArray(data)) return;
+      const event = "event" in data && typeof data.event === "string" ? data.event : undefined;
+      const value = "value" in data ? data.value : undefined;
 
       if (event === "ready") {
         // Player is ready — subscribe to events and trigger autoplay
-        setIframeReady(true);
-        const iframe = iframeRef.current;
         if (!iframe) return;
         vimeoPost(iframe, "addEventListener", "play");
         vimeoPost(iframe, "addEventListener", "pause");
@@ -122,10 +126,14 @@ export function HeroPlayer() {
       }
 
       if (event === "volumechange") {
-        const payload = value as { volume: number; muted?: boolean } | null;
-        if (payload) {
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          "volume" in value &&
+          typeof value.volume === "number"
+        ) {
           // Treat volume=0 as muted regardless of the muted flag
-          setIsMuted(payload.volume === 0 || payload.muted === true);
+          setIsMuted(value.volume === 0 || ("muted" in value && value.muted === true));
         }
       }
     };
@@ -146,8 +154,7 @@ export function HeroPlayer() {
   }, [isPaused]);
 
   // ── Controls: Mute ────────────────────────────────────────────────────────
-  const handleMute = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleMute = useCallback(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
     if (isMuted) {
@@ -160,27 +167,11 @@ export function HeroPlayer() {
     }
   }, [isMuted]);
 
-  // ── Controls: Click layer (toggle play when not from controls) ────────────
-  const handleLayerClick = useCallback(() => {
-    togglePlay();
-  }, [togglePlay]);
-
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className={styles.frame}>
-
-      {/*
-        Vimeo iframe — full-bleed on desktop, scaled via .vimeoWrapper CSS.
-        On mobile/tablet (≤ 1024px), sized to natural 16:9 aspect ratio without zoom.
-        suppressHydrationWarning prevents React complaining that the server
-        rendered an empty wrapper while the client renders the iframe-populated
-        wrapper (the iframe is injected by the browser, not React).
-      */}
-      <div
-        className={styles.vimeoWrapper}
-        aria-hidden="true"
-        suppressHydrationWarning
-      >
+      {/* Vimeo iframe — full-bleed on desktop, natural 16:9 on mobile and tablet. */}
+      <div className={styles.vimeoWrapper} aria-hidden="true">
         <iframe
           ref={iframeRef}
           src={VIMEO_SRC}
@@ -189,9 +180,6 @@ export function HeroPlayer() {
           title={heroConfig.title}
           aria-hidden="true"
           tabIndex={-1}
-          // Tell React not to warn about server/client mismatch on the
-          // iframe src — it is intentionally client-only
-          suppressHydrationWarning
         />
       </div>
 
@@ -206,10 +194,11 @@ export function HeroPlayer() {
       />
 
       {/* ── Click-to-toggle layer ── */}
-      <div
+      <button
+        type="button"
         className={styles.clickLayer}
-        onClick={handleLayerClick}
-        aria-hidden="true"
+        onClick={togglePlay}
+        aria-label={isPaused ? "Play background video" : "Pause background video"}
       />
 
       {/* ── Audio button — centered below header ── */}
@@ -222,13 +211,6 @@ export function HeroPlayer() {
       >
         {isMuted ? <MuteIcon /> : <UnmuteIcon />}
       </button>
-
-      {/*
-        Invisible sentinel: once the iframe reports ready we know it has
-        loaded. iframeReady gates nothing in render — it is used only to
-        prevent double-initialization if the component hot-reloads.
-      */}
-      {iframeReady && null}
     </div>
   );
 }

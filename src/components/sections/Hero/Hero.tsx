@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { HeroPlayer } from "./HeroPlayer";
 import styles from "./Hero.module.css";
 

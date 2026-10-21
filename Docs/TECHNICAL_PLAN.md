@@ -149,14 +149,15 @@ focustv/
 ├── .env.example
 ├── .gitignore
 ├── AGENTS.md
+├── Docs/
+│   ├── DECISIONS.md
+│   ├── DESIGN_DOCUMENT.md
+│   ├── DEVELOPMENT_PLAN.md
+│   ├── PRD.md
+│   ├── PROJECT_STATUS.md
+│   └── TECHNICAL_PLAN.md
 ├── CHANGELOG.md
-├── DECISIONS.md
-├── DESIGN_DOCUMENT.md
-├── DEVELOPMENT_PLAN.md
-├── PRD.md
-├── PROJECT_STATUS.md
 ├── README.md
-└── TECHNICAL_PLAN.md
 ```
 
 This is a baseline structure. Avoid creating empty folders only to match the diagram.

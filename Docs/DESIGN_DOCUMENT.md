@@ -390,6 +390,16 @@ This flow can change during design if a stronger narrative emerges.
 
 Every section must have a clear role. No filler sections.
 
+### Current Homepage Implementation (21 October 2026)
+
+`src/app/page.tsx` currently renders Hero → The Story → Our Proud Cast. This is the implemented portion of the proposed flow; later proposed sections remain future work.
+
+- **Hero:** `src/components/sections/Hero/` contains the responsive Vimeo iframe player, direct postMessage controls, and a local poster at `public/media/hero/focustv-Hero-poster.png`. Video ID, privacy hash, playback settings, and poster path are maintained in `hero.config.ts`. The player supports a keyboard-operable full-surface play/pause control and a mute toggle.
+- **The Story:** `src/components/sections/Intro/Intro.tsx` owns the approved copy in `STORY`; `Intro.module.css` owns its responsive editorial layout. The image is `public/media/hero/focustv-Intro-poster.webp`. Desktop places image and narrative side by side; tablet stacks the image before the full-width narrative; mobile also stacks heading details. Colors follow shared light/dark tokens. Scoped GSAP/ScrollTrigger reveals are skipped when reduced motion is requested. To update copy, edit `STORY`; to replace the image, update `STORY.imageSrc` and `STORY.imageAlt`.
+- **Our Proud Cast:** `src/components/sections/Cast/Cast.tsx` renders data from `cast.config.ts`; `Cast.module.css` defines the layout and card treatments. The 14 optimized square portraits are `public/media/Stills/optimized/1.webp` through `14.webp`. Desktop uses a scroll-driven portrait deck; widths up to 1099px use one square card per row and place the CTA after the cards. Reduced-motion users get a static layout. Update people, titles, image paths, and alt text in `cast.config.ts`, keeping each `id` unique.
+
+Hero video playback depends on the external Vimeo player. The `/cast` route is currently a placeholder target for the homepage CTA.
+
 ---
 
 ## 13. Cast Experience
