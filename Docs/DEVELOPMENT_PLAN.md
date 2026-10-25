@@ -16,6 +16,10 @@ Scope: add Other Projects after the logo loop, complete the shared footer and al
 
 Current acceptance and launch items are tracked in `PROJECT_STATUS.md`; content maintenance and sources are in `CONTENT_SOURCES.md`.
 
+The owner's 25 October 2026 footer update also removes the standalone `/the-answer` route. Keep the series story on the homepage and do not add a replacement page without a new requirement.
+
+On 26 October 2026, the client finalized the homepage footer destinations and responsive treatment. Footer social/email links are Instagram and email only; keep this section and the completed homepage protected while continuing any separate site-review work.
+
 ---
 
 ## 1. Development Philosophy

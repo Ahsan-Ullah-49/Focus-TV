@@ -389,3 +389,23 @@ Keep both theme variants available and use the existing Header theme selection w
 **Reason:** The owner chose Vimeo's controls after the parent-page seek bar did not work as expected. A cross-origin Vimeo frame does not forward pointer coordinates to the host page, so Vimeo controls and the animated host cursor cannot both track the pointer inside the frame.
 
 **Impact:** `VimeoProjectPlayer.tsx` keeps the Vimeo player interactive and configures its native control color. `CustomCursor.tsx` hides the animated cursor over media zones marked with `data-native-cursor-zone`; global cursor styles restore the browser cursor on the Vimeo iframe marked with `data-native-cursor`. Vimeo account settings may override logo/color parameters, and Like/Watch Later visibility remains configurable in the video embed settings.
+
+## DEC-031 - Remove Standalone The Answer Route
+
+**Status:** Implemented — owner-directed (25 October 2026)
+
+**Decision:** Keep The Answer story on the homepage, but remove the separate `/the-answer` page and its footer navigation link. Homepage story links target `/#the-story`; the route is excluded from the sitemap.
+
+**Reason:** The owner confirmed the standalone page is outside the required page set.
+
+**Impact:** Related internal links and current route documentation point to the homepage story or other active pages. Do not recreate the standalone route without a new owner requirement.
+
+## DEC-032 - Final Homepage Footer
+
+**Status:** Implemented — client-confirmed (26 October 2026)
+
+**Decision:** Keep only the approved Instagram and email icons, in that order, under the footer brand note. Reuse the Header's desktop logo asset in both footer themes. Keep the invitation heading and circular CTA side by side on tablet/mobile, with its label below the arrow; stack mobile Explore links in one centered column. Match the wordmark fade between themes and balance its visible side margins responsively.
+
+**Reason:** The client confirmed the footer destinations and responsive composition after reviewing the completed homepage.
+
+**Impact:** Maintain these links and layout in `src/components/layout/Footer/`. Do not restore Facebook or YouTube footer icons unless the client requests them.

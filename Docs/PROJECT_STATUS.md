@@ -2,24 +2,27 @@
 
 ## Project Status
 
-**Last Updated:** 25 October 2026
-**Current Stage:** Full site review version complete — owner review
+**Last Updated:** 26 October 2026
+**Current Stage:** Homepage complete through footer — full site owner review
 **Overall Status:** In Progress
 
 ## Current implementation
 
-- All seven planned routes are implemented. The Answer AI is intentionally a Coming Soon page.
+- Six active routes are implemented: Home, Cast, Crew, Gallery, The Answer AI and Contact. The Answer AI is intentionally a Coming Soon page. The standalone `/the-answer` page was removed at the owner's request; its series story remains on the homepage.
 - Homepage sequence: Hero → The Story → Our Proud Cast → Partners & Media → Other Projects → shared Footer.
+- The homepage footer is finalized after client review: Instagram and email are the only footer social/contact icons; the footer uses the Header's desktop logo in both themes, a centered vertical mobile navigation and a responsive side-by-side invitation. The wordmark fade is shared by both themes and optically centered across screen sizes.
 - Partners & Media is complete and owner-approved for the current supplied artwork: 55 active logos, 17 theme images, a larger branded heading, and a draggable left-moving loop. NetEase, Nissan, PBD Podcast, Silent Hill 2 and Universal Music Group use fixed-width slots to keep the marquee stable across themes. All 72 logo files are consolidated in `public/media/Logos/LOGOS/`.
 - Optional future contrast replacements requested from the owner: Dark variants for DARPA, Gracie, IO Interactive, John Hughes, Moon Express, NILU and Ubisoft; Light variants for Apple, Beast Philanthropy, Gameloft, Hagerty and LifeAfter. These do not block completion of the current section.
 - Other Projects is complete for the two owner-provided Gaming Legends and WA Police Vimeo films. Eager iframe loading plus `preload=auto` warms each player on page load; muted autoplay begins when its frame enters view and pauses offscreen. Vimeo's native controls and timeline use the FocusTV gold accent. The browser pointer is visible over the interactive iframe while the animated FocusTV cursor hides inside it and resumes on the host page. A manual pause blocks scroll-triggered autoplay until refresh. Further titles/posters can be added after client confirmation.
-- The Answer has a film preview and editorial series narrative; Cast has 28 source-backed profiles, filters and a keyboard-accessible viewer; Crew has seven profiles and the Sandbox production partner; Gallery has six verified films and six selected interview stills.
+- The homepage retains The Answer's editorial series narrative and film preview; Cast has 28 source-backed profiles, filters and a keyboard-accessible viewer; Crew has seven profiles and the Sandbox production partner; Gallery has six verified films and six selected interview stills.
 - Contact includes enquiry types and optional meeting preferences. The action opens a populated email draft; the website does not send mail. Confirm the published staging-domain recipient and connect/test production delivery before launch.
 - Shared footer, GSAP route entrance and varied section reveals, Lenis synchronization, dual-theme layouts, canonical metadata, social preview defaults, sitemap and two legacy navigation redirects are implemented.
 - Protected homepage sections remain intact. No new dependency, commit, push or deployment was made.
 - Owner-requested asset cleanup removed 57 unused images, duplicate logo copies and a generated debug log. The owner supplied 18 additional marks and theme artwork; the duplicate Danube Group entry has since been merged. There are now 55 partner logos and 115 public files (approximately 21.12 MiB), plus two imported brand logos and the App Router icon outside `public/`.
 
 ### Validation for this pass
+
+The route-count and browser results below describe the complete seven-route review version before the owner's 25 October removal of `/the-answer`. The current route set has six entries.
 
 - Lint: passed.
 - Typecheck: passed.
@@ -30,6 +33,20 @@
 - Other Projects finalization: lint, typecheck, production build and 320/375/768/1440px responsive checks passed; a mocked Vimeo iframe confirmed the gold/native-control URL settings, working seek input, and custom-cursor hide/restore behavior. The live Vimeo player did not load in the isolated browser environment, so its rendered controls still need a check in the owner's browser.
 - Native on-device Safari/Firefox testing and real inbox delivery were not performed. No email was sent during validation.
 - Additional 320px and 1920px checks covered both themes. A 320px AI letterform overflow was corrected by making its font size fluid and rechecked. Route scroll positioning was corrected using Next's smooth-scroll integration attribute.
+
+### Homepage footer completion — 26 October 2026
+
+- Homepage source and shared footer were reviewed; the unused React import and unused arrow direction branch were removed. The wordmark's responsive optical spacing and the client-approved social-link order have focused comments.
+- Lint, typecheck, production build, Prettier and `git diff --check`: passed.
+- Footer browser review covered light and dark themes from 320px through 1440px. The CTA remained in one row with its label beneath the arrow, Explore stayed vertically stacked on mobile, and no horizontal page overflow appeared.
+
+### Footer email fix — 26 October 2026
+
+- The footer envelope icon used a valid `<a href="mailto:hammad@focustv.tv">` element with no blocking handlers. The root cause of the reported issue was that an icon-only button is not recognisable as an email link by all visitors.
+- Fixed by adding the email address as visible, underlined, clickable text in the "Get in touch" column, above the contact action buttons.
+- The native `mailto:` action opens the visitor's default email client when one is configured; this depends on the visitor's device and OS — not on the website.
+- Lint, typecheck and production build verified clean after the fix.
+- Full diff reviewed; unintended files excluded. Changes committed and pushed to `origin/main`.
 
 ### Outstanding before launch
 

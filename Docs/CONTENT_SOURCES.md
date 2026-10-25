@@ -1,18 +1,19 @@
 # Content sources and maintenance
 
-Updated 25 October 2026. The owner authorized reuse of content and images from the existing FocusTV site for this redesign. This records implementation sources; final client copy review is still pending.
+Updated 26 October 2026. The owner authorized reuse of content and images from the existing FocusTV site for this redesign. This records implementation sources; final client copy review is still pending.
 
 ## Source records
 
 | Area                                        | Source                                                                                                                | Local implementation                                                                    |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | Homepage story and featured cast            | Previously approved local content and owner assets                                                                    | `src/components/sections/Intro/`, `src/components/sections/Cast/cast.config.ts`         |
-| The Answer synopsis and series details      | [Existing homepage](https://focustv.tv/) and approved Story copy                                                      | `src/app/the-answer/`                                                                   |
+| The Answer synopsis and series details      | [Existing homepage](https://focustv.tv/) and approved Story copy                                                      | `src/components/sections/Intro/`; series preview remains on the homepage                |
 | Full cast                                   | [Meet the Cast](https://focustv.tv/meet-the-cast/) plus approved local 14                                             | `src/components/pages/CastDirectory/cast-directory.data.ts`; `public/media/cast-extra/` |
 | Crew and production company                 | [Crew](https://focustv.tv/crew/)                                                                                      | `src/app/crew/page.tsx`; `public/media/crew/`                                           |
 | Gallery films                               | Six Vimeo embeds from the existing homepage; titles, durations and posters from the same films' Vimeo oEmbed metadata | `src/components/pages/Gallery/gallery.data.ts`; `public/media/gallery/`                 |
 | Gallery interview stills                    | Six selections from approved local cast images                                                                        | `public/media/Stills/optimized/`                                                        |
 | Contact and social links                    | [Contact page](https://focustv.tv/contact-us/) and original homepage footer                                           | `src/components/pages/Contact/contact.config.ts`                                        |
+| Homepage footer channels and treatment      | Client's 26 October confirmation and supplied footer references                                                       | `src/components/layout/Footer/Footer.tsx`; Instagram and `mailto:hammad@focustv.tv`     |
 | Other Projects subjects                     | Owner's request, 23 October 2026                                                                                      | `src/components/sections/Projects/projects.config.ts`                                   |
 | Gaming Legends video                        | Vimeo embed supplied by the owner, 25 October 2026; ID `1090472083`, hash `f7de1ad21b`                                | `src/components/sections/Projects/projects.config.ts`; `VimeoProjectPlayer.tsx`         |
 | WA Police video                             | Vimeo embed supplied by the owner, 25 October 2026; ID `1205405287`, hash `89f0d3a4ac`                                | `src/components/sections/Projects/projects.config.ts`; `VimeoProjectPlayer.tsx`         |
@@ -41,16 +42,16 @@ Do not assign these films to the new Gaming or WA Police slots without client co
 
 Only runtime media copies are retained. The 42 original PNGs directly in `public/media/Logos/`, 14 SVGs directly in `public/media/Stills/`, unused `src/Assets/Logos/favicon.png`, and duplicate logo-source files were removed at the owner's request. After removing four media logos, the owner supplied nine Dark and one Light variant, then sent two logo collections and six theme-specific replacements. We retained 18 additional marks and one additional Universal Music Group theme file; duplicate Danube Group artwork was consolidated into a single entry. The current logo set has 55 marks and 72 image files in one folder. The current `public/` tree has 115 files and is approximately 21.12 MiB, down from 47.25 MB before cleanup; previous Git history has not been rewritten.
 
-| Active location                  | Used by                                            | Files |
-| -------------------------------- | -------------------------------------------------- | ----- |
-| `public/media/Logos/LOGOS/`      | 55 base logos and 17 theme-specific logo files     | 72    |
-| `public/media/Stills/optimized/` | Our Proud Cast, cast directory, series and gallery | 14    |
-| `public/media/cast-extra/`       | Additional cast profiles                           | 14    |
-| `public/media/crew/`             | Crew portraits                                     | 7     |
-| `public/media/gallery/`          | Film preview posters                               | 6     |
-| `public/media/hero/`             | Hero, series and Story imagery                     | 2     |
-| `src/Assets/Logos/`              | Header/footer light and dark brand marks           | 2     |
-| `src/app/icon.png`               | Browser/site icon, Next.js metadata convention     | 1     |
+| Active location                  | Used by                                                                  | Files |
+| -------------------------------- | ------------------------------------------------------------------------ | ----- |
+| `public/media/Logos/LOGOS/`      | 55 base logos and 17 theme-specific logo files                           | 72    |
+| `public/media/Stills/optimized/` | Our Proud Cast, cast directory, series and gallery                       | 14    |
+| `public/media/cast-extra/`       | Additional cast profiles                                                 | 14    |
+| `public/media/crew/`             | Crew portraits                                                           | 7     |
+| `public/media/gallery/`          | Film preview posters                                                     | 6     |
+| `public/media/hero/`             | Hero, series and Story imagery                                           | 2     |
+| `src/Assets/Logos/`              | Header brand marks; footer reuses the desktop Header logo in both themes | 2     |
+| `src/app/icon.png`               | Browser/site icon, Next.js metadata convention                           | 1     |
 
 Keep configured filenames and intrinsic dimensions synchronized when replacing or removing logos. `partners.config.ts` maps each base, Dark or Light filename from the single `LOGOS/` folder. Preserve the supplied brand colors. Do not recolor assets globally. Keep user-provided filenames as canonical lowercase brand slugs, with `-dark` or `-light` on theme variants.
 
@@ -61,6 +62,7 @@ Keep configured filenames and intrinsic dimensions synchronized when replacing o
 - **Crew:** update the seven profiles and Sandbox section in the crew route; avoid conflating production credits with current employment claims.
 - **Gallery:** update `galleryFilms` and `galleryStills`, plus local optimized posters. New video players load only after interaction.
 - **Contact:** replace `CONTACT_EMAIL` only with the confirmed recipient. The currently published `hammad@darkturquoise-gull-903348.hostingersite.com` appears to be a legacy staging-domain address; its ownership and delivery have not been verified. Social accounts are `the.answer_unlocked` and `focutivity` on Instagram.
+- **Homepage footer:** the current approved destinations are Instagram `the.answer_unlocked` and `mailto:hammad@focustv.tv`, in that order. Keep these two icons under the brand note; do not add the other historical Instagram account or Facebook/YouTube without a new client request. The footer uses the same desktop Header logo asset for both themes.
 - **Partner logos:** the owner-approved Partners & Media loop contains 55 configured logos, with fourteen Dark variants and three Light variants. It uses a 64px logo height and gap, a draggable left-moving track, and a responsive brand-accent heading. Remaining optional theme-contrast replacements are recorded in `Docs/PROJECT_STATUS.md`. The 72 canonical files and per-logo display settings live in `public/media/Logos/LOGOS/` and `src/components/sections/Partners/partners.config.ts`.
 
 ## Before production launch

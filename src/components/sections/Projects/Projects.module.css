@@ -1,5 +1,5 @@
 .section {
-  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(5rem, 9vw, 9rem);
+  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(3rem, 5vw, 5rem);
   scroll-margin-top: var(--header-height);
 }
 

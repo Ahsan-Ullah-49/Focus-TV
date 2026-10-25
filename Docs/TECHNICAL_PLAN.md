@@ -674,16 +674,17 @@ A task is technically done when:
 
 ---
 
-## 26. Completed Page Architecture (25 October 2026)
+## 26. Completed Page Architecture (26 October 2026)
 
-- Routes: `/`, `/the-answer`, `/cast`, `/crew`, `/gallery`, `/the-answer-ai`, `/contact`.
+- Routes: `/`, `/cast`, `/crew`, `/gallery`, `/the-answer-ai`, `/contact`. The Answer series story remains on the homepage, with no standalone `/the-answer` route.
 - `src/app/template.tsx` mounts `PageMotion` for route entrance and scoped ScrollTrigger reveals. Attributes opt into rise, mask, stagger and horizontal line reveals. `data-reveal-child` marks stagger targets. GSAP matchMedia reverts effects on reduced-motion changes; ResizeObserver, image loading and fonts refresh trigger positions.
 - The shared footer mounts its own `PageMotion transition={false}` and refreshes on pathname changes. The page wrapper is never transformed, preserving the approved homepage sticky/deck behavior.
+- Footer logo, navigation, and contact layout are documented in `Footer.tsx` and its CSS Module. Reuse the Header's desktop logo asset for both themes; the footer's client-approved external/contact destinations are Instagram and email only. The invitation remains a row at tablet/mobile widths, with its label below the arrow, and the wordmark's trailing padding tracks the font size to balance its visible glyph edges.
 - One Lenis instance uses the GSAP ticker, updates ScrollTrigger, leaves touch native and pauses when dialogs/mobile menu lock the body. Native dialogs restore a native cursor because they render above the custom cursor.
 - Cast data extends the approved homepage roster without modifying it. Client components handle category filtering and a native modal dialog.
-- Gallery uses local WebP posters, lazy images and native dialog media viewers. Vimeo iframes are created on explicit play; closing removes the iframe. The Answer uses the existing approved hero film preview.
+- Gallery uses local WebP posters, lazy images and native dialog media viewers. Vimeo iframes are created on explicit play; closing removes the iframe. The homepage retains The Answer story and existing approved hero film preview.
 - `projects.config.ts` stores the supplied Gaming Legends and WA Police Vimeo IDs/hashes. `VimeoProjectPlayer.tsx` eagerly loads each iframe and preloads initial segments, starts muted playback when its frame intersects the viewport, pauses it offscreen, and skips automatic playback for reduced-motion users. The Vimeo iframe stays interactive and uses Vimeo's native controls with the FocusTV gold accent. The browser pointer is shown over the cross-origin frame while the animated FocusTV cursor is hidden there. An in-view manual pause persists until refresh. Supported Vimeo branding/title settings are disabled; local-file video support remains available for later approved projects.
-- Shared metadata includes the existing film poster as a social image; every planned route has a canonical URL. The sitemap contains all seven routes. Preview indexing is disabled consistently by metadata and robots.
+- Shared metadata includes the existing film poster as a social image; every active route has a canonical URL. The sitemap contains the six active routes. Preview indexing is disabled consistently by metadata and robots.
 - `next.config.ts` preserves `/meet-the-cast` → `/cast` and `/contact-us` → `/contact`. A complete legacy URL/search-console audit remains part of launch preparation.
 - The root HTML declares `data-scroll-behavior="smooth"`, allowing Next to suspend CSS smooth scrolling during route changes. This prevents navigation from the footer retaining the previous scroll position while leaving browser-back restoration under Next's control.
 - No packages, CMS, database, analytics or email backend added for this scope.

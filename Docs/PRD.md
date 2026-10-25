@@ -2,7 +2,7 @@
 
 ## Product Requirements Document (PRD)
 
-**Version:** 1.1 — scope update, 25 October 2026
+**Version:** 1.2 — homepage footer completion, 26 October 2026
 
 **Status:** Approved — implementation in progress
 **Project:** FocusTV Website Rebuild  
@@ -193,12 +193,13 @@ Typography must remain:
 Primary pages:
 
 - Home
-- About / The Answer
 - Cast
 - Crew / Production
 - Gallery / Media
 - The Answer AI
 - Contact
+
+The Answer series story remains on the homepage. Per the owner's 25 October 2026 instruction, it does not have a separate `/the-answer` page or footer navigation link.
 
 No additional major pages should be created without a confirmed requirement.
 
@@ -234,6 +235,8 @@ The required homepage order is Hero → The Story → Our Proud Cast → Partner
 ### Footer and Remaining Pages
 
 Complete The Answer, Cast, Crew, Gallery, Contact and the deliberately limited The Answer AI Coming Soon page. Use FleetRise for editorial rhythm and interaction references, Bugatti and the owner's supplied footer images for restrained navigation columns, clear contact routes and oversized brand typography. Keep the FocusTV visual identity and both themes.
+
+The client confirmed the final homepage footer on 26 October 2026: link Instagram first and email second, using only those two destinations; reuse the Header's desktop logo asset in both footer themes; keep the invitation heading beside its arrow on tablet/mobile with “Let's talk” below the arrow; and center the single-column mobile Explore links. Keep the wordmark fade consistent across themes and its visible side margins balanced at each responsive size.
 
 ---
 

@@ -10,6 +10,26 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
+### Fixed — Footer email link discoverability (26 October 2026)
+
+- Added a visible, clickable `mailto:hammad@focustv.tv` email address in the footer's "Get in touch" column above the contact action buttons.
+- The email icon link already rendered a valid `mailto:` href on a native `<a>` element with no blocking handlers; the root cause of the reported issue was that the envelope icon alone was not recognisable as an email link. The fix makes the address explicitly visible and directly actionable.
+- Applied consistent focus-visible, hover transition and reduced-motion rules to the new `.emailLink` style, matching the surrounding footer interactive elements.
+
+### Finalized — Homepage footer (26 October 2026)
+
+- Completed the homepage through the shared footer after the latest client review.
+- The footer now links only to the approved Instagram account and email; both icons sit below the brand note.
+- Reused the Header's desktop logo asset in the footer for both themes, with a centered single-column mobile navigation and a side-by-side invitation layout on tablet/mobile.
+- Matched the wordmark fade across themes and balanced its visible left/right margins at responsive sizes.
+- Removed the unused App Router React import and redundant footer arrow variant; documented the homepage/footer completion and maintenance decisions.
+
+### Updated — Footer and route scope (25 October 2026)
+
+- Refined the shared footer with a darker Light-theme surface, full-width divider and wordmark, larger gold conversation CTA, clearer navigation, paired contact actions and Instagram/Facebook/YouTube/email icon links.
+- Removed the standalone `/the-answer` route and its footer link. The series story remains on the homepage; in-site story links now target `/#the-story`.
+- Reduced the spacing below Other Projects and centered the footer copyright line.
+
 ### Added — Other Projects Vimeo films (25 October 2026)
 
 - Added the owner-supplied Gaming Legends and WA Police Vimeo embeds with their privacy hashes.

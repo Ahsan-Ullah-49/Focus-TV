@@ -3,25 +3,85 @@ import Link from "next/link";
 import { Container } from "@/components/layout/Container/Container";
 import { PageMotion } from "@/components/motion/PageMotion";
 import logo from "@/Assets/Logos/logo.png";
-import whiteLogo from "@/Assets/Logos/White-logo.png";
+import { FooterInvitation } from "./FooterInvitation";
 import styles from "./Footer.module.css";
 
 const explore = [
   { href: "/", label: "Home" },
-  { href: "/the-answer", label: "The Answer" },
-  { href: "/cast", label: "The cast" },
+  { href: "/cast", label: "Our cast" },
   { href: "/crew", label: "Our team" },
   { href: "/gallery", label: "Gallery" },
   { href: "/the-answer-ai", label: "The Answer AI" },
 ];
 
-function Arrow({ diagonal = false }: { diagonal?: boolean }) {
+const socialLinks = [
+  // Client-approved footer channels; keep Instagram first.
+  {
+    href: "https://www.instagram.com/the.answer_unlocked/",
+    label: "Instagram",
+    platform: "instagram",
+    external: true,
+  },
+  {
+    href: "mailto:hammad@focustv.tv",
+    label: "Email FocusTV",
+    platform: "email",
+    external: false,
+  },
+] as const;
+
+type SocialPlatform = (typeof socialLinks)[number]["platform"];
+
+function Arrow() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d={diagonal ? "M5 19 19 5M5 5h14v14" : "M4 12h16m-6-6 6 6-6 6"}
+        d="M5 19 19 5M5 5h14v14"
         stroke="currentColor"
-        strokeWidth="1.25"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SocialIcon({ platform }: { platform: SocialPlatform }) {
+  if (platform === "instagram") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect
+          x="3.5"
+          y="3.5"
+          width="17"
+          height="17"
+          rx="5"
+          stroke="currentColor"
+          strokeWidth="1.6"
+        />
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
+        <circle cx="17.5" cy="6.7" r="1" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect
+        x="2.75"
+        y="4.75"
+        width="18.5"
+        height="14.5"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <path
+        d="m4 6.5 8 6.25 8-6.25"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -32,38 +92,17 @@ export function Footer() {
     <footer className={styles.footer}>
       <PageMotion transition={false}>
         <Container>
-          <div className={styles.invitation} data-reveal="stagger">
-            <h2 data-reveal-child>
-              Every story starts
-              <br />
-              with <em>a conversation.</em>
-            </h2>
-            <Link
-              href="/contact"
-              className={styles.contactLink}
-              data-cursor="interactive"
-              data-reveal-child
-            >
-              <span>Let’s talk</span>
-              <span className={styles.contactArrow}>
-                <Arrow diagonal />
-              </span>
-            </Link>
-          </div>
+          <FooterInvitation />
+        </Container>
+        <Container>
           <div className={styles.columns} data-reveal="stagger">
             <div className={styles.brand} data-reveal-child>
               <Link href="/" aria-label="FocusTV home" className={styles.brandLink}>
                 <Image
                   src={logo}
                   alt="FocusTV"
-                  className={`${styles.logo} ${styles.lightLogo}`}
-                  sizes="180px"
-                />
-                <Image
-                  src={whiteLogo}
-                  alt=""
-                  className={`${styles.logo} ${styles.darkLogo}`}
-                  sizes="180px"
+                  className={styles.logo}
+                  sizes="(max-width: 760px) 340px, 366px"
                 />
               </Link>
               <p>
@@ -71,6 +110,21 @@ export function Footer() {
                 <br />A different perspective.
               </p>
               <span className={styles.brandNote}>Turning thoughts into reality.</span>
+              <nav className={styles.socials} aria-label="Instagram and email links">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.platform}
+                    href={social.href}
+                    className={styles.socialLink}
+                    aria-label={social.label}
+                    target={social.external ? "_blank" : undefined}
+                    rel={social.external ? "noopener noreferrer" : undefined}
+                    data-cursor="interactive"
+                  >
+                    <SocialIcon platform={social.platform} />
+                  </a>
+                ))}
+              </nav>
             </div>
             <nav className={styles.navigation} aria-label="Footer navigation" data-reveal-child>
               <h3>Explore</h3>
@@ -82,40 +136,48 @@ export function Footer() {
                 ))}
               </ul>
             </nav>
-            <div className={styles.connect} data-reveal-child>
-              <h3>Get in touch</h3>
-              <Link href="/contact" className={styles.textLink}>
-                Start a conversation <Arrow diagonal />
-              </Link>
-              <Link href="/contact?enquiry=meeting" className={styles.textLink}>
-                Arrange a meeting <Arrow diagonal />
-              </Link>
-              <div className={styles.socials}>
-                <a
-                  href="https://www.instagram.com/the.answer_unlocked/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <section
+              className={styles.connect}
+              aria-labelledby="footer-contact-heading"
+              data-reveal-child
+            >
+              <h3 id="footer-contact-heading">Get in touch</h3>
+              <a
+                href="mailto:hammad@focustv.tv"
+                className={styles.emailLink}
+                data-cursor="interactive"
+              >
+                hammad@focustv.tv
+              </a>
+              <div className={styles.contactActions}>
+                <Link
+                  href="/contact"
+                  className={`${styles.contactAction} ${styles.contactPrimary}`}
                 >
-                  The Answer <span>Instagram ↗</span>
-                </a>
-                <a
-                  href="https://www.instagram.com/focutivity/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  <span>Start a conversation</span>
+                  <span className={styles.actionArrow}>
+                    <Arrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/contact?enquiry=meeting"
+                  className={`${styles.contactAction} ${styles.contactSecondary}`}
                 >
-                  Focutivity <span>Instagram ↗</span>
-                </a>
+                  <span>Arrange a meeting</span>
+                  <span className={styles.actionArrow}>
+                    <Arrow />
+                  </span>
+                </Link>
               </div>
-            </div>
+            </section>
           </div>
-          <div className={styles.wordmark} aria-hidden="true" data-reveal="mask">
-            FOCUS<span>TV</span>
-          </div>
+        </Container>
+        <div className={styles.wordmark} aria-hidden="true" data-reveal="mask">
+          FOCUS<span>TV</span>
+        </div>
+        <Container>
           <div className={styles.bottom}>
             <p>© {new Date().getFullYear()} FocusTV. All rights reserved.</p>
-            <a href="#top" className={styles.backToTop}>
-              Back to top <span aria-hidden="true">↑</span>
-            </a>
           </div>
         </Container>
       </PageMotion>

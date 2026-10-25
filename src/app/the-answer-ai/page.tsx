@@ -45,8 +45,8 @@ export default function TheAnswerAIPage() {
             <br />
             Until then, discover The Answer.
           </p>
-          <Link href="/the-answer" className={styles.link} data-reveal-child>
-            Explore the documentary <span aria-hidden="true">↗</span>
+          <Link href="/#the-story" className={styles.link} data-reveal-child>
+            Explore The Answer story <span aria-hidden="true">↗</span>
           </Link>
         </section>
       </div>

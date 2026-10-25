@@ -391,7 +391,7 @@ This flow can change during design if a stronger narrative emerges.
 
 Every section must have a clear role. No filler sections.
 
-### Current Homepage Implementation (25 October 2026)
+### Current Homepage Implementation (26 October 2026)
 
 `src/app/page.tsx` renders Hero → The Story → Our Proud Cast → Partners & Media → Other Projects. The shared Footer follows the page. This owner-confirmed sequence supersedes the earlier proposed narrative; do not add filler sections to match that proposal.
 
@@ -403,11 +403,11 @@ Hero video playback depends on the external Vimeo player. The `/cast` route now 
 
 - **Partners & Media:** `Partners.tsx` maps 55 logo records from `partners.config.ts` into the draggable left-moving loop. The section heading is “Brands & organizations we’ve worked with,” set in responsive uppercase typography with a FocusTV brand-color rule. All 72 base and theme-specific images live in `public/media/Logos/LOGOS/`; fourteen Dark variants and three Light variants are selected by theme, including both supplied Universal Music Group versions. Keep the approved 64px base height and 64px gap. NetEase, Nissan, PBD Podcast, Silent Hill 2 and Universal Music Group use fixed-width slots so theme changes do not shift their positions. PONG's and DICE's black-canvas Dark variants use screen blending against the dark surface. The section is complete for the current supplied assets; optional future contrast replacements are tracked in `Docs/PROJECT_STATUS.md`.
 - **Other Projects:** `src/components/sections/Projects/` uses an asymmetrical pair of 16:9 media frames, an editorial heading and restrained numbered captions. Frames stack on mobile. “There’s more to the story” uses the brand gold for its italic second line. The Gaming Legends and WA Police Vimeo embeds load eagerly with `preload=auto`, play muted when each frame enters view, and pause outside view. Vimeo's native player supplies the controls and timeline with the FocusTV gold accent. The browser pointer is visible inside the interactive iframe; the animated FocusTV cursor hides inside it and resumes on the host page. An intentional pause suppresses scroll-triggered autoplay until refresh, and reduced-motion preferences suppress automatic playback. Branding, title and byline are hidden through supported Vimeo settings.
-- **Footer:** `src/components/layout/Footer/` combines a conversation CTA, official theme-aware logo, navigation, verified Instagram links and a large low-contrast FocusTV wordmark. Layout collapses to two navigation columns on mobile with full-width brand introduction. No invented contact details or unimplemented newsletter controls.
+- **Footer:** `src/components/layout/Footer/` combines the conversation CTA, the Header's desktop logo asset in both themes, content navigation, and the client-approved Instagram and email links below the brand note. Mobile/tablet keeps the invitation heading beside the arrow, with “Let's talk” beneath it; Explore links form one centered vertical column. The full-width FocusTV wordmark uses the same soft fade in both themes and is optically centered at responsive sizes. Contact actions use the existing enquiry routes; no extra contact details or newsletter controls are invented.
 
-### Remaining Page Compositions
+### Other Route Compositions
 
-- **The Answer:** large serif film title, user-triggered preview, synopsis, creative themes and selected portraits.
+- **The Answer series:** presented in the homepage Story section; there is no separate `/the-answer` route.
 - **Cast:** prominent opening profiles, six category controls, full roster and native accessible profile dialog.
 - **Crew:** alternating producer compositions, supporting production team and a typographic Sandbox production-company section.
 - **Gallery:** curated film posters and interview stills in varied editorial sizes, opened in an accessible media viewer.

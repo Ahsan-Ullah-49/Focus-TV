@@ -89,8 +89,8 @@ export default function CrewPage() {
             The host at the heart of The Answer. A comedian and film producer, Hammad brings
             curiosity and conversation to a journey across the world.
           </p>
-          <Link className={styles.textLink} href="/the-answer">
-            Discover the series <span aria-hidden="true">↗</span>
+          <Link className={styles.textLink} href="/#the-story">
+            Explore the story <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </section>

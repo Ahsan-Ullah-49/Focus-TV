@@ -74,7 +74,6 @@ AI coding tools must read `AGENTS.md` before modifying the repository.
 ## Implemented Pages
 
 - Home
-- About / The Answer
 - Cast
 - Crew / Production
 - Gallery / Media
@@ -82,6 +81,8 @@ AI coding tools must read `AGENTS.md` before modifying the repository.
 - Contact
 
 Automotive Legends is a separate project and is not part of this website.
+
+The Answer series story is part of the homepage; there is no separate `/the-answer` route.
 
 ---
 
@@ -163,18 +164,18 @@ Shared design tokens are in `src/styles/tokens.css`; the CTA reuses `src/compone
 
 - The homepage continues with the draggable 55-logo loop headed “Brands & organizations we’ve worked with,” then `src/components/sections/Projects/`, then the shared `Footer` from the root layout. Partner entries and theme-specific sizing live in `src/components/sections/Partners/partners.config.ts`; all base and supplied theme artwork lives together in `public/media/Logos/LOGOS/`.
 - The Gaming Legends and WA Police Vimeo films are configured in `projects.config.ts`. Their eager embeds preload initial segments, start muted when scrolled into view, and pause offscreen. Vimeo's native timeline and player controls use the FocusTV gold accent; its logo, title and byline are hidden where the Vimeo account settings allow. The browser pointer is visible inside each interactive Vimeo frame, while the animated FocusTV cursor hides there and resumes outside it. A manual pause blocks scroll-triggered autoplay until refresh. Add only further client-confirmed project entries.
-- Footer navigation includes every planned route, a meeting link, verified Instagram accounts, theme-aware official logo and large wordmark. Copy and links live in `src/components/layout/Footer/Footer.tsx`.
+- The shared footer is the final homepage section. Its navigation links to the content routes; contact actions open the enquiry and meeting flows. The brand column uses the Header's desktop logo asset in both themes and places the client-approved Instagram and email icons below the brand note. On small screens, the invitation stays horizontal with its label below the arrow, while Explore links stack vertically. Footer copy and destinations live in `src/components/layout/Footer/Footer.tsx`; visual rules are in `Footer.module.css`.
 
 Unused duplicate logo sources and cast SVGs were removed on 25 October at the owner's request. The 55 canonical partner assets and their 17 supplied theme variants live in `public/media/Logos/LOGOS/`; filenames use readable brand/theme slugs. Update the matching record in `partners.config.ts` when replacing an asset, including its intrinsic dimensions and any fixed slot settings. Homepage cast images are in `public/media/Stills/optimized/`. Other media folders and their counts are listed in `Docs/CONTENT_SOURCES.md`; the site icon is `src/app/icon.png`.
 
 ### 6. Remaining Routes
 
-- `/the-answer`: series narrative, existing film preview and selected cast.
 - `/cast`: 28 entries from the protected 14 plus 14 migrated entries; category filtering and profile dialog. Data: `src/components/pages/CastDirectory/cast-directory.data.ts`.
 - `/crew`: seven profiles and Sandbox production-company section, with local optimized portraits.
 - `/gallery`: six verified films and six approved interview stills. Data: `src/components/pages/Gallery/gallery.data.ts`. Shared `MediaDialog` handles explicit playback, image viewing, keyboard navigation and closing.
 - `/the-answer-ai`: intentional Coming Soon teaser, without invented capabilities or dates.
 - `/contact`: validated email-draft composer. `/contact?enquiry=meeting` preselects meeting preferences. Confirm `CONTACT_EMAIL` in `contact.config.ts` before launch; no server mail delivery is configured or claimed.
+- The Answer series narrative remains on the homepage.
 
 ### 7. Motion and Navigation
 
