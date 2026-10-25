@@ -2,7 +2,8 @@
 
 ## Technical Plan
 
-**Version:** 1.0  
+**Version:** 1.1 — implementation update, 25 October 2026
+
 **Status:** Development baseline  
 **Framework:** Next.js App Router  
 **Language:** TypeScript  
@@ -73,7 +74,7 @@ Lenis
 
 ### Forms
 
-Next.js server-side endpoint / server action depending on final implementation
+Current review implementation: a validated, client-side email draft composer. Server-side email delivery remains a launch integration, pending the recipient and sending-service decision. See the current implementation note in section 12.
 
 ### Validation
 
@@ -374,6 +375,12 @@ For launch, revalidate the image strategy against the final Hostinger deployment
 
 ## 12. Form Architecture
 
+### Current implementation (25 October 2026)
+
+`src/components/pages/Contact/ContactForm.tsx` composes a URL-encoded `mailto:` draft. It validates required fields, rejects whitespace-only messages/names, supports optional phone and meeting preferences, and explains that the visitor must send from their email app. It makes no network submission, stores no enquiry, and never reports a delivered message.
+
+The static Contact page wraps `useSearchParams` in Suspense; `/contact?enquiry=meeting` preselects the meeting fields. The recipient is centralized in `contact.config.ts` and is currently the exact legacy site's published Hostinger-domain email. Confirm/replace it before launch. No credentials or sending dependency have been added. The server validation, spam protection and delivery requirements below apply when a server sender is connected; they are not represented as implemented by the draft composer.
+
 Initial contact fields:
 
 - Name
@@ -664,3 +671,19 @@ A task is technically done when:
 - Production build passes
 - Changed code is readable
 - Documentation is updated when the decision affects architecture
+
+---
+
+## 26. Completed Page Architecture (25 October 2026)
+
+- Routes: `/`, `/the-answer`, `/cast`, `/crew`, `/gallery`, `/the-answer-ai`, `/contact`.
+- `src/app/template.tsx` mounts `PageMotion` for route entrance and scoped ScrollTrigger reveals. Attributes opt into rise, mask, stagger and horizontal line reveals. `data-reveal-child` marks stagger targets. GSAP matchMedia reverts effects on reduced-motion changes; ResizeObserver, image loading and fonts refresh trigger positions.
+- The shared footer mounts its own `PageMotion transition={false}` and refreshes on pathname changes. The page wrapper is never transformed, preserving the approved homepage sticky/deck behavior.
+- One Lenis instance uses the GSAP ticker, updates ScrollTrigger, leaves touch native and pauses when dialogs/mobile menu lock the body. Native dialogs restore a native cursor because they render above the custom cursor.
+- Cast data extends the approved homepage roster without modifying it. Client components handle category filtering and a native modal dialog.
+- Gallery uses local WebP posters, lazy images and native dialog media viewers. Vimeo iframes are created on explicit play; closing removes the iframe. The Answer uses the existing approved hero film preview.
+- `projects.config.ts` stores the supplied Gaming Legends and WA Police Vimeo IDs/hashes. `VimeoProjectPlayer.tsx` eagerly loads each iframe and preloads initial segments, starts muted playback when its frame intersects the viewport, pauses it offscreen, and skips automatic playback for reduced-motion users. The Vimeo iframe stays interactive and uses Vimeo's native controls with the FocusTV gold accent. The browser pointer is shown over the cross-origin frame while the animated FocusTV cursor is hidden there. An in-view manual pause persists until refresh. Supported Vimeo branding/title settings are disabled; local-file video support remains available for later approved projects.
+- Shared metadata includes the existing film poster as a social image; every planned route has a canonical URL. The sitemap contains all seven routes. Preview indexing is disabled consistently by metadata and robots.
+- `next.config.ts` preserves `/meet-the-cast` → `/cast` and `/contact-us` → `/contact`. A complete legacy URL/search-console audit remains part of launch preparation.
+- The root HTML declares `data-scroll-behavior="smooth"`, allowing Next to suspend CSS smooth scrolling during route changes. This prevents navigation from the footer retaining the previous scroll position while leaving browser-back restoration under Next's control.
+- No packages, CMS, database, analytics or email backend added for this scope.

@@ -2,8 +2,22 @@ import { LogoLoop, type LogoItem } from "./LogoLoop";
 import { PARTNER_LOGOS } from "./partners.config";
 import styles from "./Partners.module.css";
 
+const logoAsset = (filename: string) => `/media/Logos/LOGOS/${encodeURIComponent(filename)}`;
+
+// Pair each source with its dimensions; fixed slots reserve stable space for marks with different theme ratios.
 const logos: LogoItem[] = PARTNER_LOGOS.map((logo) => ({
-  src: `/media/Logos/normalized/${encodeURIComponent(logo.filename)}`,
+  src: logoAsset(logo.filename),
+  darkSrc: logo.darkVariant ? logoAsset(logo.darkVariant.filename) : undefined,
+  darkWidth: logo.darkVariant?.width,
+  darkHeight: logo.darkVariant?.height,
+  darkScale: logo.darkVariant?.scale,
+  lightSrc: logo.lightVariant ? logoAsset(logo.lightVariant.filename) : undefined,
+  lightWidth: logo.lightVariant?.width,
+  lightHeight: logo.lightVariant?.height,
+  lightScale: logo.lightVariant?.scale,
+  displayScale: logo.displayScale,
+  slotWidth: logo.slotWidth,
+  darkBlend: logo.darkBlend,
   alt: logo.name,
   title: logo.name,
   width: logo.width,
@@ -15,10 +29,10 @@ const logos: LogoItem[] = PARTNER_LOGOS.map((logo) => ({
 
 export function Partners() {
   return (
-    <section className={styles.partners} id="partners" aria-labelledby="partners-label">
-      <p className={styles.label} id="partners-label">
-        Partners &amp; Media — left to right
-      </p>
+    <section className={styles.partners} id="partners" aria-labelledby="partners-heading">
+      <h2 className={styles.heading} id="partners-heading" data-reveal="rise">
+        Brands &amp; organizations we’ve worked with
+      </h2>
       <div className={styles.loop}>
         <LogoLoop
           logos={logos}

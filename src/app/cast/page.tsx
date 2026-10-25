@@ -1,20 +1,45 @@
-import React from "react";
-import { Container } from "@/components/layout/Container/Container";
-import { Section } from "@/components/layout/Section/Section";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { CastDirectory } from "@/components/pages/CastDirectory/CastDirectory";
+import styles from "@/components/pages/CastDirectory/CastDirectory.module.css";
 
-export const metadata = {
-  title: "Cast",
+export const metadata: Metadata = {
+  title: "The Cast",
+  description:
+    "Meet the innovators, designers, founders and creative minds featured in The Answer, a FocusTV documentary series.",
+  alternates: { canonical: "/cast" },
 };
 
 export default function CastPage() {
   return (
-    <Section spacing="lg" style={{ paddingTop: "calc(var(--header-height) + var(--space-12))" }}>
-      <Container size="md">
-        <h1 style={{ fontSize: "var(--display-md)", marginBottom: "var(--space-4)" }}>Cast</h1>
-        <p style={{ fontSize: "var(--text-lg)", color: "var(--color-text-secondary)" }}>
-          Coming during development.
+    <div className={styles.page}>
+      <header className={styles.intro}>
+        <p className={styles.kicker} data-reveal="rise">
+          The Answer — The people
         </p>
-      </Container>
-    </Section>
+        <div className={styles.headingRow}>
+          <h1 data-reveal="rise">
+            Extraordinary minds.
+            <br />
+            <em>Human stories.</em>
+          </h1>
+          <p className={styles.introCopy} data-reveal="rise">
+            The people who turned an idea into something the world had never seen. Discover the
+            voices behind The Answer.
+          </p>
+        </div>
+      </header>
+      <CastDirectory />
+      <section
+        className={styles.nextChapter}
+        data-reveal="rise"
+        aria-labelledby="crew-link-heading"
+      >
+        <p>Behind every conversation, a creative team.</p>
+        <Link href="/crew" id="crew-link-heading">
+          Meet the filmmakers <span aria-hidden="true">↗</span>
+        </Link>
+      </section>
+    </div>
   );
 }

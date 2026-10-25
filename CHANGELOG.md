@@ -10,12 +10,72 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
+### Added — Other Projects Vimeo films (25 October 2026)
+
+- Added the owner-supplied Gaming Legends and WA Police Vimeo embeds with their privacy hashes.
+- Loaded both responsive 16:9 players with the homepage; muted autoplay starts as each frame enters view and pauses while it is offscreen. Vimeo playback controls remain available, with an accessible sound toggle above each frame and reduced-motion support.
+- Removed the “FocusTV Films” topline label, tightened the section's top spacing, and highlighted the italic “to the story.” heading line with the FocusTV brand color.
+
+### Corrected — Partner theme artwork and duplicate (25 October 2026)
+
+- Merged the duplicate Danube Group marks into one horizontal logo entry with matching Light and Dark artwork.
+- Added the supplied DICE, Extreme Makeover, LEAP and Silent Hill 2 Dark assets, plus Identity V and JOE Films Light assets. Kept the DICE black canvas blended into the dark section and normalized Silent Hill 2's white artwork for dark-theme contrast.
+- Consolidated the six supplied theme files into `public/media/Logos/LOGOS/` and removed their staging copies. The final loop has 55 unique brands and 72 image files; remaining requested variants are tracked in `Docs/PROJECT_STATUS.md`.
+
+### Finalized — Partner logo section (25 October 2026)
+
+- Increased the heading size and contrast, adding a restrained FocusTV-gold rule while preserving the section's compact uppercase treatment on both themes.
+- Audited the loop data, theme asset selection, responsive slot sizing, drag/pause behavior, and reduced-motion handling. Removed obsolete contrast flags from marks that now have dedicated theme artwork and corrected comments to match the active fixed slots and black-canvas assets.
+- Marked Partners & Media complete for the current supplied artwork. Remaining contrast replacements are optional follow-up and documented in `Docs/PROJECT_STATUS.md`.
+
+### Completed — Partners & Media section (25 October 2026)
+
+- Replaced the template-direction label with the clear heading “Brands & organizations we’ve worked with.”
+- Connected all 38 active logos to normalized fallbacks and the supplied nine Dark / one Light variants, preserving the supplied variant colors.
+- Enlarged NetEase, Nissan and PBD Podcast in fixed-width slots so their marquee positions stay steady across theme changes.
+- Verified the 48 referenced logo image paths, both themes, mobile overflow, lint, typecheck and production build.
+
+### Expanded — Partner logo library (25 October 2026)
+
+- Reviewed the two client-supplied logo collections against the active set, added 18 new distinct marks, and retained Universal Music Group's supplied Dark and Light artwork.
+- Consolidated 56 partner marks and eleven theme-specific images into `public/media/Logos/LOGOS/` with canonical brand/theme filenames; removed duplicate source copies.
+- Updated the loop data and documentation. Requested additional Dark/Light artwork is listed in `Docs/PROJECT_STATUS.md`.
+
+### Changed — Partner logo selection (25 October 2026)
+
+- Removed The Telegraph, The Weekly Times, News.com.au and Herald Sun from the active partner list, template fallback list and normalized image assets at the owner's request. The loop now contains 38 logos.
+
+### Removed — Unused asset cleanup (25 October 2026)
+
+- Removed 42 unreferenced original logo PNGs, 14 original cast SVGs and the unused duplicate favicon, as requested by the owner. At the cleanup milestone, all 85 runtime public images, both imported brand logos and the App Router icon remained.
+- At the earlier cleanup milestone, removed 89 unreferenced logo source copies from `public/media/Logos/All Logos/` and `public/media/Logos/company logos/` under the owner's keep-only-used-assets instruction; the subsequent 56-logo expansion is recorded above.
+- Reduced public assets from 47,251,484 to 11,950,838 bytes at that milestone; later owner-supplied theme variants are recorded in the Partners & Media completion above.
+- Removed the generated Chromium `debug.log` and ignored it to prevent accidental commits. Existing Git history is unchanged.
+
+### Added — Full site review version (25 October 2026)
+
+- Homepage Other Projects section after the existing partner logo loop, with configurable media slots for the owner-requested Gaming and WA Police documentaries.
+- Shared responsive footer with conversation CTA, complete navigation, published social links, official theme-aware logo and oversized wordmark.
+- Completed The Answer, Cast, Crew, Gallery and Contact routes; designed the intentionally Coming Soon The Answer AI page.
+- Full filterable cast directory, native profile dialog, verified crew profiles, optimized local portraits and six verified gallery films with keyboard media viewer.
+- Scoped GSAP page entrance/section reveal layer, Lenis synchronization, reduced-motion fallback and dialog scroll-lock handling.
+- Optional meeting enquiry fields and honest email-draft contact flow; production sender and recipient confirmation remain pending.
+- Per-page canonicals, social preview defaults, full sitemap, branded 404/error states and legacy cast/contact redirects.
+- Content-source/maintenance record and updated product, design, technical, development and decision documentation.
+
+### Fixed — Completion audit
+
+- Restored the native cursor in browser top-layer dialogs and for reduced-motion users.
+- Matched preview indexing behavior between metadata and robots rules.
+- Fixed route scroll positioning by declaring Next's smooth-scroll integration attribute.
+- Preserved existing homepage layouts and motion while connecting completed routes.
+
 ### Changed
 
 - Rebuilt the homepage cast section as an editorial introduction and scroll-driven portrait cascade
 - Replaced the Story section's previous gradient and feathered treatment with the approved editorial image-and-copy composition
 - Refined Story and Cast tablet/mobile layouts, including full-width Story copy and square single-column Cast cards
-- Added optimized WebP variants for the 14 numbered cast stills; original SVG files remain unchanged
+- Added optimized WebP variants for the 14 numbered cast stills; the unused original SVGs were later removed in the owner-requested asset cleanup above
 - Added the “Explore Full Cast” CTA linking to `/cast`
 
 ### Fixed

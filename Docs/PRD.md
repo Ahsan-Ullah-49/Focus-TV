@@ -2,7 +2,8 @@
 
 ## Product Requirements Document (PRD)
 
-**Version:** 1.0  
+**Version:** 1.1 — scope update, 25 October 2026
+
 **Status:** Approved — implementation in progress
 **Project:** FocusTV Website Rebuild  
 **Domain:** focustv.tv  
@@ -18,7 +19,7 @@
 
 FocusTV requires a complete rebuild of its existing website.
 
-The new website will not reuse the structure, design system, frontend implementation, or WordPress architecture of the current website. The existing site will only be treated as a possible source for approved written content where useful.
+The new website will not reuse the WordPress frontend architecture. The owner has authorized https://focustv.tv/ as the factual source for existing copy, people, credits, photographs and film embeds. Preserve approved local content where it differs from the legacy site, omit legacy placeholder text, and record imported sources in `Docs/CONTENT_SOURCES.md`.
 
 The new website will be developed as a custom-coded digital experience designed to represent FocusTV as a high-level creative studio working with internationally recognized personalities, brands, business leaders, creators, investors, and production partners.
 
@@ -215,9 +216,24 @@ The homepage should progressively communicate FocusTV's identity, credibility, T
 
 Only a curated selection of the most internationally recognizable personalities should be featured on the homepage.
 
-### Current Implementation Snapshot (21 October 2026)
+### Owner Scope Update (23–24 October 2026)
 
-The Home page currently renders the Hero, The Story, and Our Proud Cast in that order (`src/app/page.tsx`). Their implementation is documented in the repository README and Design Document. Other content in the proposed homepage narrative remains planned and is not represented as completed.
+The required homepage order is Hero → The Story → Our Proud Cast → Partners & Media → Other Projects → shared Footer. Preserve the approved first four sections. The owner requests completion of all existing planned routes in this implementation pass, with subsequent design review and revisions.
+
+### Other Projects
+
+- Show FocusTV work beyond The Answer directly after the logo loop.
+- Owner-supplied projects: Gaming Legends and WA Police documentaries, with Vimeo embed IDs and privacy hashes.
+- Additional projects, posters and any future copy await client confirmation.
+- Keep two clearly labelled documentary slots for the supplied films, without fabricated release dates, credentials or additional projects.
+- Store projects in structured local data so approved video/poster assets can be added without rebuilding the section.
+- Load the supplied Vimeo embeds with the homepage and preload metadata plus initial video segments. Start each video muted when its media frame enters view, pause it outside view, and respect reduced-motion preferences.
+- Use Vimeo's native playback controls and timeline with the FocusTV gold accent. Hide Vimeo branding, title and byline where the account's embed settings support it. Responsive media frames use the videos' 16:9 aspect ratio.
+- Keep native pointer input enabled on the Vimeo iframe. The browser pointer is visible inside the cross-origin player and the animated FocusTV cursor hides there, resuming on the host page. An intentional pause prevents later scroll-triggered autoplay until refresh.
+
+### Footer and Remaining Pages
+
+Complete The Answer, Cast, Crew, Gallery, Contact and the deliberately limited The Answer AI Coming Soon page. Use FleetRise for editorial rhythm and interaction references, Bugatti and the owner's supplied footer images for restrained navigation columns, clear contact routes and oversized brand typography. Keep the FocusTV visual identity and both themes.
 
 ---
 
@@ -314,6 +330,8 @@ Core fields:
 
 Meeting booking is optional.
 
+The current implementation opens a populated draft in the visitor's email application and explicitly requires the visitor to review and send it. It does not submit mail from a server or report delivery. This is a working interim flow while the production recipient and sending service are confirmed; inbox delivery remains a launch requirement. The legacy site currently publishes a Hostinger staging-domain recipient, which must be confirmed before launch.
+
 ---
 
 ## 21. Meeting Booking
@@ -332,7 +350,7 @@ Do not build a custom calendar engine for v1.
 
 ## 22. Content Strategy
 
-Some approved text may be reused from the previous website.
+Existing factual copy and media may be reused from https://focustv.tv/ under the owner's explicit authorization. Source records and pending confirmations live in `Docs/CONTENT_SOURCES.md`.
 
 The content team may improve copy, biographies, grammar, clarity, and tone.
 
@@ -376,6 +394,8 @@ Motion may include:
 - Hover interactions
 
 Do not repeat one animation pattern mechanically throughout the site.
+
+The owner requests smooth page changes and a reveal treatment for every major section. Use a short route entrance curtain and varied scoped text, image-mask, stagger and rule reveals; preserve the existing Hero/Story/Cast motion. Reduced-motion users receive the static equivalent. Motion must not intercept normal links, browser history or keyboard navigation.
 
 ---
 

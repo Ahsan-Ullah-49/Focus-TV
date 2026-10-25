@@ -1,20 +1,44 @@
-import React from "react";
-import { Container } from "@/components/layout/Container/Container";
-import { Section } from "@/components/layout/Section/Section";
+import type { Metadata } from "next";
+import { GalleryCollection } from "@/components/pages/Gallery/GalleryCollection";
+import styles from "./page.module.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Gallery",
+  description:
+    "Watch selected FocusTV films and explore moments from The Answer documentary series.",
+  alternates: { canonical: "/gallery" },
 };
 
 export default function GalleryPage() {
   return (
-    <Section spacing="lg" style={{ paddingTop: "calc(var(--header-height) + var(--space-12))" }}>
-      <Container size="md">
-        <h1 style={{ fontSize: "var(--display-md)", marginBottom: "var(--space-4)" }}>Gallery</h1>
-        <p style={{ fontSize: "var(--text-lg)", color: "var(--color-text-secondary)" }}>
-          Coming during development.
+    <article className={styles.page}>
+      <header className={styles.header} data-reveal="stagger">
+        <p className={styles.label} data-reveal-child>
+          FocusTV / Gallery
         </p>
-      </Container>
-    </Section>
+        <div className={styles.introduction}>
+          <h1 data-reveal-child>
+            A closer
+            <br />
+            <em>look.</em>
+          </h1>
+          <div className={styles.description} data-reveal-child>
+            <p>
+              People, ideas and the moments in between.
+              <br />A selection of films and stills from The Answer.
+            </p>
+            <nav className={styles.collectionLinks} aria-label="Gallery collections">
+              <a href="#films">
+                Films <span aria-hidden="true">06 ↓</span>
+              </a>
+              <a href="#stills">
+                Stills <span aria-hidden="true">06 ↓</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <GalleryCollection />
+    </article>
   );
 }

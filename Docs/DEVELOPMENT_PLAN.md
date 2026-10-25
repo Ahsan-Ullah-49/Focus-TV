@@ -6,6 +6,16 @@
 **Method:** Agile / Incremental  
 **Goal:** Build, review, protect, and improve in controlled stages
 
+### Owner-authorized completion pass — 23–25 October 2026
+
+The owner explicitly requested completing the remaining planned pages together before further review. This supersedes the earlier stop-after-1–2-sections guidance for this pass; existing approved sections remain protected and no push/deployment is authorized.
+
+Scope: add Other Projects after the logo loop, complete the shared footer and all planned routes, provide smooth page entrances and varied section reveals, update documentation, then validate responsive behavior and build quality. The AI page remains intentionally Coming Soon. The owner has now supplied Gaming Legends and WA Police Vimeo embeds; additional project entries, production email delivery and hosting confirmation remain pending inputs rather than fabricated deliverables.
+
+**Other Projects status:** Complete for the two supplied films. The section uses Vimeo's native gold-accented controls, keeps the standard pointer inside Vimeo's interactive frame, and preserves muted viewport autoplay plus the manual-pause-until-refresh behavior. Future projects and artwork remain client-confirmed additions.
+
+Current acceptance and launch items are tracked in `PROJECT_STATUS.md`; content maintenance and sources are in `CONTENT_SOURCES.md`.
+
 ---
 
 ## 1. Development Philosophy

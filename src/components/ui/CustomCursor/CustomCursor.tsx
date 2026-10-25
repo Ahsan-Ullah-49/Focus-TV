@@ -35,6 +35,10 @@ function isInteractive(target: EventTarget | null): boolean {
   );
 }
 
+function isNativeCursorFrame(target: EventTarget | null): target is HTMLIFrameElement {
+  return target instanceof HTMLIFrameElement && target.hasAttribute("data-native-cursor");
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 export function CustomCursor() {
   // Prevent SSR/hydration mismatch — render nothing on the server.
@@ -104,6 +108,7 @@ export function CustomCursor() {
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      container.style.opacity = "1";
 
       if (!isActive) {
         ringX = mouseX;
@@ -136,6 +141,16 @@ export function CustomCursor() {
 
     // Hover-state for interactive elements
     const onMouseOver = (e: MouseEvent) => {
+      if (isNativeCursorFrame(e.target)) {
+        // Vimeo handles pointer input inside its cross-origin frame; let the
+        // browser cursor show there while the FocusTV cursor cannot track it.
+        isActive = false;
+        container.style.opacity = "0";
+        ring.classList.remove(styles.ringInteractive);
+        container.classList.remove(styles.isInteractive);
+        return;
+      }
+
       if (isInteractive(e.target)) {
         ring.classList.add(styles.ringInteractive);
         container.classList.add(styles.isInteractive);
@@ -144,6 +159,54 @@ export function CustomCursor() {
         container.classList.remove(styles.isInteractive);
       }
     };
+
+    const hideCursorForNativeZone = () => {
+      isActive = false;
+      container.style.opacity = "0";
+      ring.classList.remove(styles.ringInteractive);
+      container.classList.remove(styles.isInteractive);
+    };
+    const onNativeZoneLeave = (event: MouseEvent) => {
+      // Restore at the exit point instead of leaving the cursor frozen at the frame edge.
+      onMouseMove(event);
+    };
+    const nativeCursorZones = new Set<HTMLElement>();
+    const findNativeCursorZones = (node: Node) => {
+      const zones: HTMLElement[] = [];
+      if (node instanceof HTMLElement && node.hasAttribute("data-native-cursor-zone")) {
+        zones.push(node);
+      }
+      if (node instanceof Element || node instanceof Document || node instanceof DocumentFragment) {
+        zones.push(...node.querySelectorAll<HTMLElement>("[data-native-cursor-zone]"));
+      }
+      return zones;
+    };
+    const observeNativeCursorZones = (node: Node) => {
+      for (const zone of findNativeCursorZones(node)) {
+        if (nativeCursorZones.has(zone)) continue;
+        nativeCursorZones.add(zone);
+        zone.addEventListener("mouseenter", hideCursorForNativeZone);
+        zone.addEventListener("mouseleave", onNativeZoneLeave);
+      }
+    };
+    const unobserveNativeCursorZones = (node: Node) => {
+      for (const zone of findNativeCursorZones(node)) {
+        if (!nativeCursorZones.delete(zone)) continue;
+        zone.removeEventListener("mouseenter", hideCursorForNativeZone);
+        zone.removeEventListener("mouseleave", onNativeZoneLeave);
+      }
+    };
+    observeNativeCursorZones(document);
+
+    // The root-layout cursor persists across client-side routes, so watch for
+    // Vimeo media zones mounted or removed during navigation.
+    const cursorZoneObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        for (const node of mutation.removedNodes) unobserveNativeCursorZones(node);
+        for (const node of mutation.addedNodes) observeNativeCursorZones(node);
+      }
+    });
+    cursorZoneObserver.observe(document.documentElement, { childList: true, subtree: true });
 
     // ── rAF render loop ───────────────────────────────────────────────────────
     let animId: number;
@@ -183,16 +246,22 @@ export function CustomCursor() {
     };
 
     window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseover", onMouseOver);
+    // Capture at the document because iframe boundary events may not bubble to window.
+    document.addEventListener("mouseover", onMouseOver, true);
     document.documentElement.addEventListener("mouseleave", onMouseLeave);
     document.documentElement.addEventListener("mouseenter", onMouseEnter);
     animId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseover", onMouseOver);
+      document.removeEventListener("mouseover", onMouseOver, true);
       document.documentElement.removeEventListener("mouseleave", onMouseLeave);
       document.documentElement.removeEventListener("mouseenter", onMouseEnter);
+      cursorZoneObserver.disconnect();
+      for (const zone of nativeCursorZones) {
+        zone.removeEventListener("mouseenter", hideCursorForNativeZone);
+        zone.removeEventListener("mouseleave", onNativeZoneLeave);
+      }
       cancelAnimationFrame(animId);
     };
   }, [isMounted]);

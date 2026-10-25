@@ -5,14 +5,17 @@
   color: var(--color-text);
 }
 
-.label {
-  margin: 0 0 24px;
-  padding-inline-start: 32px;
-  color: var(--color-text-secondary);
-  font-size: 12px;
+.heading {
+  margin-block: 0 24px;
+  margin-inline-start: 32px;
+  padding-block: 2px;
+  padding-inline-start: 14px;
+  border-inline-start: 2px solid var(--color-brand);
+  color: var(--color-text);
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
   font-weight: 600;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
+  letter-spacing: 0.11em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -146,9 +149,60 @@
   pointer-events: none;
 }
 
-.loop :global(.logoloop--horizontal .logoloop__item img) {
+/* Theme-specific art keeps its supplied colors; only fallback assets receive contrast filters below. */
+.loop :global(.logoloop__theme-images) {
+  display: inline-flex;
+  align-items: center;
   height: 100%;
-  max-width: calc(var(--logoloop-logoHeight) * 4.5);
+}
+
+.loop :global(.logoloop__item[data-theme-variant] .logoloop__theme-image--dark) {
+  display: none;
+}
+
+.loop :global(.logoloop__item[data-theme-variant] .logoloop__theme-image--light) {
+  display: block;
+}
+
+:global(html[data-theme="dark"])
+  .loop
+  :global(.logoloop__item[data-theme-variant] .logoloop__theme-image--dark) {
+  display: block;
+}
+
+:global(html[data-theme="dark"])
+  .loop
+  :global(.logoloop__item[data-theme-variant] .logoloop__theme-image--light) {
+  display: none;
+}
+
+.loop :global(.logoloop--horizontal .logoloop__item img) {
+  height: calc(100% * var(--logoloop-image-scale, 1));
+  max-width: calc(var(--logoloop-logoHeight) * 4.5 * var(--logoloop-image-scale, 1));
+}
+
+/* Fixed slots keep selected marks in place when theme artwork has different proportions. */
+.loop :global(.logoloop--horizontal .logoloop__item[data-logo-slot]) {
+  width: var(--logoloop-item-slot-width);
+  min-width: var(--logoloop-item-slot-width);
+  height: calc(var(--logoloop-logoHeight) * var(--logoloop-item-scale, 1));
+}
+
+.loop :global(.logoloop--horizontal .logoloop__item[data-logo-slot] .logoloop__content) {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  justify-content: center;
+}
+
+.loop :global(.logoloop__item[data-logo-slot] .logoloop__theme-images) {
+  width: 100%;
+  justify-content: center;
+}
+
+.loop :global(.logoloop--horizontal .logoloop__item[data-logo-slot] img) {
+  height: calc(100% * var(--logoloop-image-scale, 1));
+  max-width: calc(100% * var(--logoloop-image-scale, 1));
 }
 
 .loop :global(.logoloop__node),
@@ -237,20 +291,39 @@
   opacity: 0.8;
 }
 
-:global(html[data-theme="light"]) .loop :global(.logoloop__item[data-low-contrast="light"]) img {
+:global(html[data-theme="light"])
+  .loop
+  :global(.logoloop__item:not([data-theme-variant])[data-low-contrast="light"])
+  img {
   filter: brightness(0);
 }
 
-:global(html[data-theme="dark"]) .loop :global(.logoloop__item[data-low-contrast="dark"]) img {
+:global(html[data-theme="dark"])
+  .loop
+  :global(.logoloop__item:not([data-theme-variant])[data-low-contrast="dark"])
+  img {
   filter: brightness(0) invert(1);
 }
 
-:global(html[data-theme="light"]) .loop :global(.logoloop__item[data-outline-light]) img {
+:global(html[data-theme="light"])
+  .loop
+  :global(.logoloop__item:not([data-theme-variant])[data-outline-light])
+  img {
   filter: drop-shadow(0 0 1px var(--color-text));
 }
 
-:global(html[data-theme="dark"]) .loop :global(.logoloop__item[data-outline-dark]) img {
+:global(html[data-theme="dark"])
+  .loop
+  :global(.logoloop__item:not([data-theme-variant])[data-outline-dark])
+  img {
   filter: drop-shadow(0 0 1px var(--color-text));
+}
+
+/* PONG and DICE dark variants include black canvases; screen blending merges them into the page. */
+:global(html[data-theme="dark"])
+  .loop
+  :global(.logoloop__item[data-dark-blend="screen"] .logoloop__theme-image--dark) {
+  mix-blend-mode: screen;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -259,5 +332,15 @@
   .loop :global(.logoloop__item img),
   .loop :global(.logoloop__tip) {
     transition: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Tighten the long label on narrow screens while keeping it readable. */
+  .heading {
+    margin-inline-start: 18px;
+    padding-inline-start: 10px;
+    font-size: 0.875rem;
+    letter-spacing: 0.075em;
   }
 }

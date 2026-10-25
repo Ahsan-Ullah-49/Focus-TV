@@ -1,0 +1,15 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header) - 1);
+  visibility: hidden;
+  pointer-events: none;
+  background: var(--color-bg);
+  will-change: clip-path;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    display: none;
+  }
+}

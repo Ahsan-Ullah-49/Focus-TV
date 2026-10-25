@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Header } from "@/components/layout/Header/Header";
 import { CustomCursor } from "@/components/ui/CustomCursor/CustomCursor";
+import { Footer } from "@/components/layout/Footer/Footer";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -28,9 +29,23 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.productionUrl),
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    title: "FocusTV | Stories worth telling",
+    description: siteConfig.description,
+    images: [
+      { url: "/media/hero/focustv-Hero-poster.png", alt: "The Answer — a FocusTV documentary" },
+    ],
+  },
+  twitter: { card: "summary_large_image" },
   robots: {
-    index: process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production",
-    follow: process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production",
+    index:
+      process.env.VERCEL_ENV === "production" ||
+      (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV),
+    follow:
+      process.env.VERCEL_ENV === "production" ||
+      (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV),
   },
 };
 
@@ -52,27 +67,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${cormorant.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${manrope.variable} ${cormorant.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body>
+      <body id="top">
         <ThemeProvider>
           <SmoothScrollProvider>
             <CustomCursor />
             <Header />
             <main>{children}</main>
-            <footer
-              style={{
-                borderTop: "1px solid var(--color-border)",
-                padding: "var(--space-8) var(--page-gutter)",
-                textAlign: "center",
-                color: "var(--color-text-secondary)",
-                fontSize: "var(--text-xs)",
-              }}
-            >
-              © {new Date().getFullYear()} FocusTV Creative Studio. All rights reserved.
-            </footer>
+            <Footer />
           </SmoothScrollProvider>
         </ThemeProvider>
       </body>

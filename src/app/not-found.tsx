@@ -1,34 +1,20 @@
-import Link from "next/link";
+import { Button } from "@/components/ui/Button/Button";
+import styles from "./status.module.css";
 
 export default function NotFound() {
   return (
-    <main
-      style={{
-        padding: "var(--space-8)",
-        maxWidth: "var(--container-sm)",
-        margin: "0 auto",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "flex-start",
-      }}
-    >
-      <h1 style={{ fontSize: "var(--text-xl)", marginBottom: "var(--space-2)" }}>
-        404 - Page Not Found
-      </h1>
-      <p style={{ color: "var(--color-text-muted)", marginBottom: "var(--space-4)" }}>
-        The requested page could not be located.
+    <section className={styles.page}>
+      <p className={styles.label}>404 / Page not found</p>
+      <h1 className={styles.title}>A different story awaits.</h1>
+      <p className={styles.copy}>
+        We couldn’t find this page. Discover our films or return to the beginning.
       </p>
-      <Link
-        href="/"
-        style={{
-          color: "var(--color-brand)",
-          textDecoration: "underline",
-        }}
-      >
-        Return to Home
-      </Link>
-    </main>
+      <div className={styles.actions}>
+        <Button href="/">Back to home</Button>
+        <Button href="/gallery" variant="text">
+          Explore our films ↗
+        </Button>
+      </div>
+    </section>
   );
 }

@@ -1,0 +1,317 @@
+.collection {
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+}
+.collectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-6) 0;
+}
+.collectionHeading h2 {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+.collectionHeading > span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+.filmGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12) var(--space-8);
+}
+.featuredFilm {
+  grid-column: 1 / -1;
+  margin-bottom: var(--space-4);
+}
+.film:last-child {
+  grid-column: 1 / -1;
+  width: 67%;
+  margin-left: auto;
+}
+.filmButton {
+  display: block;
+  background: none;
+  padding: 0;
+  border: 0;
+  color: var(--color-text);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+.filmImage {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+.featuredFilm .filmImage {
+  aspect-ratio: 2 / 1;
+}
+.filmImage img {
+  object-fit: cover;
+  transition: transform 800ms var(--ease-out);
+}
+.filmImage::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
+  background: linear-gradient(transparent, rgb(0 0 0 / 45%));
+  pointer-events: none;
+}
+.play {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(52px, 6vw, 88px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 20%);
+  border: 1px solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  color: #fff;
+  transition:
+    background var(--duration-normal),
+    border-color var(--duration-normal);
+}
+.play svg {
+  width: 24px;
+  fill: currentColor;
+}
+.duration {
+  position: absolute;
+  z-index: 1;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+.featuredLabel {
+  position: absolute;
+  z-index: 1;
+  bottom: var(--space-6);
+  left: var(--space-6);
+  color: #fff;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+}
+.filmCaption {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-4) 0 0;
+}
+.index {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+.filmTitle {
+  font-size: var(--text-lg);
+  font-weight: 500;
+}
+.featuredFilm .filmTitle {
+  font-family: var(--font-serif);
+  font-size: var(--display-sm);
+  font-weight: 400;
+}
+.filmArrow {
+  font-size: var(--text-xl);
+  color: var(--color-brand);
+}
+.filmButton:hover .filmImage img {
+  transform: scale(1.035);
+}
+.filmButton:hover .play {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+}
+.stillsCollection {
+  padding-top: var(--space-32);
+}
+.stillsHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-8);
+  padding-bottom: var(--space-12);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-12);
+}
+.stillsHeading h2 {
+  font-family: var(--font-serif);
+  font-size: var(--display-md);
+  line-height: var(--line-height-tight);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.stillsHeading em {
+  font-weight: 400;
+  color: var(--color-brand);
+}
+.stillsHeading p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--line-height-relaxed);
+}
+.stillGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-12) var(--space-8);
+  align-items: start;
+}
+.still:nth-child(3n + 2) {
+  margin-top: var(--space-16);
+}
+.stillButton {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--color-surface-muted);
+  overflow: hidden;
+  border: 0;
+  cursor: pointer;
+}
+.stillButton img {
+  object-fit: cover;
+  transition: transform 800ms var(--ease-out);
+}
+.stillButton:hover img {
+  transform: scale(1.045);
+}
+.expand {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 55%);
+  color: #fff;
+  font-size: var(--text-lg);
+}
+.still figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  font-size: var(--text-sm);
+}
+.still figcaption > :last-child {
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+}
+.castLink {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-6);
+  border-block: 1px solid var(--color-border);
+  margin-top: var(--space-16);
+  padding: var(--space-6) 0;
+  font-size: var(--text-sm);
+}
+.castLink > span {
+  display: inline-flex;
+  gap: var(--space-8);
+}
+.castLink:hover {
+  color: var(--color-brand);
+}
+.filmButton:focus-visible,
+.stillButton:focus-visible,
+.castLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 5px;
+}
+@media (max-width: 900px) {
+  .filmGrid {
+    gap: var(--space-8) var(--space-6);
+  }
+  .stillGrid {
+    gap: var(--space-8) var(--space-4);
+  }
+  .stillsCollection {
+    padding-top: var(--space-24);
+  }
+  .stillsHeading {
+    align-items: start;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+@media (max-width: 700px) {
+  .filmGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  .film:last-child {
+    width: 100%;
+  }
+  .featuredFilm {
+    margin-bottom: 0;
+  }
+  .featuredFilm .filmImage {
+    aspect-ratio: 16 / 10;
+  }
+  .featuredLabel {
+    left: var(--space-4);
+    bottom: var(--space-4);
+    font-size: 0.6rem;
+  }
+  .filmTitle {
+    font-size: var(--text-base);
+  }
+  .featuredFilm .filmTitle {
+    font-size: var(--text-2xl);
+  }
+  .stillsCollection {
+    padding-top: var(--space-16);
+  }
+  .stillsHeading {
+    padding-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+  .stillGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8) var(--space-3);
+  }
+  .still:nth-child(3n + 2) {
+    margin-top: 0;
+  }
+  .still:nth-child(even) {
+    margin-top: var(--space-8);
+  }
+  .still figcaption {
+    font-size: var(--text-xs);
+  }
+  .castLink {
+    margin-top: var(--space-12);
+    flex-direction: column;
+    font-size: var(--text-xs);
+    gap: var(--space-4);
+  }
+  .castLink > span {
+    justify-content: space-between;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .filmImage img,
+  .stillButton img,
+  .play {
+    transition: none;
+  }
+  .filmButton:hover .filmImage img,
+  .stillButton:hover img {
+    transform: none;
+  }
+}

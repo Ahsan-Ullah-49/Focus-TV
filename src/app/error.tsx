@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { Button } from "@/components/ui/Button/Button";
+import styles from "./status.module.css";
 
 export default function Error({
   error,
@@ -15,38 +17,20 @@ export default function Error({
   }, [error]);
 
   return (
-    <main
-      style={{
-        padding: "var(--space-8)",
-        maxWidth: "var(--container-sm)",
-        margin: "0 auto",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "flex-start",
-      }}
-    >
-      <h1 style={{ fontSize: "var(--text-xl)", marginBottom: "var(--space-2)" }}>
-        Something went wrong
-      </h1>
-      <p style={{ color: "var(--color-text-muted)", marginBottom: "var(--space-4)" }}>
-        An unhandled error occurred in the application.
+    <section className={styles.page}>
+      <p className={styles.label}>A brief interruption</p>
+      <h1 className={styles.title}>Let’s try that again.</h1>
+      <p className={styles.copy}>
+        This page couldn’t load. Please try again or head back to the homepage.
       </p>
-      <button
-        onClick={() => reset()}
-        type="button"
-        style={{
-          padding: "var(--space-2) var(--space-4)",
-          backgroundColor: "var(--color-brand)",
-          color: "#ffffff",
-          border: "none",
-          borderRadius: "var(--radius-sm)",
-          cursor: "pointer",
-        }}
-      >
-        Try Again
-      </button>
-    </main>
+      <div className={styles.actions}>
+        <Button type="button" onClick={reset}>
+          Try again
+        </Button>
+        <Button href="/" variant="text">
+          Back to home ↗
+        </Button>
+      </div>
+    </section>
   );
 }

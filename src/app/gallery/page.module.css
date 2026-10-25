@@ -1,0 +1,94 @@
+.page {
+  max-width: calc(var(--container-lg) + var(--page-gutter) * 2);
+  margin: 0 auto;
+  padding: calc(var(--header-height) + var(--space-16)) var(--page-gutter) var(--space-24);
+}
+.header {
+  padding-bottom: var(--space-16);
+}
+.label {
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.introduction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: var(--space-16);
+  margin-top: var(--space-8);
+}
+.introduction h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 10vw, 10rem);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+}
+.introduction h1 em {
+  font-weight: 400;
+  color: var(--color-brand);
+  padding-left: 18%;
+}
+.description {
+  max-width: 430px;
+  justify-self: end;
+  width: 100%;
+}
+.description p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  line-height: var(--line-height-relaxed);
+}
+.collectionLinks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+.collectionLinks a {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+}
+.collectionLinks span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+.collectionLinks a:hover {
+  color: var(--color-brand);
+}
+.collectionLinks a:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .page {
+    padding-top: calc(var(--header-height) + var(--space-8));
+    padding-bottom: var(--space-16);
+  }
+  .header {
+    padding-bottom: var(--space-12);
+  }
+  .introduction {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  .introduction h1 {
+    font-size: clamp(4.25rem, 17vw, 7rem);
+  }
+  .description {
+    max-width: none;
+  }
+  .description p {
+    font-size: var(--text-base);
+  }
+  .collectionLinks {
+    margin-top: var(--space-6);
+  }
+}

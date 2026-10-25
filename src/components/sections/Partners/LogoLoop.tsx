@@ -16,12 +16,27 @@ export type LogoItem =
     }
   | {
       src: string;
+      darkSrc?: string;
+      lightSrc?: string;
       alt?: string;
       href?: string;
       title?: string;
       sizes?: string;
       width?: number;
       height?: number;
+      darkWidth?: number;
+      darkHeight?: number;
+      /** Visual correction for the dark source without changing its proportions. */
+      darkScale?: number;
+      lightWidth?: number;
+      lightHeight?: number;
+      /** Visual correction for the light source without changing its proportions. */
+      lightScale?: number;
+      /** Enlarges the item relative to the loop's base logo height. */
+      displayScale?: number;
+      /** Reserves a stable item width across theme changes. */
+      slotWidth?: number;
+      darkBlend?: "screen";
       hoverColor?: string;
       lowContrast?: "light" | "dark";
       outlineOnLight?: boolean;
@@ -29,7 +44,7 @@ export type LogoItem =
     };
 
 export interface LogoLoopProps {
-  logos?: LogoItem[];
+  logos: LogoItem[];
   speed?: number;
   direction?: "left" | "right" | "up" | "down";
   width?: number | string;
@@ -39,7 +54,6 @@ export interface LogoLoopProps {
   hoverSpeed?: number;
   fadeOut?: boolean;
   fadeOutWidth?: number;
-  fadeOutColor?: string;
   scaleOnHover?: boolean;
   layout?: "line" | "wave" | "arc" | "orbit";
   bend?: number;
@@ -186,41 +200,6 @@ interface EngineState {
   reduced: boolean;
   destroyed: boolean;
 }
-
-export const DEFAULT_LOGOS: LogoItem[] = [
-  { src: "/logos/normalized/APPLE.png", alt: "Apple", title: "Apple" },
-  { src: "/logos/normalized/ARISE RACING.png", alt: "Arise Racing", title: "Arise Racing" },
-  { src: "/logos/normalized/BANDAI NAMCO.png", alt: "Bandai Namco", title: "Bandai Namco" },
-  {
-    src: "/logos/normalized/BEAST PHILANTHROPY.png",
-    alt: "Beast Philanthropy",
-    title: "Beast Philanthropy",
-  },
-  { src: "/logos/normalized/BMW.png", alt: "BMW", title: "BMW" },
-  { src: "/logos/normalized/BUGATTI.png", alt: "Bugatti", title: "Bugatti" },
-  { src: "/logos/normalized/CAMPOS RACING.png", alt: "Campos Racing", title: "Campos Racing" },
-  {
-    src: "/logos/normalized/DANUBE PROPERTIES.png",
-    alt: "Danube Properties",
-    title: "Danube Properties",
-  },
-  { src: "/logos/normalized/HAGERTY.png", alt: "Hagerty", title: "Hagerty" },
-  { src: "/logos/normalized/LAMBORGHINI.png", alt: "Lamborghini", title: "Lamborghini" },
-  { src: "/logos/normalized/NETEASE GAMES.png", alt: "Netease Games", title: "Netease Games" },
-  { src: "/logos/normalized/NISSAN.png", alt: "Nissan", title: "Nissan" },
-  { src: "/logos/normalized/RENTALS.png", alt: "Rentals", title: "Rentals" },
-  { src: "/logos/normalized/ROLLS ROYCE.png", alt: "Rolls Royce", title: "Rolls Royce" },
-  { src: "/logos/normalized/THE TELEGRAPH.png", alt: "The Telegraph", title: "The Telegraph" },
-  { src: "/logos/normalized/VALUETAINMENT.png", alt: "Valuetainment", title: "Valuetainment" },
-  { src: "/logos/normalized/heraldsun.png", alt: "Herald Sun", title: "Herald Sun" },
-  { src: "/logos/normalized/news-be-on-it.png", alt: "News Be On It", title: "News Be On It" },
-  { src: "/logos/normalized/tesla.png", alt: "Tesla", title: "Tesla" },
-  {
-    src: "/logos/normalized/weeklytimesnow.png",
-    alt: "Weekly Times Now",
-    title: "Weekly Times Now",
-  },
-];
 
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -944,6 +923,7 @@ const createEngine = (
       const along = cfg.vertical ? y - d.y : x - d.x;
       const across = cfg.vertical ? x - d.x : y - d.y;
       if (!d.active) {
+        // Let tiny and cross-axis gestures pass through so touch users can still scroll the page.
         if (Math.abs(along) < DRAG_THRESHOLD) return wake();
         if (Math.abs(across) > Math.abs(along)) {
           st.drag = null;
@@ -1160,7 +1140,7 @@ const createEngine = (
 
 export const LogoLoop = memo<LogoLoopProps>(
   ({
-    logos = DEFAULT_LOGOS,
+    logos,
     speed = 120,
     direction = "left",
     width = "100%",
@@ -1267,11 +1247,61 @@ export const LogoLoop = memo<LogoLoopProps>(
               {logos.map((item, itemIndex) => {
                 const key = `${copyIndex}-${itemIndex}`;
                 const isNode = "node" in item;
+                const hasThemeVariants = "src" in item && Boolean(item.darkSrc || item.lightSrc);
+                const darkBlend = "src" in item ? item.darkBlend : undefined;
+                const imageItem = "src" in item ? item : undefined;
+                const slotWidth = imageItem?.slotWidth;
+                const displayScale = imageItem?.displayScale;
+                const itemStyle = {
+                  ...(item.hoverColor ? { "--logoloop-item-color": item.hoverColor } : {}),
+                  ...(slotWidth ? { "--logoloop-item-slot-width": `${slotWidth}px` } : {}),
+                  ...(displayScale ? { "--logoloop-item-scale": displayScale } : {}),
+                } as React.CSSProperties;
                 const visual = renderItem ? (
                   renderItem(item, key)
                 ) : isNode ? (
                   <span className="logoloop__node" aria-hidden={!!item.href && !item.ariaLabel}>
                     {item.node}
+                  </span>
+                ) : hasThemeVariants ? (
+                  // CSS swaps theme sources within one item to preserve loop geometry; missing variants use the base artwork.
+                  <span className="logoloop__theme-images">
+                    <Image
+                      unoptimized
+                      className="logoloop__theme-image--dark"
+                      src={item.darkSrc ?? item.src}
+                      sizes={item.sizes ?? "288px"}
+                      width={item.darkWidth ?? item.width}
+                      height={item.darkHeight ?? item.height}
+                      style={
+                        item.darkScale
+                          ? ({ "--logoloop-image-scale": item.darkScale } as React.CSSProperties)
+                          : undefined
+                      }
+                      alt={item.alt ?? ""}
+                      title={item.title}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                    />
+                    <Image
+                      unoptimized
+                      className="logoloop__theme-image--light"
+                      src={item.lightSrc ?? item.src}
+                      sizes={item.sizes ?? "288px"}
+                      width={item.lightWidth ?? item.width}
+                      height={item.lightHeight ?? item.height}
+                      style={
+                        item.lightScale
+                          ? ({ "--logoloop-image-scale": item.lightScale } as React.CSSProperties)
+                          : undefined
+                      }
+                      alt={item.alt ?? ""}
+                      title={item.title}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                    />
                   </span>
                 ) : (
                   <Image
@@ -1309,11 +1339,10 @@ export const LogoLoop = memo<LogoLoopProps>(
                     data-low-contrast={item.lowContrast}
                     data-outline-light={item.outlineOnLight ? "" : undefined}
                     data-outline-dark={item.outlineOnDark ? "" : undefined}
-                    style={
-                      item.hoverColor
-                        ? ({ "--logoloop-item-color": item.hoverColor } as React.CSSProperties)
-                        : undefined
-                    }
+                    data-theme-variant={hasThemeVariants ? "" : undefined}
+                    data-dark-blend={darkBlend}
+                    data-logo-slot={slotWidth ? "" : undefined}
+                    style={Object.keys(itemStyle).length ? itemStyle : undefined}
                   >
                     {item.href ? (
                       <a

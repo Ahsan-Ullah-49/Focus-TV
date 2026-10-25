@@ -106,11 +106,16 @@ button {
   hover and have a fine (mouse/trackpad) pointer.
   Touch/coarse-pointer devices are NOT affected by this block.
 */
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   html,
   html * {
     /* Replace the OS cursor with the FocusTV custom cursor system. */
     cursor: none !important;
+  }
+
+  /* Vimeo owns its controls inside a cross-origin frame, so keep its pointer native. */
+  html iframe[data-native-cursor] {
+    cursor: auto !important;
   }
 
   /*
@@ -132,5 +137,16 @@ button {
   html button,
   html [role="button"] {
     cursor: none !important;
+  }
+
+  /* Native dialogs occupy the browser top layer, above our custom cursor.
+     !important is required to override the existing cursor-hiding rules. */
+  html dialog[open],
+  html dialog[open] * {
+    cursor: auto !important;
+  }
+
+  html dialog[open] :is(button, a, [role="button"]) {
+    cursor: pointer !important;
   }
 }

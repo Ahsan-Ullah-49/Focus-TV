@@ -1,0 +1,237 @@
+.section {
+  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(5rem, 9vw, 9rem);
+  scroll-margin-top: var(--header-height);
+}
+
+.topline {
+  display: flex;
+  justify-content: flex-start;
+  gap: var(--space-4);
+  padding-bottom: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.topline span:first-child {
+  color: var(--color-brand);
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  align-items: end;
+  gap: var(--space-12);
+  padding-block: var(--space-4) var(--space-12);
+}
+
+.heading {
+  font-size: clamp(2.75rem, 5.8vw, 5.5rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.06em;
+}
+
+.heading em {
+  color: var(--color-brand);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.description {
+  max-width: 30ch;
+  justify-self: end;
+  padding-bottom: var(--space-2);
+  font-size: var(--text-base);
+  line-height: var(--line-height-relaxed);
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  column-gap: clamp(1.5rem, 3vw, 3rem);
+  row-gap: var(--space-12);
+}
+
+.project:nth-child(even) {
+  padding-top: var(--space-24);
+}
+
+.media {
+  display: block;
+  position: relative;
+  width: 100%;
+  /* Keep the local and Vimeo players at the source videos' 16:9 ratio. */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Frame corners distinguish an unpublished preview from a playable poster. */
+.placeholder::before,
+.placeholder::after {
+  content: "";
+  position: absolute;
+  width: var(--space-6);
+  height: var(--space-6);
+  border-color: var(--color-brand);
+  opacity: 0.7;
+}
+
+.placeholder::before {
+  top: var(--space-6);
+  left: var(--space-6);
+  border-top: 1px solid var(--color-brand);
+  border-left: 1px solid var(--color-brand);
+}
+
+.placeholder::after {
+  bottom: var(--space-6);
+  right: var(--space-6);
+  border-bottom: 1px solid var(--color-brand);
+  border-right: 1px solid var(--color-brand);
+}
+
+.frameLabel {
+  position: absolute;
+  inset-block-start: var(--space-8);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.subject {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 6.3vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.frameNumber {
+  position: absolute;
+  inset-block-end: var(--space-6);
+  inset-inline-start: var(--space-6);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+}
+
+.availability {
+  position: absolute;
+  inset-inline: var(--space-4);
+  inset-block-end: var(--space-8);
+  text-align: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.poster {
+  object-fit: cover;
+}
+.player {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Local-file preview affordance; Vimeo renders its own native play controls. */
+.play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  background: rgb(0 0 0 / 25%);
+  color: white;
+  font-size: var(--text-sm);
+}
+
+.playable {
+  transition: border-color var(--duration-normal);
+}
+.playable:hover {
+  border-color: var(--color-brand);
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  padding-block: var(--space-6);
+}
+
+.caption h3 {
+  font-size: clamp(1rem, 1.5vw, 1.375rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.index {
+  font-size: var(--text-xs);
+  color: var(--color-brand);
+}
+.format {
+  margin-left: auto;
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 767px) {
+  .intro {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding-bottom: var(--space-12);
+  }
+  .description {
+    max-width: 42ch;
+    justify-self: start;
+  }
+  .projects {
+    grid-template-columns: 1fr;
+  }
+  .project:nth-child(even) {
+    padding-top: 0;
+  }
+  .subject {
+    font-size: clamp(3.5rem, 13vw, 6rem);
+  }
+  .caption {
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+  }
+}
+
+@media (max-width: 359px) {
+  .topline {
+    font-size: 0.65rem;
+  }
+  .format {
+    display: none;
+  }
+  .frameLabel {
+    inset-block-start: var(--space-6);
+  }
+  .availability {
+    inset-block-end: var(--space-6);
+    font-size: 0.55rem;
+  }
+}

@@ -325,3 +325,67 @@ The official logo assets were provided and integrated during Header finalization
 **Impact:**
 
 Keep both theme variants available and use the existing Header theme selection when maintaining the logo.
+
+---
+
+## DEC-024 - Other Projects and Full Site Completion
+
+**Status:** Implemented for owner review with supplied Vimeo films (25 October 2026); Vimeo control choice superseded by DEC-030
+
+**Decision:** Preserve the approved homepage and append Other Projects after Partners & Media, followed by the shared footer. Use the owner-supplied Gaming Legends and WA Police Vimeo embeds. Load both players eagerly with `preload=auto`, start muted playback when each frame becomes visible, and pause offscreen. Retain Vimeo's native player controls and the centered Hero-style FocusTV sound toggle. An intentional pause blocks future scroll-triggered autoplay until refresh; native video clicks continue to toggle playback. Enable iframe pointer input and yield the custom cursor inside the cross-origin player. Remove Vimeo branding in the embed URL; Like and Watch Later visibility is configured per video in Vimeo's Embed Appearance settings. Reduce section top spacing, remove the secondary “FocusTV Films” label, and color the italic heading line with the brand token.
+
+**Impact:** `projects.config.ts` records the two Vimeo IDs and privacy hashes. `VimeoProjectPlayer.tsx` controls visibility-triggered muted autoplay, offscreen pause, manual-pause persistence until refresh, reduced-motion behavior and the external audio toggle through Vimeo's Player API. New confirmed projects can still be added as Vimeo or local-video sources. Automotive Legends remains outside this site's scope.
+
+## DEC-025 - Source Content and Shared Footer
+
+**Status:** Owner authorized
+
+**Decision:** Use https://focustv.tv/ for factual content and media. Keep protected local cast copy where it differs, omit legacy lorem ipsum and unconfirmed metrics, and record sources. FleetRise informs pacing/interaction; Bugatti and supplied images inform footer columns and large wordmark, within the FocusTV design system.
+
+**Impact:** Cast/crew details and media are local maintainable data/assets. The footer links all planned routes and verified social accounts. Content and credits still receive owner review before production publication.
+
+## DEC-026 - Route and Section Motion
+
+**Status:** Implemented for review
+
+**Decision:** Use a short App Router template entrance curtain and opt-in scoped GSAP/ScrollTrigger reveals. Keep normal Next navigation, history and native touch behavior. Use the existing Lenis instance with GSAP synchronization and reduced-motion teardown.
+
+**Impact:** No navigation interception or transformed page container; approved homepage motion remains intact. Footer reveals reset on route changes. Native dialogs restore the native pointer above the custom-cursor layer.
+
+## DEC-027 - Interim Contact Delivery
+
+**Status:** Interim implementation; production delivery pending
+
+**Decision:** In the absence of an approved sending service/credentials, provide a validated email-draft composer with explicit review-and-send instructions. Use the exact published recipient rather than guessing a FocusTV address.
+
+**Impact:** The website does not send/store messages or claim delivery. The staging-domain recipient must be confirmed and an inbox-tested sender configured before contact delivery is considered launch complete. Optional meeting fields request a preference rather than reserving a time.
+
+## DEC-028 - Partners & Media Logo Loop Finalization
+
+**Status:** Complete — owner-approved for current supplied assets (25 October 2026)
+
+**Decision:** Keep the 55 active partner logos and identify the section with the heading “Brands & organizations we’ve worked with.” Store all base and theme-specific files together in `public/media/Logos/LOGOS/`; select supplied Dark/Light artwork for matching entries. Preserve the approved left-moving, draggable loop and brand colors. Use fixed-width slots for NetEase, Nissan, PBD Podcast, Silent Hill 2 and Universal Music Group so changing themes does not move their loop positions. Keep Danube Group as one entry with its matched horizontal theme files.
+
+**Reason:** The owner supplied theme-specific logo artwork, approved the current section, and requested readable heading treatment, consistent logo sizing, and a clear description of the displayed relationships.
+
+**Impact:** Maintain canonical filenames, intrinsic dimensions, per-asset scale and slot widths in `src/components/sections/Partners/partners.config.ts`. The `Partners` section maps all 72 image files from `public/media/Logos/LOGOS/`; `LogoLoop` renders and sizes the active theme asset. Keep supplied art colors. PONG's and DICE's opaque black Dark canvases use screen blending against the dark surface. Optional future contrast replacements are tracked in `Docs/PROJECT_STATUS.md`.
+
+## DEC-029 - FocusTV Controls Over Vimeo Projects
+
+**Status:** Superseded by DEC-030
+
+**Decision:** Use FocusTV play/pause, seeking, time, fullscreen and centered sound controls for the Gaming Legends and WA Police films. Hide Vimeo's chrome and make the iframe passive to pointer input. A parent-document video-surface button toggles playback, allowing the animated FocusTV cursor to follow over the media. Preserve muted visibility-triggered autoplay, offscreen pause, reduced-motion behavior and the manual-pause lock until refresh. Style the progress indicator with the shared brand-gold token.
+
+**Reason:** The owner chose the site cursor over Vimeo's native control bar for this section. The Vimeo player is cross-origin and does not expose pointer coordinates to the host page, so its controls cannot be interactive while the host cursor tracks across the video.
+
+**Impact:** This implementation was superseded by DEC-030, which restores Vimeo's native controls. The current player and cursor behavior follow DEC-030.
+
+## DEC-030 - Native Vimeo Controls for Other Projects
+
+**Status:** Implemented — owner-selected (25 October 2026)
+
+**Decision:** Use Vimeo's native controls and timeline for the Gaming Legends and WA Police films, with the FocusTV gold accent. Hide Vimeo's logo, title and byline through supported embed options. Keep Vimeo iframe pointer input enabled; show the browser pointer inside the cross-origin player and hide the animated FocusTV cursor there. Resume the FocusTV cursor on the host page. Preserve muted visibility-triggered autoplay, offscreen pause, reduced-motion behavior and the manual-pause lock until refresh.
+
+**Reason:** The owner chose Vimeo's controls after the parent-page seek bar did not work as expected. A cross-origin Vimeo frame does not forward pointer coordinates to the host page, so Vimeo controls and the animated host cursor cannot both track the pointer inside the frame.
+
+**Impact:** `VimeoProjectPlayer.tsx` keeps the Vimeo player interactive and configures its native control color. `CustomCursor.tsx` hides the animated cursor over media zones marked with `data-native-cursor-zone`; global cursor styles restore the browser cursor on the Vimeo iframe marked with `data-native-cursor`. Vimeo account settings may override logo/color parameters, and Like/Watch Later visibility remains configurable in the video embed settings.

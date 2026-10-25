@@ -65,12 +65,13 @@ Read these files before major development work:
 - `Docs/PROJECT_STATUS.md` - Current progress
 - `Docs/DECISIONS.md` - Important project decisions
 - `CHANGELOG.md` - Project change history
+- `Docs/CONTENT_SOURCES.md` - Migrated content, video IDs, pending assets and maintenance
 
 AI coding tools must read `AGENTS.md` before modifying the repository.
 
 ---
 
-## Planned Pages
+## Implemented Pages
 
 - Home
 - About / The Answer
@@ -110,7 +111,7 @@ Revision
 Done
 ```
 
-Do not generate or redesign the entire site in one step.
+The 23–25 October owner request authorized completion of all remaining planned pages together for review. Earlier approved homepage work stays protected.
 
 ---
 
@@ -154,9 +155,32 @@ Do not generate or redesign the entire site in one step.
 - **Portraits**: `public/media/Stills/optimized/1.webp` through `14.webp` are the optimized square versions. Keep their paths and alt text synchronized when replacing images.
 - **Layout/motion**: Desktop uses a GSAP/ScrollTrigger layered portrait deck and a sticky editorial introduction. At widths up to 1099px, portrait cards are square and stacked one per row, with the CTA centered after the list. Reduced motion uses a static grid (one column at tablet/mobile sizes).
 - **Theme/interaction**: Card surfaces use shared theme tokens; the approved portrait treatment and hover zoom remain scoped to fine-pointer users who have not requested reduced motion.
-- **Maintenance**: Update member copy, order, image paths, and alt text in `cast.config.ts`; keep `id` values unique. The CTA links to `/cast`, which is still a placeholder.
+- **Maintenance**: Update member copy, order, image paths, and alt text in `cast.config.ts`; keep `id` values unique. The CTA links to the completed `/cast` directory.
 
 Shared design tokens are in `src/styles/tokens.css`; the CTA reuses `src/components/ui/Button/Button.tsx`.
+
+### 5. Partners, Other Projects and Footer
+
+- The homepage continues with the draggable 55-logo loop headed “Brands & organizations we’ve worked with,” then `src/components/sections/Projects/`, then the shared `Footer` from the root layout. Partner entries and theme-specific sizing live in `src/components/sections/Partners/partners.config.ts`; all base and supplied theme artwork lives together in `public/media/Logos/LOGOS/`.
+- The Gaming Legends and WA Police Vimeo films are configured in `projects.config.ts`. Their eager embeds preload initial segments, start muted when scrolled into view, and pause offscreen. Vimeo's native timeline and player controls use the FocusTV gold accent; its logo, title and byline are hidden where the Vimeo account settings allow. The browser pointer is visible inside each interactive Vimeo frame, while the animated FocusTV cursor hides there and resumes outside it. A manual pause blocks scroll-triggered autoplay until refresh. Add only further client-confirmed project entries.
+- Footer navigation includes every planned route, a meeting link, verified Instagram accounts, theme-aware official logo and large wordmark. Copy and links live in `src/components/layout/Footer/Footer.tsx`.
+
+Unused duplicate logo sources and cast SVGs were removed on 25 October at the owner's request. The 55 canonical partner assets and their 17 supplied theme variants live in `public/media/Logos/LOGOS/`; filenames use readable brand/theme slugs. Update the matching record in `partners.config.ts` when replacing an asset, including its intrinsic dimensions and any fixed slot settings. Homepage cast images are in `public/media/Stills/optimized/`. Other media folders and their counts are listed in `Docs/CONTENT_SOURCES.md`; the site icon is `src/app/icon.png`.
+
+### 6. Remaining Routes
+
+- `/the-answer`: series narrative, existing film preview and selected cast.
+- `/cast`: 28 entries from the protected 14 plus 14 migrated entries; category filtering and profile dialog. Data: `src/components/pages/CastDirectory/cast-directory.data.ts`.
+- `/crew`: seven profiles and Sandbox production-company section, with local optimized portraits.
+- `/gallery`: six verified films and six approved interview stills. Data: `src/components/pages/Gallery/gallery.data.ts`. Shared `MediaDialog` handles explicit playback, image viewing, keyboard navigation and closing.
+- `/the-answer-ai`: intentional Coming Soon teaser, without invented capabilities or dates.
+- `/contact`: validated email-draft composer. `/contact?enquiry=meeting` preselects meeting preferences. Confirm `CONTACT_EMAIL` in `contact.config.ts` before launch; no server mail delivery is configured or claimed.
+
+### 7. Motion and Navigation
+
+`src/app/template.tsx` mounts `PageMotion` for a short route entrance and section-specific `data-reveal="rise|mask|stagger|line"` effects. Mark stagger targets with `data-reveal-child`. Footer uses its own wrapper without a route curtain. All effects clean up and respect reduced motion; approved homepage GSAP scenes remain independent. Lenis uses one GSAP-synchronized instance and stops for dialogs/mobile navigation.
+
+All planned routes have canonical metadata and sitemap entries. Legacy `/meet-the-cast` and `/contact-us` redirect to their new counterparts. Production launch still needs a full old-URL and hosting review.
 
 ---
 
@@ -252,9 +276,7 @@ Existing FocusTV email/DNS records must be preserved during launch.
 
 ## Content
 
-Some approved text may be migrated from the previous website.
-
-Media will primarily come from original available assets.
+The owner authorized factual content and media from the previous https://focustv.tv/ website. Local approved assets take priority; detailed source records and pending confirmations are in `Docs/CONTENT_SOURCES.md`.
 
 Content may be professionally rewritten, but important factual changes require approval.
 
