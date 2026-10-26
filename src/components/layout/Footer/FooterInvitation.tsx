@@ -72,13 +72,18 @@ export function FooterInvitation() {
   }, []);
 
   return (
-    <div ref={areaRef} className={styles.invitation} data-reveal="stagger">
-      <h2 data-reveal-child>
+    <div
+      ref={areaRef}
+      className={styles.invitation}
+      data-reveal-group="fade-up"
+      data-reveal-stagger="0.07"
+    >
+      <h2>
         Every story starts
         <br />
         with <em>a conversation.</em>
       </h2>
-      <div className={styles.contactGroup} data-reveal-child>
+      <div className={styles.contactGroup}>
         <Link href="/contact" className={styles.contactText} data-cursor="interactive">
           Let’s talk
         </Link>

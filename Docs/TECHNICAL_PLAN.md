@@ -303,10 +303,8 @@ Suggested responsibilities:
 
 ```text
 components/motion/
-├── SmoothScrollProvider.tsx
-├── Reveal.tsx
-├── ParallaxMedia.tsx
-└── useReducedMotion.ts
+├── PageMotion.tsx
+└── scrollReveal.ts
 ```
 
 Not every animation must become a reusable component.
@@ -320,6 +318,15 @@ Not every animation must become a reusable component.
 - Avoid scroll-jacking
 - Test mobile performance
 - Use reduced-motion fallback
+
+### Shared Section Reveals
+
+- `PageMotion` scopes GSAP and ScrollTrigger to the main route content; the shared Footer mounts a separate instance.
+- Add `data-reveal` for one element or `data-reveal-group` for a wrapper's direct children. Supported variants are `fade-up`, `fade-down`, `fade-left`, `fade-right`, `zoom-in`, `zoom-out`, and `soft`.
+- `data-reveal-delay`, `data-reveal-duration`, and `data-reveal-stagger` values are seconds. The default reveal duration is 0.68 seconds; group stagger is capped at 0.28 seconds total.
+- Reveals start at `top 86%`, play once, and use `fastScrollEnd` so a quick scroll does not leave content hidden. Reduced-motion users receive the final visible state.
+- `.reveal-on-scroll` remains an IntersectionObserver fallback for small legacy elements. Keep the desktop Cast card deck as its own scoped, scroll-linked interaction.
+- `PageMotion` refreshes trigger positions after route changes, image loads, font readiness, and root resizing. It does not add a route-cover transition.
 
 ### Lenis Rules
 
@@ -677,13 +684,14 @@ A task is technically done when:
 ## 26. Completed Page Architecture (26 October 2026)
 
 - Routes: `/`, `/cast`, `/crew`, `/gallery`, `/the-answer-ai`, `/contact`. The Answer series story remains on the homepage, with no standalone `/the-answer` route.
-- `src/app/template.tsx` mounts `PageMotion` for route entrance and scoped ScrollTrigger reveals. Attributes opt into rise, mask, stagger and horizontal line reveals. `data-reveal-child` marks stagger targets. GSAP matchMedia reverts effects on reduced-motion changes; ResizeObserver, image loading and fonts refresh trigger positions.
-- The shared footer mounts its own `PageMotion transition={false}` and refreshes on pathname changes. The page wrapper is never transformed, preserving the approved homepage sticky/deck behavior.
+- `src/app/layout.tsx` wraps `<main>` in `PageMotion`; `src/app/template.tsx` is a pass-through. `src/components/motion/scrollReveal.ts` implements the shared directional, blur and zoom variants, grouped direct-child stagger, reduced-motion final state, and fast-scroll completion. The wrapper refreshes triggers after pathname changes, image loads, font readiness and root resizing.
+- The shared footer mounts its own `PageMotion` so its reveal targets remain scoped. There is no route-cover transition. The page wrapper is never animated, preserving the approved homepage sticky/deck behavior.
 - Footer logo, navigation, and contact layout are documented in `Footer.tsx` and its CSS Module. Reuse the Header's desktop logo asset for both themes; the footer's client-approved external/contact destinations are Instagram and email only. The invitation remains a row at tablet/mobile widths, with its label below the arrow, and the wordmark's trailing padding tracks the font size to balance its visible glyph edges.
 - One Lenis instance uses the GSAP ticker, updates ScrollTrigger, leaves touch native and pauses when dialogs/mobile menu lock the body. Native dialogs restore a native cursor because they render above the custom cursor.
 - Cast data extends the approved homepage roster without modifying it. Client components handle category filtering and a native modal dialog.
 - Gallery uses local WebP posters, lazy images and native dialog media viewers. Vimeo iframes are created on explicit play; closing removes the iframe. The homepage retains The Answer story and existing approved hero film preview.
-- `projects.config.ts` stores the supplied Gaming Legends and WA Police Vimeo IDs/hashes. `VimeoProjectPlayer.tsx` eagerly loads each iframe and preloads initial segments, starts muted playback when its frame intersects the viewport, pauses it offscreen, and skips automatic playback for reduced-motion users. The Vimeo iframe stays interactive and uses Vimeo's native controls with the FocusTV gold accent. The browser pointer is shown over the cross-origin frame while the animated FocusTV cursor is hidden there. An in-view manual pause persists until refresh. Supported Vimeo branding/title settings are disabled; local-file video support remains available for later approved projects.
+- `HeroPlayer.tsx` keeps its Vimeo iframe eager and preconnects to Vimeo. A ping/readiness handshake prevents its controls from sending commands before the player responds.
+- `projects.config.ts` stores the supplied Gaming Legends and WA Police Vimeo IDs/hashes. `VimeoProjectPlayer.tsx` uses browser-lazy iframes, starts muted playback when a frame intersects the viewport, pauses it offscreen, and skips automatic playback for reduced-motion users. The Vimeo iframe stays interactive and uses Vimeo's native controls with the FocusTV gold accent. The browser pointer is shown over the cross-origin frame while the animated FocusTV cursor is hidden there. An in-view manual pause persists until refresh. Supported Vimeo branding/title settings are disabled; local-file video support remains available for later approved projects.
 - Shared metadata includes the existing film poster as a social image; every active route has a canonical URL. The sitemap contains the six active routes. Preview indexing is disabled consistently by metadata and robots.
 - `next.config.ts` preserves `/meet-the-cast` → `/cast` and `/contact-us` → `/contact`. A complete legacy URL/search-console audit remains part of launch preparation.
 - The root HTML declares `data-scroll-behavior="smooth"`, allowing Next to suspend CSS smooth scrolling during route changes. This prevents navigation from the footer retaining the previous scroll position while leaving browser-back restoration under Next's control.

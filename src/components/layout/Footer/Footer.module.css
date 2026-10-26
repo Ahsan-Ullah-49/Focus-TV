@@ -103,8 +103,7 @@
 .contactText:focus-visible,
 .navigation a:focus-visible,
 .contactAction:focus-visible,
-.socialLink:focus-visible,
-.emailLink:focus-visible {
+.socialLink:focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 5px;
 }
@@ -171,25 +170,6 @@
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.15;
-}
-
-.emailLink {
-  display: inline-block;
-  margin-bottom: var(--space-5);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  /* Underline sits slightly below the baseline for visual breathing room */
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--color-text) 30%, transparent);
-  text-underline-offset: 3px;
-  transition:
-    color var(--duration-normal) var(--ease-out),
-    text-decoration-color var(--duration-normal) var(--ease-out);
-}
-
-.emailLink:hover {
-  color: var(--color-brand);
-  text-decoration-color: var(--color-brand);
 }
 
 .navigation ul {
@@ -340,6 +320,8 @@
 .wordmark {
   width: 100%;
   box-sizing: border-box;
+  /* This oversized decorative layer must not intercept the footer links above it. */
+  pointer-events: none;
   padding-inline-start: clamp(0.75rem, 1.5vw, 1rem);
   /* The F and V have uneven visible edges; reserve extra right space to center the wordmark optically. */
   padding-inline-end: calc(clamp(0.75rem, 1.5vw, 1rem) + 0.17em);
@@ -532,8 +514,7 @@
   .contactAction,
   .contactAction::before,
   .actionArrow,
-  .socialLink,
-  .emailLink {
+  .socialLink {
     transition: none;
   }
 

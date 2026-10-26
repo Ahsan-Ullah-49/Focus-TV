@@ -1,9 +1,4 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Intro.module.css";
 
 type StorySegment = {
@@ -71,92 +66,26 @@ function RichParagraph({ segments }: { segments: StorySegment[] }) {
 }
 
 export function Intro() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-
-    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const context = gsap.context(() => {
-      const heading = section.querySelector<HTMLElement>("[data-story-reveal='heading']");
-      const detail = section.querySelector<HTMLElement>("[data-story-reveal='detail']");
-      const image = section.querySelector<HTMLElement>("[data-story-reveal='image']");
-
-      if (heading) {
-        gsap.from(heading, {
-          y: 24,
-          autoAlpha: 0,
-          duration: 0.85,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 74%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-
-      if (detail) {
-        gsap.from(detail, {
-          y: 18,
-          autoAlpha: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: detail,
-            start: "top 86%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-
-      if (image) {
-        gsap.from(image, {
-          clipPath: "inset(0 0 100% 0)",
-          duration: 1.1,
-          ease: "power3.inOut",
-          scrollTrigger: {
-            trigger: image,
-            start: "top 82%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-    }, section);
-
-    return () => context.revert();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className={styles.story}
-      id="the-story"
-      aria-labelledby="story-heading"
-    >
+    <section className={styles.story} id="the-story" aria-labelledby="story-heading">
       <div className={styles.inner}>
-        <div className={styles.sectionEyebrow}>
+        <div className={styles.sectionEyebrow} data-reveal="fade-down">
           <span className={styles.eyebrowLabel}>The Story</span>
           <span className={styles.eyebrowRule} aria-hidden="true" />
           <span className={styles.brandLabel}>FocusTV</span>
         </div>
 
-        <div className={styles.headingRegion} data-story-reveal="heading">
+        <div
+          className={styles.headingRegion}
+          data-reveal-group="fade-up"
+          data-reveal-stagger="0.08"
+        >
           <h2 id="story-heading" className={styles.heading}>
             <span className={styles.headingLine1}>{STORY.headingLine1}</span>
             <em className={styles.headingLine2}>{STORY.headingLine2}</em>
           </h2>
 
-          <aside
-            className={styles.storyDetails}
-            data-story-reveal="detail"
-            aria-label="Series details"
-          >
+          <aside className={styles.storyDetails} aria-label="Series details">
             <div className={styles.seriesFact}>
               <span className={styles.seriesNumber}>Six</span>
               <span className={styles.seriesLabel}>parts of a documentary series</span>
@@ -169,7 +98,7 @@ export function Intro() {
         </div>
 
         <div className={styles.contentGrid}>
-          <figure className={styles.imagePanel} data-story-reveal="image">
+          <figure className={styles.imagePanel} data-reveal="fade-right">
             <Image
               src={STORY.imageSrc}
               alt={STORY.imageAlt}
@@ -180,13 +109,17 @@ export function Intro() {
           </figure>
 
           <div className={styles.storyContent}>
-            <div className={styles.narrative}>
+            <div
+              className={styles.narrative}
+              data-reveal-group="fade-left"
+              data-reveal-stagger="0.08"
+            >
               {STORY.paragraphs.map((paragraph, index) => (
                 <RichParagraph key={index} segments={paragraph.segments} />
               ))}
             </div>
 
-            <blockquote className={styles.pullQuote}>
+            <blockquote className={styles.pullQuote} data-reveal="fade-up">
               <span className={styles.pullAccentLine} aria-hidden="true" />
               <p className={styles.pullText}>{STORY.pullQuote}</p>
             </blockquote>

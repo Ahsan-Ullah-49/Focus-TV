@@ -330,7 +330,7 @@ Keep both theme variants available and use the existing Header theme selection w
 
 ## DEC-024 - Other Projects and Full Site Completion
 
-**Status:** Implemented for owner review with supplied Vimeo films (25 October 2026); Vimeo control choice superseded by DEC-030
+**Status:** Implemented for owner review with supplied Vimeo films (25 October 2026); control choice superseded by DEC-030 and iframe loading by DEC-034
 
 **Decision:** Preserve the approved homepage and append Other Projects after Partners & Media, followed by the shared footer. Use the owner-supplied Gaming Legends and WA Police Vimeo embeds. Load both players eagerly with `preload=auto`, start muted playback when each frame becomes visible, and pause offscreen. Retain Vimeo's native player controls and the centered Hero-style FocusTV sound toggle. An intentional pause blocks future scroll-triggered autoplay until refresh; native video clicks continue to toggle playback. Enable iframe pointer input and yield the custom cursor inside the cross-origin player. Remove Vimeo branding in the embed URL; Like and Watch Later visibility is configured per video in Vimeo's Embed Appearance settings. Reduce section top spacing, remove the secondary “FocusTV Films” label, and color the italic heading line with the brand token.
 
@@ -346,7 +346,7 @@ Keep both theme variants available and use the existing Header theme selection w
 
 ## DEC-026 - Route and Section Motion
 
-**Status:** Implemented for review
+**Status:** Superseded by DEC-033
 
 **Decision:** Use a short App Router template entrance curtain and opt-in scoped GSAP/ScrollTrigger reveals. Keep normal Next navigation, history and native touch behavior. Use the existing Lenis instance with GSAP synchronization and reduced-motion teardown.
 
@@ -409,3 +409,21 @@ Keep both theme variants available and use the existing Header theme selection w
 **Reason:** The client confirmed the footer destinations and responsive composition after reviewing the completed homepage.
 
 **Impact:** Maintain these links and layout in `src/components/layout/Footer/`. Do not restore Facebook or YouTube footer icons unless the client requests them.
+
+## DEC-033 - Shared Reference-Style Section Reveals
+
+**Status:** Implemented — owner-directed (26 October 2026)
+
+**Decision:** Use one scoped GSAP/ScrollTrigger reveal system across the homepage, active route pages, and footer. Support `fade-up`, `fade-down`, `fade-left`, `fade-right`, `zoom-in`, `zoom-out`, and `soft` variants, plus direct-child groups with stagger. Start reveals near the viewport, play them once, and finish them on fast scroll. Resolve all reveals to their visible state for reduced-motion preferences. Do not add a route-cover transition.
+
+**Reason:** The owner selected the section-reveal behavior from a provided reference project and asked for the prior reveal treatment to be replaced consistently across the site.
+
+**Impact:** `PageMotion` scopes reveal setup and cleanup; `scrollReveal.ts` owns shared variants, group timing, reduced-motion handling, and the simple IntersectionObserver fallback. The desktop Cast card deck remains a separate scroll-linked interaction. No new dependency is required.
+
+## DEC-034 - Lazy Loading for Other Projects Vimeo Players
+
+**Status:** Implemented — current behavior (26 October 2026)
+
+**Decision:** Use browser-lazy loading for the Gaming Legends and WA Police Vimeo iframes. Start muted playback when a frame is visible, pause it offscreen, and respect reduced-motion preferences. Do not send player commands before Vimeo reports readiness.
+
+**Impact:** `VimeoProjectPlayer.tsx` owns readiness-guarded playback and the `loading="lazy"` iframe. The Hero Vimeo iframe remains eager and preconnects to Vimeo so its initial presentation is not deferred.

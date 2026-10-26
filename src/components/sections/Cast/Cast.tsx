@@ -76,66 +76,11 @@ export function Cast() {
 
     const ctx = gsap.context(() => {
       const cards = Array.from(cardList.querySelectorAll<HTMLElement>("[data-cast-card]"));
-      const headingLines = Array.from(
-        section.querySelectorAll<HTMLElement>("[data-cast-heading-line]")
-      );
-      const topRule = section.querySelector<HTMLElement>("[data-cast-rule]");
-      const description = section.querySelector<HTMLElement>("[data-cast-description]");
-      const responsiveLayout = window.matchMedia("(max-width: 1099px)").matches;
-      const exploreButton = responsiveLayout
-        ? null
-        : section.querySelector<HTMLElement>(`.${styles.exploreButtonDesktop}`);
       const desktopDeck = window.matchMedia(
         "(min-width: 1100px) and (prefers-reduced-motion: no-preference)"
       ).matches;
 
-      const introductionReveal = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 72%",
-          toggleActions: "play none none none",
-        },
-      });
-
-      if (topRule) {
-        introductionReveal.from(topRule, {
-          scaleX: 0,
-          transformOrigin: "left center",
-          duration: 0.9,
-          ease: "power2.out",
-        });
-      }
-
-      if (headingLines.length > 0) {
-        introductionReveal.from(
-          headingLines,
-          {
-            yPercent: 28,
-            autoAlpha: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: "power3.out",
-          },
-          "-=0.55"
-        );
-      }
-
-      if (description) {
-        introductionReveal.from(
-          description,
-          { y: 20, autoAlpha: 0, duration: 0.65, ease: "power3.out" },
-          "-=0.38"
-        );
-      }
-
-      if (exploreButton) {
-        introductionReveal.from(
-          exploreButton,
-          { y: 14, autoAlpha: 0, duration: 0.55, ease: "power3.out" },
-          "-=0.32"
-        );
-      }
-
+      // Keep the desktop deck's scroll-linked card sequence separate from its shared entrance reveal.
       if (desktopDeck) {
         gsap.set(cards, {
           y: 0,
@@ -151,7 +96,7 @@ export function Cast() {
             trigger: track,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.65,
+            scrub: 0.25,
             invalidateOnRefresh: true,
           },
         });
@@ -212,25 +157,6 @@ export function Cast() {
             0
           );
         }
-      } else {
-        cards.forEach((card) => {
-          gsap.fromTo(
-            card,
-            { y: 36, autoAlpha: 0 },
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: 0.7,
-              ease: "power3.out",
-              clearProps: "transform,opacity,visibility",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 88%",
-                toggleActions: "play none none none",
-              },
-            }
-          );
-        });
       }
     }, section);
 
@@ -244,14 +170,18 @@ export function Cast() {
       id="meet-the-cast"
       aria-labelledby="cast-heading"
     >
-      <div className={styles.topRule} data-cast-rule aria-hidden="true" />
+      <div className={styles.topRule} data-reveal="fade-right" aria-hidden="true" />
       <div ref={trackRef} className={styles.storyTrack}>
-        <header className={styles.introduction}>
+        <header
+          className={styles.introduction}
+          data-reveal-group="fade-up"
+          data-reveal-stagger="0.08"
+        >
           <h2 id="cast-heading" className={styles.heading} aria-label="Our Proud Cast">
-            <span data-cast-heading-line>Our Proud</span>
-            <em data-cast-heading-line>Cast</em>
+            <span>Our Proud</span>
+            <em>Cast</em>
           </h2>
-          <p className={styles.description} data-cast-description>
+          <p className={styles.description}>
             From technology and automotive design to gaming, entrepreneurship and creative culture,
             these voices bring different worlds into one conversation.
           </p>
@@ -259,7 +189,7 @@ export function Cast() {
         </header>
 
         <div className={styles.deckColumn}>
-          <div className={styles.deckStage}>
+          <div className={styles.deckStage} data-reveal="fade-up">
             <ol ref={cardsRef} className={styles.cards} aria-label="Selected FocusTV cast">
               {CAST.map((member) => (
                 <CastCard key={member.id} member={member} />

@@ -36,7 +36,7 @@ export function CastDirectory() {
 
   return (
     <section aria-label="Explore the cast">
-      <div className={styles.directoryBar} data-reveal="rise">
+      <div className={styles.directoryBar} data-reveal="fade-down">
         <div className={styles.filters} role="group" aria-label="Filter cast by field">
           {CAST_CATEGORIES.map((filter) => (
             <button
@@ -53,7 +53,12 @@ export function CastDirectory() {
           {String(visible.length).padStart(2, "0")} <span>voices</span>
         </p>
       </div>
-      <div className={styles.grid} key={category}>
+      <div
+        className={styles.grid}
+        key={category}
+        data-reveal-group="fade-up"
+        data-reveal-stagger="0.035"
+      >
         {visible.map((member, index) => (
           <article
             key={member.id}

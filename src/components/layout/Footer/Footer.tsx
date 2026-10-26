@@ -90,13 +90,13 @@ function SocialIcon({ platform }: { platform: SocialPlatform }) {
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <PageMotion transition={false}>
+      <PageMotion>
         <Container>
           <FooterInvitation />
         </Container>
         <Container>
-          <div className={styles.columns} data-reveal="stagger">
-            <div className={styles.brand} data-reveal-child>
+          <div className={styles.columns} data-reveal-group="fade-up" data-reveal-stagger="0.07">
+            <div className={styles.brand}>
               <Link href="/" aria-label="FocusTV home" className={styles.brandLink}>
                 <Image
                   src={logo}
@@ -126,7 +126,7 @@ export function Footer() {
                 ))}
               </nav>
             </div>
-            <nav className={styles.navigation} aria-label="Footer navigation" data-reveal-child>
+            <nav className={styles.navigation} aria-label="Footer navigation">
               <h3>Explore</h3>
               <ul>
                 {explore.map((link) => (
@@ -136,19 +136,8 @@ export function Footer() {
                 ))}
               </ul>
             </nav>
-            <section
-              className={styles.connect}
-              aria-labelledby="footer-contact-heading"
-              data-reveal-child
-            >
+            <section className={styles.connect} aria-labelledby="footer-contact-heading">
               <h3 id="footer-contact-heading">Get in touch</h3>
-              <a
-                href="mailto:hammad@focustv.tv"
-                className={styles.emailLink}
-                data-cursor="interactive"
-              >
-                hammad@focustv.tv
-              </a>
               <div className={styles.contactActions}>
                 <Link
                   href="/contact"
@@ -172,7 +161,7 @@ export function Footer() {
             </section>
           </div>
         </Container>
-        <div className={styles.wordmark} aria-hidden="true" data-reveal="mask">
+        <div className={styles.wordmark} aria-hidden="true" data-reveal="zoom-in">
           FOCUS<span>TV</span>
         </div>
         <Container>

@@ -15,18 +15,18 @@ export default function ContactPage() {
   return (
     <div className={styles.page}>
       <header className={styles.intro}>
-        <div className={styles.eyebrow} data-reveal="rise">
+        <div className={styles.eyebrow} data-reveal="fade-down">
           <span>Get in touch</span>
           <span>FocusTV</span>
         </div>
-        <h1 className={styles.title} data-reveal="stagger">
-          <span data-reveal-child>Great stories begin</span>
-          <em data-reveal-child>with a conversation.</em>
+        <h1 className={styles.title} data-reveal-group="fade-up">
+          <span>Great stories begin</span>
+          <em>with a conversation.</em>
         </h1>
       </header>
-      <div className={styles.rule} data-reveal="line" aria-hidden="true" />
+      <div className={styles.rule} data-reveal="fade-right" aria-hidden="true" />
       <div className={styles.layout}>
-        <aside className={styles.details} aria-label="Connect with FocusTV" data-reveal="rise">
+        <aside className={styles.details} aria-label="Connect with FocusTV" data-reveal="fade-left">
           <p className={styles.lead}>
             For partnerships, productions and the people with a story to tell.
           </p>
@@ -55,7 +55,7 @@ export default function ContactPage() {
             </ul>
           </div>
         </aside>
-        <div className={styles.formPanel} data-reveal="rise">
+        <div className={styles.formPanel} data-reveal="fade-right">
           <Suspense
             fallback={
               <p className={styles.formPlaceholder} role="status">

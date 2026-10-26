@@ -6,6 +6,7 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { Header } from "@/components/layout/Header/Header";
 import { CustomCursor } from "@/components/ui/CustomCursor/CustomCursor";
 import { Footer } from "@/components/layout/Footer/Footer";
+import { PageMotion } from "@/components/motion/PageMotion";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -76,12 +77,14 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body id="top">
+      <body id="top" suppressHydrationWarning>
         <ThemeProvider>
           <SmoothScrollProvider>
             <CustomCursor />
             <Header />
-            <main>{children}</main>
+            <PageMotion>
+              <main>{children}</main>
+            </PageMotion>
             <Footer />
           </SmoothScrollProvider>
         </ThemeProvider>

@@ -1,15 +1,25 @@
-.curtain {
-  position: fixed;
-  inset: 0;
-  z-index: calc(var(--z-header) - 1);
-  visibility: hidden;
-  pointer-events: none;
-  background: var(--color-bg);
-  will-change: clip-path;
+.motionRoot :global(.reveal-on-scroll),
+.motionRoot :global(.reveal) {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s ease;
+  will-change: opacity, transform;
+}
+
+.motionRoot :global(.reveal-on-scroll.visible),
+.motionRoot :global(.reveal.visible) {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .curtain {
-    display: none;
+  .motionRoot :global(.reveal-on-scroll),
+  .motionRoot :global(.reveal) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
   }
 }

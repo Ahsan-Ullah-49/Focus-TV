@@ -398,7 +398,7 @@ Motion may include:
 
 Do not repeat one animation pattern mechanically throughout the site.
 
-The owner requests smooth page changes and a reveal treatment for every major section. Use a short route entrance curtain and varied scoped text, image-mask, stagger and rule reveals; preserve the existing Hero/Story/Cast motion. Reduced-motion users receive the static equivalent. Motion must not intercept normal links, browser history or keyboard navigation.
+The owner requests smooth scrolling and a reveal treatment across the major sections. Use the shared, scoped GSAP/ScrollTrigger system with directional fades, blur/zoom and grouped staggers, following the owner-provided reference. Reveals should start near the viewport, play once and complete during fast scrolling; reduced-motion users receive the final visible state. Do not use a route-cover curtain. Keep the desktop Cast card deck as its separate scroll-linked interaction. Motion must not intercept normal links, browser history or keyboard navigation. This owner-directed update supersedes the earlier route-curtain and per-section motion treatment.
 
 ---
 

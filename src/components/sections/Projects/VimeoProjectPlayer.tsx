@@ -152,7 +152,9 @@ export function VimeoProjectPlayer({ title, video }: { title: string; video: Vim
       window.removeEventListener("message", handleMessage);
       reducedMotion.removeEventListener("change", handleMotionChange);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      postVimeoCommand(iframe, "pause");
+      if (playerReadyRef.current) {
+        postVimeoCommand(iframe, "pause");
+      }
     };
   }, [video.id]);
 
@@ -162,10 +164,10 @@ export function VimeoProjectPlayer({ title, video }: { title: string; video: Vim
         ref={iframeRef}
         className={styles.player}
         src={buildVimeoEmbedUrl(video, `project-${video.id}`)}
+        loading="lazy"
         title={`${title} documentary`}
         width="640"
         height="360"
-        loading="eager"
         referrerPolicy="strict-origin-when-cross-origin"
         allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
         allowFullScreen

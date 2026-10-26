@@ -7,23 +7,23 @@ export function Projects() {
   return (
     <section className={styles.section} id="other-projects" aria-labelledby="projects-heading">
       <Container>
-        <div className={styles.topline} data-reveal="line">
+        <div className={styles.topline} data-reveal="fade-right">
           <span>Other projects</span>
         </div>
-        <div className={styles.intro} data-reveal="stagger">
-          <h2 id="projects-heading" className={styles.heading} data-reveal-child>
+        <div className={styles.intro} data-reveal-group="fade-up" data-reveal-stagger="0.07">
+          <h2 id="projects-heading" className={styles.heading}>
             There’s more
             <br />
             <em>to the story.</em>
           </h2>
-          <p className={styles.description} data-reveal-child>
+          <p className={styles.description}>
             Explore more of our documentary work, from Gaming Legends to WA Police. More stories to
             share, more worlds to discover.
           </p>
         </div>
         <div className={styles.projects}>
           {STUDIO_PROJECTS.map((project, index) => (
-            <article className={styles.project} key={project.id} data-reveal="mask">
+            <article className={styles.project} key={project.id} data-reveal="zoom-in">
               <ProjectMedia project={project} index={index} />
               <div className={styles.caption}>
                 <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>

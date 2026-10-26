@@ -396,14 +396,14 @@ Every section must have a clear role. No filler sections.
 `src/app/page.tsx` renders Hero → The Story → Our Proud Cast → Partners & Media → Other Projects. The shared Footer follows the page. This owner-confirmed sequence supersedes the earlier proposed narrative; do not add filler sections to match that proposal.
 
 - **Hero:** `src/components/sections/Hero/` contains the responsive Vimeo iframe player, direct postMessage controls, and a local poster at `public/media/hero/focustv-Hero-poster.png`. Video ID, privacy hash, playback settings, and poster path are maintained in `hero.config.ts`. The player supports a keyboard-operable full-surface play/pause control and a mute toggle.
-- **The Story:** `src/components/sections/Intro/Intro.tsx` owns the approved copy in `STORY`; `Intro.module.css` owns its responsive editorial layout. The image is `public/media/hero/focustv-Intro-poster.webp`. Desktop places image and narrative side by side; tablet stacks the image before the full-width narrative; mobile also stacks heading details. Colors follow shared light/dark tokens. Scoped GSAP/ScrollTrigger reveals are skipped when reduced motion is requested. To update copy, edit `STORY`; to replace the image, update `STORY.imageSrc` and `STORY.imageAlt`.
+- **The Story:** `src/components/sections/Intro/Intro.tsx` owns the approved copy in `STORY`; `Intro.module.css` owns its responsive editorial layout. The image is `public/media/hero/focustv-Intro-poster.webp`. Desktop places image and narrative side by side; tablet stacks the image before the full-width narrative; mobile also stacks heading details. Colors follow shared light/dark tokens. Reveal attributes use the shared `PageMotion` system and resolve to visible content when reduced motion is requested. To update copy, edit `STORY`; to replace the image, update `STORY.imageSrc` and `STORY.imageAlt`.
 - **Our Proud Cast:** `src/components/sections/Cast/Cast.tsx` renders data from `cast.config.ts`; `Cast.module.css` defines the layout and card treatments. The 14 optimized square portraits are `public/media/Stills/optimized/1.webp` through `14.webp`. Desktop uses a scroll-driven portrait deck; widths up to 1099px use one square card per row and place the CTA after the cards. Reduced-motion users get a static layout. Update people, titles, image paths, and alt text in `cast.config.ts`, keeping each `id` unique.
 
 Hero video playback depends on the external Vimeo player. The `/cast` route now opens the full filterable roster and profile viewer.
 
 - **Partners & Media:** `Partners.tsx` maps 55 logo records from `partners.config.ts` into the draggable left-moving loop. The section heading is “Brands & organizations we’ve worked with,” set in responsive uppercase typography with a FocusTV brand-color rule. All 72 base and theme-specific images live in `public/media/Logos/LOGOS/`; fourteen Dark variants and three Light variants are selected by theme, including both supplied Universal Music Group versions. Keep the approved 64px base height and 64px gap. NetEase, Nissan, PBD Podcast, Silent Hill 2 and Universal Music Group use fixed-width slots so theme changes do not shift their positions. PONG's and DICE's black-canvas Dark variants use screen blending against the dark surface. The section is complete for the current supplied assets; optional future contrast replacements are tracked in `Docs/PROJECT_STATUS.md`.
-- **Other Projects:** `src/components/sections/Projects/` uses an asymmetrical pair of 16:9 media frames, an editorial heading and restrained numbered captions. Frames stack on mobile. “There’s more to the story” uses the brand gold for its italic second line. The Gaming Legends and WA Police Vimeo embeds load eagerly with `preload=auto`, play muted when each frame enters view, and pause outside view. Vimeo's native player supplies the controls and timeline with the FocusTV gold accent. The browser pointer is visible inside the interactive iframe; the animated FocusTV cursor hides inside it and resumes on the host page. An intentional pause suppresses scroll-triggered autoplay until refresh, and reduced-motion preferences suppress automatic playback. Branding, title and byline are hidden through supported Vimeo settings.
-- **Footer:** `src/components/layout/Footer/` combines the conversation CTA, the Header's desktop logo asset in both themes, content navigation, and the client-approved Instagram and email links below the brand note. Mobile/tablet keeps the invitation heading beside the arrow, with “Let's talk” beneath it; Explore links form one centered vertical column. The full-width FocusTV wordmark uses the same soft fade in both themes and is optically centered at responsive sizes. Contact actions use the existing enquiry routes; no extra contact details or newsletter controls are invented.
+- **Other Projects:** `src/components/sections/Projects/` uses an asymmetrical pair of 16:9 media frames, an editorial heading and restrained numbered captions. Frames stack on mobile. “There’s more to the story” uses the brand gold for its italic second line. The Gaming Legends and WA Police Vimeo embeds use browser-lazy loading, play muted when each frame enters view, and pause outside view. Vimeo's native player supplies the controls and timeline with the FocusTV gold accent. The browser pointer is visible inside the interactive iframe; the animated FocusTV cursor hides inside it and resumes on the host page. An intentional pause suppresses scroll-triggered autoplay until refresh, and reduced-motion preferences suppress automatic playback. Branding, title and byline are hidden through supported Vimeo settings.
+- **Footer:** `src/components/layout/Footer/` combines the conversation CTA, the Header's desktop logo asset in both themes, content navigation, and the client-approved Instagram and email links below the brand note. Mobile/tablet keeps the invitation heading beside the arrow, with “Let's talk” beneath it; Explore links form one centered vertical column. The full-width FocusTV wordmark uses the shared section reveal in both themes and is optically centered at responsive sizes. Contact actions use the existing enquiry routes; no extra contact details or newsletter controls are invented.
 
 ### Other Route Compositions
 
@@ -416,7 +416,7 @@ Hero video playback depends on the external Vimeo player. The `/cast` route now 
 
 ### Shared Motion
 
-`PageMotion` is mounted by the App Router template. Sections opt into `data-reveal` variants; previously approved custom effects remain scoped to their sections. Footer motion is mounted independently. No permanent opacity/visibility hiding is applied before JavaScript. The route curtain does not capture clicks. Native navigation/history and reduced-motion fallbacks are retained.
+`PageMotion` wraps the route `<main>` from the root layout and scopes shared ScrollTrigger reveals; Footer motion is mounted independently. Use `data-reveal` on a single element or `data-reveal-group` on a wrapper whose direct children should stagger. Available variants are `fade-up`, `fade-down`, `fade-left`, `fade-right`, `zoom-in`, `zoom-out` and `soft`. Reveals start close to the viewport, play once, finish on fast scroll, and clear their temporary inline styles when complete. Reduced-motion preferences show the final state immediately. The desktop Cast card deck remains a separate scroll-linked scene; route navigation has no cover transition.
 
 ---
 
@@ -636,14 +636,11 @@ Motion should feel premium and controlled.
 
 ### Preferred Motion Types
 
-- Clip/mask reveals
-- Fade + translate
-- Stagger
-- Scale
-- Image reveal
-- Subtle parallax
-- Background movement
-- Section transition
+- Directional fade and blur
+- Restrained scale/zoom
+- Staggered groups where the content benefits from sequence
+- Section-specific scroll-linked movement, such as the desktop Cast deck
+- Subtle hover or background movement where it supports the interaction
 
 ### Rules
 

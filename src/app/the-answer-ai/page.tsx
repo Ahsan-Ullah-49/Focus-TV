@@ -11,46 +11,44 @@ export const metadata: Metadata = {
 export default function TheAnswerAIPage() {
   return (
     <article className={styles.page}>
-      <header className={styles.heading} data-reveal="stagger">
-        <p className={styles.label} data-reveal-child>
+      <header className={styles.heading}>
+        <p className={styles.label} data-reveal="fade-down">
           From FocusTV
         </p>
-        <h1 data-reveal-child>
+        <h1 data-reveal="zoom-in">
           The Answer <span>AI</span>
         </h1>
       </header>
       <div className={styles.composition}>
-        <div className={styles.letterform} aria-hidden="true" data-reveal="mask">
+        <div className={styles.letterform} aria-hidden="true" data-reveal="zoom-out">
           <span>A</span>
           <span>I</span>
         </div>
         <section
           className={styles.announcement}
           aria-labelledby="coming-soon"
-          data-reveal="stagger"
+          data-reveal-group="fade-up"
         >
-          <span className={styles.marker} aria-hidden="true" data-reveal-child>
+          <span className={styles.marker} aria-hidden="true">
             ↗
           </span>
-          <h2 id="coming-soon" data-reveal-child>
+          <h2 id="coming-soon">
             More to be
             <br />
             <em>revealed.</em>
           </h2>
-          <p className={styles.status} data-reveal-child>
-            Coming soon
-          </p>
-          <p className={styles.description} data-reveal-child>
+          <p className={styles.status}>Coming soon</p>
+          <p className={styles.description}>
             Details will be announced here.
             <br />
             Until then, discover The Answer.
           </p>
-          <Link href="/#the-story" className={styles.link} data-reveal-child>
+          <Link href="/#the-story" className={styles.link}>
             Explore The Answer story <span aria-hidden="true">↗</span>
           </Link>
         </section>
       </div>
-      <div className={styles.bottomLine} data-reveal="rise">
+      <div className={styles.bottomLine} data-reveal="fade-up">
         <span>The Answer AI</span>
         <Link href="/contact">
           Get in touch <span aria-hidden="true">↗</span>

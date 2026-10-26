@@ -30,17 +30,13 @@ export function GalleryCollection() {
   return (
     <>
       <section id="films" className={styles.collection} aria-labelledby="films-heading">
-        <div className={styles.collectionHeading} data-reveal="rise">
+        <div className={styles.collectionHeading} data-reveal="fade-down">
           <h2 id="films-heading">Selected films</h2>
           <span>01 — 06</span>
         </div>
-        <div className={styles.filmGrid}>
+        <div className={styles.filmGrid} data-reveal-group="fade-up" data-reveal-stagger="0.055">
           {galleryFilms.map((film, index) => (
-            <article
-              key={film.id}
-              className={index === 0 ? styles.featuredFilm : styles.film}
-              data-reveal="mask"
-            >
+            <article key={film.id} className={index === 0 ? styles.featuredFilm : styles.film}>
               <button
                 className={styles.filmButton}
                 type="button"
@@ -85,19 +81,19 @@ export function GalleryCollection() {
         className={`${styles.collection} ${styles.stillsCollection}`}
         aria-labelledby="stills-heading"
       >
-        <header className={styles.stillsHeading} data-reveal="stagger">
-          <h2 id="stills-heading" data-reveal-child>
+        <header className={styles.stillsHeading} data-reveal-group="fade-left">
+          <h2 id="stills-heading">
             In <em>conversation.</em>
           </h2>
-          <p data-reveal-child>
+          <p>
             A moment with the people
             <br />
             behind the ideas.
           </p>
         </header>
-        <div className={styles.stillGrid}>
+        <div className={styles.stillGrid} data-reveal-group="soft" data-reveal-stagger="0.045">
           {galleryStills.map((still, index) => (
-            <figure key={still.id} className={styles.still} data-reveal="mask">
+            <figure key={still.id} className={styles.still}>
               <button
                 type="button"
                 className={styles.stillButton}
@@ -117,7 +113,7 @@ export function GalleryCollection() {
             </figure>
           ))}
         </div>
-        <Link className={styles.castLink} href="/cast">
+        <Link className={`${styles.castLink} reveal-on-scroll`} href="/cast">
           Meet the people behind these moments{" "}
           <span>
             Explore the cast <span aria-hidden="true">↗</span>

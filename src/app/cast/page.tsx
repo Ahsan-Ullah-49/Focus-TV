@@ -14,16 +14,16 @@ export default function CastPage() {
   return (
     <div className={styles.page}>
       <header className={styles.intro}>
-        <p className={styles.kicker} data-reveal="rise">
+        <p className={styles.kicker} data-reveal="fade-down">
           The Answer — The people
         </p>
         <div className={styles.headingRow}>
-          <h1 data-reveal="rise">
+          <h1 data-reveal="zoom-in">
             Extraordinary minds.
             <br />
             <em>Human stories.</em>
           </h1>
-          <p className={styles.introCopy} data-reveal="rise">
+          <p className={styles.introCopy} data-reveal="fade-up">
             The people who turned an idea into something the world had never seen. Discover the
             voices behind The Answer.
           </p>
@@ -32,7 +32,7 @@ export default function CastPage() {
       <CastDirectory />
       <section
         className={styles.nextChapter}
-        data-reveal="rise"
+        data-reveal="fade-up"
         aria-labelledby="crew-link-heading"
       >
         <p>Behind every conversation, a creative team.</p>

@@ -5,7 +5,7 @@ import styles from "./Hero.module.css";
 
 export function Hero() {
   return (
-    <section className={styles.hero} aria-label="The Answer — cinematic film">
+    <section className={styles.hero} aria-label="The Answer — cinematic film" data-reveal="soft">
       <HeroPlayer />
     </section>
   );

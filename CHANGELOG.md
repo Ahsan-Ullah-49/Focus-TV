@@ -10,11 +10,21 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
-### Fixed — Footer email link discoverability (26 October 2026)
+### Corrected — Footer interaction (26 October 2026)
 
-- Added a visible, clickable `mailto:hammad@focustv.tv` email address in the footer's "Get in touch" column above the contact action buttons.
-- The email icon link already rendered a valid `mailto:` href on a native `<a>` element with no blocking handlers; the root cause of the reported issue was that the envelope icon alone was not recognisable as an email link. The fix makes the address explicitly visible and directly actionable.
-- Applied consistent focus-visible, hover transition and reduced-motion rules to the new `.emailLink` style, matching the surrounding footer interactive elements.
+- Kept `mailto:hammad@focustv.tv` on the footer's native email icon link and removed the extra visible address from the "Get in touch" column, per the owner's correction.
+- Prevented the oversized decorative wordmark from intercepting pointer input over footer links.
+
+### Updated — Vimeo player readiness and loading (26 October 2026)
+
+- Added a Vimeo readiness ping and guarded Hero controls until the player responds; the Hero iframe remains eager and preconnects to Vimeo.
+- Changed the Other Projects iframes to browser-lazy loading and avoid sending pause commands before the player is ready.
+
+### Updated — Shared section reveals (26 October 2026)
+
+- Replaced the route-cover transition and separate Story/Cast intro reveals with one scoped GSAP/ScrollTrigger reveal system across the homepage, active routes and footer.
+- Added directional fades, blur/zoom variants and direct-child group staggers. Reveals play once, start near the viewport, complete on fast scroll and show their final state for reduced-motion preferences.
+- Kept the desktop Cast card deck as a separate scroll-linked interaction; no animation dependency was added.
 
 ### Finalized — Homepage footer (26 October 2026)
 

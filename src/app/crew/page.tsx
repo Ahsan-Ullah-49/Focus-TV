@@ -54,23 +54,23 @@ export default function CrewPage() {
   return (
     <div className={styles.page}>
       <header className={styles.intro}>
-        <p className={styles.kicker} data-reveal="rise">
+        <p className={styles.kicker} data-reveal="fade-down">
           FocusTV / Production
         </p>
         <div className={styles.headingRow}>
-          <h1 data-reveal="rise">
+          <h1 data-reveal="zoom-in">
             Behind the lens.
             <br />
             <em>Inside the story.</em>
           </h1>
-          <p data-reveal="rise">
+          <p data-reveal="fade-up">
             A film begins with a question. It takes a team to bring the answer to life.
           </p>
         </div>
       </header>
 
       <section className={styles.lead} aria-labelledby="hammad-name">
-        <div className={styles.leadPortrait} data-reveal="mask">
+        <div className={styles.leadPortrait} data-reveal="zoom-in">
           <Image
             src="/media/crew/hammad-chaudhry.webp"
             alt="Hammad Chaudhry"
@@ -79,7 +79,7 @@ export default function CrewPage() {
             preload
           />
         </div>
-        <div className={styles.leadCopy} data-reveal="rise">
+        <div className={styles.leadCopy} data-reveal="fade-right">
           <p className={styles.role}>Producer & Host</p>
           <h2 id="hammad-name">
             Hammad
@@ -96,12 +96,12 @@ export default function CrewPage() {
       </section>
 
       <section className={styles.executive} aria-labelledby="wasam-name">
-        <div className={styles.executiveCopy} data-reveal="rise">
+        <div className={styles.executiveCopy} data-reveal="fade-left">
           <p className={styles.role}>Executive Producer</p>
           <h2 id="wasam-name">Wasam Chaudhry</h2>
           <p className={styles.description}>Part of the production team behind The Answer.</p>
         </div>
-        <div className={styles.executivePortrait} data-reveal="mask">
+        <div className={styles.executivePortrait} data-reveal="zoom-in">
           <Image
             src="/media/crew/wasam-chaudhry.webp"
             alt="Wasam Chaudhry"
@@ -112,13 +112,13 @@ export default function CrewPage() {
       </section>
 
       <section className={styles.teamSection} aria-labelledby="team-heading">
-        <div className={styles.sectionHeading} data-reveal="rise">
+        <div className={styles.sectionHeading} data-reveal="zoom-in">
           <h2 id="team-heading">The art of telling a story.</h2>
           <span>Production team</span>
         </div>
-        <div className={styles.teamGrid} data-reveal="stagger">
+        <div className={styles.teamGrid} data-reveal-group="fade-up" data-reveal-stagger="0.055">
           {team.map((person) => (
-            <article className={styles.teamMember} key={person.image} data-reveal-child>
+            <article className={styles.teamMember} key={person.image}>
               <div className={styles.teamPortrait}>
                 <Image
                   src={`/media/crew/${person.image}.webp`}
@@ -135,9 +135,14 @@ export default function CrewPage() {
         </div>
       </section>
 
-      <section className={styles.collaborators} aria-label="Production collaborators">
+      <section
+        className={styles.collaborators}
+        aria-label="Production collaborators"
+        data-reveal-group="fade-up"
+        data-reveal-stagger="0.07"
+      >
         {collaborators.map((person) => (
-          <article key={person.image} className={styles.collaborator} data-reveal="rise">
+          <article key={person.image} className={styles.collaborator}>
             <div className={styles.collaboratorPortrait}>
               <Image
                 src={`/media/crew/${person.image}.webp`}
@@ -156,15 +161,15 @@ export default function CrewPage() {
       </section>
 
       <section className={styles.studio} aria-labelledby="studio-heading">
-        <div className={styles.studioTop} data-reveal="rise">
+        <div className={styles.studioTop} data-reveal="fade-down">
           <span>Production partner</span>
           <span>Western Australia</span>
         </div>
         <div className={styles.studioBody}>
-          <h2 id="studio-heading" data-reveal="rise">
+          <h2 id="studio-heading" data-reveal="zoom-out">
             Sandbox<span>Production House</span>
           </h2>
-          <div className={styles.studioCopy} data-reveal="rise">
+          <div className={styles.studioCopy} data-reveal="fade-up">
             <p>
               A production and post-production studio in Leederville, Western Australia. Bringing
               film, sound, animation and visual effects together under one roof.
@@ -180,15 +185,19 @@ export default function CrewPage() {
             </a>
           </div>
         </div>
-        <ul className={styles.disciplines} data-reveal="stagger">
-          <li data-reveal-child>Production</li>
-          <li data-reveal-child>Post-production</li>
-          <li data-reveal-child>Sound</li>
-          <li data-reveal-child>Animation & VFX</li>
+        <ul className={styles.disciplines} data-reveal-group="fade-up" data-reveal-stagger="0.06">
+          <li>Production</li>
+          <li>Post-production</li>
+          <li>Sound</li>
+          <li>Animation & VFX</li>
         </ul>
       </section>
 
-      <section className={styles.contact} data-reveal="rise" aria-labelledby="collaborate-heading">
+      <section
+        className={styles.contact}
+        data-reveal="fade-up"
+        aria-labelledby="collaborate-heading"
+      >
         <p>Stories are made together.</p>
         <Link href="/contact" id="collaborate-heading">
           Let’s make something meaningful. <span aria-hidden="true">↗</span>

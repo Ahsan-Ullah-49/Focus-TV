@@ -12,17 +12,17 @@ export const metadata: Metadata = {
 export default function GalleryPage() {
   return (
     <article className={styles.page}>
-      <header className={styles.header} data-reveal="stagger">
-        <p className={styles.label} data-reveal-child>
+      <header className={styles.header}>
+        <p className={styles.label} data-reveal="fade-down">
           FocusTV / Gallery
         </p>
         <div className={styles.introduction}>
-          <h1 data-reveal-child>
+          <h1 data-reveal="zoom-in">
             A closer
             <br />
             <em>look.</em>
           </h1>
-          <div className={styles.description} data-reveal-child>
+          <div className={styles.description} data-reveal="fade-up">
             <p>
               People, ideas and the moments in between.
               <br />A selection of films and stills from The Answer.

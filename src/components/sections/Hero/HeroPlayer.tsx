@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { preconnect } from "react-dom";
 import Image from "next/image";
 import { heroConfig, buildVimeoEmbedUrl } from "./hero.config";
 import styles from "./Hero.module.css";
@@ -26,6 +27,10 @@ function vimeoPost(iframe: HTMLIFrameElement, method: string, value?: unknown) {
   const data: Record<string, unknown> = { method };
   if (value !== undefined) data.value = value;
   iframe.contentWindow.postMessage(JSON.stringify(data), heroConfig.vimeoOrigin);
+}
+
+function vimeoPing(iframe: HTMLIFrameElement) {
+  iframe.contentWindow?.postMessage(JSON.stringify({ method: "ping" }), "*");
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -75,10 +80,13 @@ function UnmuteIcon() {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function HeroPlayer() {
+  preconnect(heroConfig.vimeoOrigin);
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const playerReadyRef = useRef(false);
 
   // Playback UI state
-  const [isPaused, setIsPaused] = useState(false); // assume playing (autoplay=1)
+  const [isPaused, setIsPaused] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [posterVisible, setPosterVisible] = useState(true);
 
@@ -97,11 +105,13 @@ export function HeroPlayer() {
 
       if (typeof data !== "object" || data === null || Array.isArray(data)) return;
       const event = "event" in data && typeof data.event === "string" ? data.event : undefined;
+      const method = "method" in data && typeof data.method === "string" ? data.method : undefined;
       const value = "value" in data ? data.value : undefined;
 
-      if (event === "ready") {
-        // Player is ready — subscribe to events and trigger autoplay
+      if ((event === "ready" || method === "ping") && !playerReadyRef.current) {
+        // A ping also recovers readiness if Vimeo loaded before React attached this listener.
         if (!iframe) return;
+        playerReadyRef.current = true;
         vimeoPost(iframe, "addEventListener", "play");
         vimeoPost(iframe, "addEventListener", "pause");
         vimeoPost(iframe, "addEventListener", "ended");
@@ -138,14 +148,27 @@ export function HeroPlayer() {
       }
     };
 
+    const iframe = iframeRef.current;
+    const handleLoad = () => {
+      if (iframe) vimeoPing(iframe);
+    };
+
     window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+    if (iframe) {
+      iframe.addEventListener("load", handleLoad);
+      vimeoPing(iframe);
+    }
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      iframe?.removeEventListener("load", handleLoad);
+    };
   }, []);
 
   // ── Controls: Play/Pause ──────────────────────────────────────────────────
   const togglePlay = useCallback(() => {
     const iframe = iframeRef.current;
-    if (!iframe) return;
+    if (!iframe || !playerReadyRef.current) return;
     if (isPaused) {
       vimeoPost(iframe, "play");
     } else {
@@ -156,7 +179,7 @@ export function HeroPlayer() {
   // ── Controls: Mute ────────────────────────────────────────────────────────
   const handleMute = useCallback(() => {
     const iframe = iframeRef.current;
-    if (!iframe) return;
+    if (!iframe || !playerReadyRef.current) return;
     if (isMuted) {
       // Unmute: restore volume to configured level
       vimeoPost(iframe, "setVolume", heroConfig.unmuteVolume);
@@ -175,6 +198,7 @@ export function HeroPlayer() {
         <iframe
           ref={iframeRef}
           src={VIMEO_SRC}
+          loading="eager"
           className={styles.vimeoIframe}
           allow="autoplay; fullscreen; picture-in-picture"
           title={heroConfig.title}

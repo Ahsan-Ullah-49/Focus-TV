@@ -30,10 +30,10 @@ const logos: LogoItem[] = PARTNER_LOGOS.map((logo) => ({
 export function Partners() {
   return (
     <section className={styles.partners} id="partners" aria-labelledby="partners-heading">
-      <h2 className={styles.heading} id="partners-heading" data-reveal="rise">
+      <h2 className={styles.heading} id="partners-heading" data-reveal="fade-down">
         Brands &amp; organizations we’ve worked with
       </h2>
-      <div className={styles.loop}>
+      <div className={styles.loop} data-reveal="soft">
         <LogoLoop
           logos={logos}
           speed={70}
