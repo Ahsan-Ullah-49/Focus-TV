@@ -3,17 +3,12 @@
 }
 
 .scene {
-  --scene-background: #171913;
-
+  position: relative;
   isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  background: var(--scene-background);
-}
-
-.backdrop,
-.content {
-  grid-area: 1 / 1;
+  min-block-size: min(56.25vw, 100svh);
+  background: #171913;
 }
 
 .content {
@@ -30,24 +25,33 @@
 }
 
 .backdrop {
-  position: relative;
+  --parallax-travel: 37.5rem;
+
+  position: absolute;
   z-index: -1;
-  align-self: start;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
 }
 
-/* The image reserves its full 16:9 frame. Taller forms extend the solid backdrop below it. */
-.backdrop img {
-  display: block;
-  width: 100%;
-  height: auto;
+.backdropPhoto {
+  position: absolute;
+  inset: 0;
+}
+
+.backdropImage {
+  object-fit: cover;
 }
 
 .backdrop::after {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, transparent 80%, var(--scene-background)),
-    linear-gradient(100deg, rgb(12 14 12 / 89%), rgb(12 14 12 / 71%) 43%, rgb(12 14 12 / 33%));
+  background: linear-gradient(
+    100deg,
+    rgb(12 14 12 / 82%),
+    rgb(12 14 12 / 66%) 43%,
+    rgb(12 14 12 / 29%)
+  );
   content: "";
 }
 
@@ -162,6 +166,10 @@
 }
 
 @media (max-width: 900px) {
+  .backdrop {
+    --parallax-travel: clamp(7rem, 19svh, 12rem);
+  }
+
   .content {
     grid-template-areas: "copy" "form" "actions";
     grid-template-columns: minmax(0, 1fr);
@@ -170,17 +178,29 @@
     padding-block: clamp(2rem, 6vw, 3.5rem);
   }
 
+  .backdropImage {
+    object-position: 22% center;
+  }
+
   .backdrop::after {
     background: linear-gradient(
       180deg,
-      rgb(12 14 12 / 81%),
-      rgb(12 14 12 / 59%) 55%,
-      var(--scene-background)
+      rgb(12 14 12 / 78%),
+      rgb(12 14 12 / 62%) 40%,
+      rgb(12 14 12 / 80%)
     );
   }
 
   .copy {
     padding-block: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The extra image height keeps the section covered from the initial offset to y: 0. */
+  .backdropPhoto {
+    inset-block-end: calc(-1 * var(--parallax-travel));
+    transform: translateY(calc(-1 * var(--parallax-travel)));
   }
 }
 
