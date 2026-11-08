@@ -1,31 +1,8 @@
-import { LogoLoop, type LogoItem } from "./LogoLoop";
-import { PARTNER_LOGOS } from "./partners.config";
+import { LogoLoop } from "./LogoLoop";
+import { PARTNER_LOGOS, toLogoItem } from "./partners.config";
 import styles from "./Partners.module.css";
 
-const logoAsset = (filename: string) => `/media/Logos/LOGOS/${encodeURIComponent(filename)}`;
-
-// Pair each source with its dimensions; fixed slots reserve stable space for marks with different theme ratios.
-const logos: LogoItem[] = PARTNER_LOGOS.map((logo) => ({
-  src: logoAsset(logo.filename),
-  darkSrc: logo.darkVariant ? logoAsset(logo.darkVariant.filename) : undefined,
-  darkWidth: logo.darkVariant?.width,
-  darkHeight: logo.darkVariant?.height,
-  darkScale: logo.darkVariant?.scale,
-  lightSrc: logo.lightVariant ? logoAsset(logo.lightVariant.filename) : undefined,
-  lightWidth: logo.lightVariant?.width,
-  lightHeight: logo.lightVariant?.height,
-  lightScale: logo.lightVariant?.scale,
-  displayScale: logo.displayScale,
-  slotWidth: logo.slotWidth,
-  darkBlend: logo.darkBlend,
-  alt: logo.name,
-  title: logo.name,
-  width: logo.width,
-  height: logo.height,
-  lowContrast: logo.lowContrast,
-  outlineOnLight: logo.outlineOnLight,
-  outlineOnDark: logo.outlineOnDark,
-}));
+const logos = PARTNER_LOGOS.map(toLogoItem);
 
 export function Partners() {
   return (

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Cormorant_Garamond } from "next/font/google";
+import { Poppins, Cormorant_Garamond } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -9,9 +9,10 @@ import { Footer } from "@/components/layout/Footer/Footer";
 import { PageMotion } from "@/components/motion/PageMotion";
 import "./globals.css";
 
-const manrope = Manrope({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-focus-poppins",
   display: "swap",
 });
 
@@ -25,7 +26,7 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} | Creative Studio`,
+    default: `${siteConfig.name} | Film & Media Production`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -36,7 +37,10 @@ export const metadata: Metadata = {
     title: "FocusTV | Stories worth telling",
     description: siteConfig.description,
     images: [
-      { url: "/media/hero/focustv-Hero-poster.png", alt: "The Answer — a FocusTV documentary" },
+      {
+        url: "/media/hero/focustv-Hero-poster.png",
+        alt: "Automotive documentary imagery from FocusTV",
+      },
     ],
   },
   twitter: { card: "summary_large_image" },
@@ -71,7 +75,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${manrope.variable} ${cormorant.variable}`}
+      className={`${poppins.variable} ${cormorant.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -1,5 +1,9 @@
 # Content sources and maintenance
 
+## Owner-directed revision — 7 November 2026
+
+The owner identifies the hero film as Automotive Legends and requests automotive, gaming and WA Police documentary chapters on the company homepage. The legacy [FocusTV project page](https://focustv.tv/test/) groups automotive and gaming participants separately. Displayed brand marks are associated with featured participants; they are not presented as verified production partners. WA Police cast and marks remain unconfirmed. Official artwork and the four-page brand guide are in `src/Assets/Logos/Focus TV/`.
+
 Updated 26 October 2026. The owner authorized reuse of content and images from the existing FocusTV site for this redesign. This records implementation sources; final client copy review is still pending.
 
 ## Source records
@@ -62,7 +66,7 @@ Keep configured filenames and intrinsic dimensions synchronized when replacing o
 - **Crew:** update the seven profiles and Sandbox section in the crew route; avoid conflating production credits with current employment claims.
 - **Gallery:** update `galleryFilms` and `galleryStills`, plus local optimized posters. New video players load only after interaction.
 - **Contact:** replace `CONTACT_EMAIL` only with the confirmed recipient. The currently published `hammad@darkturquoise-gull-903348.hostingersite.com` appears to be a legacy staging-domain address; its ownership and delivery have not been verified. Social accounts are `the.answer_unlocked` and `focutivity` on Instagram.
-- **Homepage footer:** the current approved destinations are Instagram `the.answer_unlocked` and `mailto:hammad@focustv.tv`, in that order. Keep these two icons under the brand note; do not add the other historical Instagram account or Facebook/YouTube without a new client request. The footer uses the same desktop Header logo asset for both themes.
+- **Homepage footer:** the current approved destinations are Instagram `the.answer_unlocked` and `mailto:hammad@focustv.tv`, in that order. Keep these two icons under the brand note; do not add the other historical Instagram account or Facebook/YouTube without a new client request. The footer uses the coloured FocusTV logo variants for light and dark surfaces.
 - **Partner logos:** the owner-approved Partners & Media loop contains 55 configured logos, with fourteen Dark variants and three Light variants. It uses a 64px logo height and gap, a draggable left-moving track, and a responsive brand-accent heading. Remaining optional theme-contrast replacements are recorded in `Docs/PROJECT_STATUS.md`. The 72 canonical files and per-logo display settings live in `public/media/Logos/LOGOS/` and `src/components/sections/Partners/partners.config.ts`.
 
 ## Before production launch

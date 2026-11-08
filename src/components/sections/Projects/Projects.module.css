@@ -1,237 +1,411 @@
-.section {
-  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(3rem, 5vw, 5rem);
-  scroll-margin-top: var(--header-height);
-}
-
-.topline {
-  display: flex;
-  justify-content: flex-start;
-  gap: var(--space-4);
-  padding-bottom: var(--space-2);
-  color: var(--color-text-secondary);
-  font-size: var(--text-xs);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
-.topline span:first-child {
-  color: var(--color-brand);
-}
-
-.intro {
-  display: grid;
-  grid-template-columns: 1.3fr 0.7fr;
-  align-items: end;
-  gap: var(--space-12);
-  padding-block: var(--space-4) var(--space-12);
-}
-
-.heading {
-  font-size: clamp(2.75rem, 5.8vw, 5.5rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.06em;
-}
-
-.heading em {
-  color: var(--color-brand);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: -0.035em;
-}
-
-.description {
-  max-width: 30ch;
-  justify-self: end;
-  padding-bottom: var(--space-2);
-  font-size: var(--text-base);
-  line-height: var(--line-height-relaxed);
-}
-
-.projects {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  column-gap: clamp(1.5rem, 3vw, 3rem);
-  row-gap: var(--space-12);
-}
-
-.project:nth-child(even) {
-  padding-top: var(--space-24);
-}
-
+/* The same 16:9 frame serves Vimeo and local film previews. */
 .media {
-  display: block;
   position: relative;
   width: 100%;
-  /* Keep the local and Vimeo players at the source videos' 16:9 ratio. */
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: var(--color-surface-muted);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
+  background: #0b0b0b;
 }
 
-.placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Frame corners distinguish an unpublished preview from a playable poster. */
-.placeholder::before,
-.placeholder::after {
-  content: "";
-  position: absolute;
-  width: var(--space-6);
-  height: var(--space-6);
-  border-color: var(--color-brand);
-  opacity: 0.7;
-}
-
-.placeholder::before {
-  top: var(--space-6);
-  left: var(--space-6);
-  border-top: 1px solid var(--color-brand);
-  border-left: 1px solid var(--color-brand);
-}
-
-.placeholder::after {
-  bottom: var(--space-6);
-  right: var(--space-6);
-  border-bottom: 1px solid var(--color-brand);
-  border-right: 1px solid var(--color-brand);
-}
-
-.frameLabel {
-  position: absolute;
-  inset-block-start: var(--space-8);
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.subject {
-  font-family: var(--font-serif);
-  font-size: clamp(3.2rem, 6.3vw, 6rem);
-  font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 1;
-}
-
-.frameNumber {
-  position: absolute;
-  inset-block-end: var(--space-6);
-  inset-inline-start: var(--space-6);
-  color: var(--color-text-secondary);
-  font-size: var(--text-xs);
-}
-
-.availability {
-  position: absolute;
-  inset-inline: var(--space-4);
-  inset-block-end: var(--space-8);
-  text-align: center;
-  font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.poster {
-  object-fit: cover;
-}
 .player {
+  display: block;
   width: 100%;
   height: 100%;
   border: 0;
 }
 
-/* Local-file preview affordance; Vimeo renders its own native play controls. */
+.loadingPoster {
+  z-index: 1;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.mediaUnavailable .player {
+  visibility: hidden;
+}
+
+.mediaUnavailable::after {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  padding: var(--space-3);
+  background: rgb(0 0 0 / 72%);
+  color: #fff;
+  content: "Video preview unavailable";
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.playerFallback {
+  margin-top: var(--space-3);
+  color: var(--chapter-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.playerFallback a,
+.playerFallback button {
+  color: var(--chapter-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.playerFallback a:hover,
+.playerFallback button:hover {
+  color: var(--chapter-accent);
+}
+
+.placeholder,
 .play {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+}
+
+.placeholder {
+  flex-direction: column;
+}
+
+.frameLabel,
+.frameNumber,
+.availability {
+  position: absolute;
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.frameLabel {
+  top: var(--space-6);
+}
+
+.frameNumber {
+  bottom: var(--space-6);
+  left: var(--space-6);
+}
+
+.availability {
+  bottom: var(--space-6);
+}
+
+.subject {
+  font-family: var(--font-serif);
+  font-size: var(--display-md);
+}
+
+.poster {
+  object-fit: cover;
+}
+
+.play {
   gap: var(--space-3);
   background: rgb(0 0 0 / 25%);
-  color: white;
-  font-size: var(--text-sm);
 }
 
-.playable {
-  transition: border-color var(--duration-normal);
-}
 .playable:hover {
-  border-color: var(--color-brand);
+  outline: 1px solid var(--color-brand);
 }
 
-.caption {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  padding-block: var(--space-6);
+/* A centered title gives way to three full-width chapters. */
+.section {
+  scroll-margin-top: var(--header-height);
 }
 
-.caption h3 {
-  font-size: clamp(1rem, 1.5vw, 1.375rem);
+.introduction {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 3rem);
+  padding-block: clamp(1rem, 2.6vw, 2.5rem) clamp(2.5rem, 5vw, 4.75rem);
+}
+
+.introduction::before,
+.introduction::after {
+  height: 1px;
+  background: var(--color-border);
+  content: "";
+}
+
+.introduction h2 {
+  font-size: clamp(1.65rem, 6.15vw, 6.25rem);
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  text-align: center;
 }
 
-.index {
-  font-size: var(--text-xs);
+.introduction em {
   color: var(--color-brand);
-}
-.format {
-  margin-left: auto;
-  font-size: 0.65rem;
-  color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.055em;
 }
 
-@media (max-width: 767px) {
-  .intro {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-    padding-bottom: var(--space-12);
-  }
-  .description {
-    max-width: 42ch;
-    justify-self: start;
-  }
-  .projects {
-    grid-template-columns: 1fr;
-  }
-  .project:nth-child(even) {
-    padding-top: 0;
-  }
-  .subject {
-    font-size: clamp(3.5rem, 13vw, 6rem);
-  }
-  .caption {
-    gap: var(--space-3);
-    padding-block: var(--space-4);
-  }
+.project {
+  --chapter-bg: var(--color-bg);
+  --chapter-text: var(--color-text);
+  --chapter-secondary: color-mix(in srgb, var(--color-text-secondary) 82%, var(--color-text));
+  --chapter-rule: color-mix(in srgb, var(--chapter-text) 19%, transparent);
+  --chapter-accent: color-mix(in srgb, var(--color-brand) 68%, var(--chapter-text));
+  --chapter-reflection: rgb(255 255 255 / 48%);
+  --chapter-glass: rgb(255 255 255 / 48%);
+  --chapter-glint: rgb(255 255 255 / 65%);
+  --chapter-shadow: rgb(54 42 24 / 12%);
+
+  padding-block: clamp(3rem, 6.5vw, 6rem);
+  background:
+    linear-gradient(116deg, var(--chapter-reflection), transparent 64%), var(--chapter-bg);
+  color: var(--chapter-text);
 }
 
-@media (max-width: 359px) {
-  .topline {
-    font-size: 0.65rem;
-  }
-  .format {
+.project[data-project="automotive"] {
+  --chapter-bg: color-mix(in srgb, var(--color-surface-muted) 93%, var(--color-text));
+}
+
+.project[data-project="gaming"] {
+  --chapter-bg: var(--color-surface-muted);
+}
+
+:global(html[data-theme="dark"]) .project {
+  --chapter-reflection: rgb(255 255 255 / 7%);
+  --chapter-glass: rgb(255 255 255 / 7%);
+  --chapter-glint: rgb(255 255 255 / 14%);
+  --chapter-shadow: rgb(0 0 0 / 27%);
+}
+
+.project[data-project="wa-police"] {
+  --chapter-bg: color-mix(in srgb, var(--color-brand) 63%, #f7e8c4);
+  --chapter-text: #251905;
+  --chapter-secondary: #39290f;
+  --chapter-accent: var(--chapter-text);
+  --chapter-reflection: rgb(255 244 218 / 55%);
+  --chapter-glass: rgb(255 244 218 / 27%);
+  --chapter-glint: rgb(255 244 218 / 60%);
+}
+
+:global(html[data-theme="dark"]) .project[data-project="wa-police"] {
+  --chapter-bg: color-mix(in srgb, var(--color-brand) 86%, #745118);
+  --chapter-reflection: rgb(255 244 218 / 32%);
+  --chapter-glass: rgb(255 244 218 / 19%);
+  --chapter-glint: rgb(255 244 218 / 32%);
+}
+
+/* Spacer rows center the desktop text beside the film, while mobile can put the film after the title. */
+.projectTop {
+  display: grid;
+  grid-template-areas:
+    ". film"
+    "title film"
+    "description film"
+    ". film";
+  grid-template-columns: minmax(0, 0.81fr) minmax(0, 1.19fr);
+  grid-template-rows: minmax(0, 1fr) auto auto minmax(0, 1fr);
+  column-gap: clamp(2rem, 6vw, 6rem);
+}
+
+.project:is([data-project="gaming"], [data-project="atlas-fuel"]) .projectTop {
+  grid-template-areas:
+    "film ."
+    "film title"
+    "film description"
+    "film .";
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+.project[data-project="wa-police"] .projectTop {
+  grid-template-columns: minmax(0, 0.74fr) minmax(0, 1.26fr);
+}
+
+.project[data-project="atlas-fuel"] {
+  --chapter-bg: #121a16;
+  --chapter-text: #f5f3ee;
+  --chapter-secondary: #d2dad2;
+  --chapter-accent: #e0bb74;
+  --chapter-glass: rgb(255 255 255 / 7%);
+  --chapter-glint: rgb(255 255 255 / 13%);
+  --chapter-shadow: rgb(0 0 0 / 25%);
+
+  background: linear-gradient(118deg, #25392c, var(--chapter-bg) 66%);
+}
+
+.projectTitle {
+  grid-area: title;
+  min-width: 0;
+  margin-bottom: clamp(1.125rem, 2.2vw, 1.875rem);
+  color: var(--chapter-text);
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 6vw, 6.25rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.projectTitle em {
+  display: block;
+  color: var(--color-brand);
+  font-style: normal;
+}
+
+.project[data-project="wa-police"] .projectTitle {
+  font-size: clamp(3.15rem, 6.45vw, 6.75rem);
+}
+
+.description {
+  display: grid;
+  grid-area: description;
+  align-content: start;
+  max-width: 46ch;
+  gap: var(--space-3);
+}
+
+.description p {
+  color: var(--chapter-secondary);
+  font-size: clamp(0.9rem, 1.15vw, 0.975rem);
+  line-height: var(--line-height-relaxed);
+}
+
+.film {
+  grid-area: film;
+  align-self: center;
+  min-width: 0;
+}
+
+.screen {
+  padding: clamp(0.375rem, 0.8vw, 0.75rem);
+  border: 1px solid var(--chapter-rule);
+  border-radius: var(--radius-sm);
+  background: var(--chapter-glass);
+  box-shadow:
+    inset 0 1px var(--chapter-glint),
+    0 var(--space-3) var(--space-8) var(--chapter-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.project[data-project="wa-police"] .screen {
+  padding: clamp(0.5rem, 1vw, 0.875rem);
+  border-color: color-mix(in srgb, var(--chapter-text) 27%, transparent);
+}
+
+.people {
+  margin-top: clamp(2rem, 3.75vw, 3.5rem);
+}
+
+.subheading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: clamp(0.65rem, 1.6vw, 1.5rem);
+}
+
+.subheading h4 {
+  color: var(--chapter-accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.castButton {
+  min-height: 44px;
+}
+
+.logoTrail {
+  --trail-height: clamp(3rem, 6vw, 4.5rem);
+  --trail-gap: clamp(2.125rem, 4.3vw, 3.75rem);
+
+  margin-top: clamp(1.75rem, 3.25vw, 3rem);
+  padding-block: var(--space-3);
+  border-block: 1px solid var(--chapter-rule);
+}
+
+.logoTrail .animatedTrail :global(.logoloop) {
+  padding-block: var(--space-2);
+}
+
+.logoTrail .animatedTrail :global(.logoloop__item) {
+  min-width: var(--trail-height);
+  height: var(--trail-height);
+  margin-inline-end: var(--trail-gap);
+}
+
+.logoTrail .animatedTrail :global(.logoloop__item .logoloop__content) {
+  height: 100%;
+}
+
+.logoTrail .animatedTrail :global(.logoloop__item img) {
+  max-inline-size: clamp(9.5rem, 22vw, 17rem);
+}
+
+.staticMarks {
+  display: none;
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animatedTrail {
     display: none;
   }
-  .frameLabel {
-    inset-block-start: var(--space-6);
+
+  .staticMarks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: #f5f3ee;
   }
-  .availability {
-    inset-block-end: var(--space-6);
-    font-size: 0.55rem;
+
+  .staticMarks li {
+    display: grid;
+    min-height: var(--trail-height);
+    place-items: center;
+  }
+
+  .staticMarks img {
+    width: auto;
+    max-height: var(--trail-height);
+    object-fit: contain;
+  }
+
+  .staticMarks [data-pale-mark] img {
+    filter: brightness(0);
+  }
+}
+@media (max-width: 820px) {
+  .project[data-project] .projectTop {
+    grid-template-areas: "title" "film" "description";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    row-gap: clamp(1.25rem, 3.5vw, 1.75rem);
+  }
+
+  .projectTitle {
+    margin-bottom: 0;
+    text-wrap: wrap;
+  }
+
+  .description {
+    max-width: 59ch;
+  }
+
+  .people {
+    margin-top: var(--space-8);
+  }
+}
+
+@media (max-width: 600px) {
+  .introduction {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .introduction::before,
+  .introduction::after {
+    display: none;
+  }
+
+  .castButton {
+    padding-inline: var(--space-3);
   }
 }

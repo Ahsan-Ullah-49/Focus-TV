@@ -11,7 +11,7 @@ export function ProjectMedia({ project, index }: { project: StudioProject; index
   const { video } = project;
 
   if (video?.kind === "vimeo") {
-    return <VimeoProjectPlayer title={project.title} video={video} />;
+    return <VimeoProjectPlayer title={project.title} video={video} poster={project.poster} />;
   }
 
   if (playing && video) {

@@ -10,6 +10,21 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
+### Changed — Homepage interactions (8 November 2026)
+
+- Switched header and footer to the coloured FocusTV logo in both themes, retaining the mobile drawer's black variant.
+- Replaced hero autoplay with a central play control; retained the poster and added a Vimeo fallback for an unresponsive player.
+- Tightened story-to-project spacing, simplified project labels and used the primary button for cast links.
+- Restored the draggable logo loop separately for the expanded automotive and gaming groups, with the existing theme artwork.
+- Added readiness recovery and retry/direct-view options for project Vimeo players.
+
+### In progress — FocusTV company homepage (7 November 2026)
+
+- Reframed the Story introduction around FocusTV as a media production company and updated the default search metadata.
+- Reorganized selected work into Automotive Legends, Gaming Legends and WA Police film chapters, with source-backed automotive and gaming voices and related brand marks.
+- Applied the supplied FocusTV logo and favicon, brand gold and primary typography; retained the existing page compositions.
+- Confirmed WA Police participants and related marks are still required.
+
 ### Corrected — Footer interaction (26 October 2026)
 
 - Kept `mailto:hammad@focustv.tv` on the footer's native email icon link and removed the extra visible address from the "Get in touch" column, per the owner's correction.

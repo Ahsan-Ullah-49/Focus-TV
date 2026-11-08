@@ -1,0 +1,191 @@
+.contact {
+  scroll-margin-top: var(--header-height);
+}
+
+.scene {
+  --scene-background: #171913;
+
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--scene-background);
+}
+
+.backdrop,
+.content {
+  grid-area: 1 / 1;
+}
+
+.content {
+  display: grid;
+  align-self: center;
+  grid-template-areas:
+    "copy form"
+    "actions form";
+  grid-template-columns: minmax(0, 0.91fr) minmax(0, 1.09fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(2rem, 6vw, 6rem);
+  row-gap: var(--space-8);
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+.backdrop {
+  position: relative;
+  z-index: -1;
+  align-self: start;
+}
+
+/* The image reserves its full 16:9 frame. Taller forms extend the solid backdrop below it. */
+.backdrop img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.backdrop::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 80%, var(--scene-background)),
+    linear-gradient(100deg, rgb(12 14 12 / 89%), rgb(12 14 12 / 71%) 43%, rgb(12 14 12 / 33%));
+  content: "";
+}
+
+.copy {
+  grid-area: copy;
+  align-self: end;
+  min-width: 0;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  color: #f4cd88;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.label::before {
+  width: var(--space-6);
+  height: 1px;
+  background: currentColor;
+  content: "";
+}
+
+.copy h2 {
+  color: #fff;
+  font-size: clamp(2.65rem, 5.3vw, 5.25rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.99;
+  text-wrap: balance;
+}
+
+.copy h2 em {
+  display: block;
+  color: #f4cd88;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.lead {
+  max-width: 34ch;
+  margin-top: var(--space-6);
+  color: #f0ece4;
+  font-size: var(--text-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.formPanel {
+  grid-area: form;
+  min-width: 0;
+  align-self: center;
+  padding: clamp(1rem, 3.2vw, 2.75rem);
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-bg) 94%, transparent);
+  color: var(--color-text);
+  backdrop-filter: blur(16px);
+}
+
+.actions {
+  display: grid;
+  grid-area: actions;
+  align-self: start;
+  max-width: 28rem;
+  gap: var(--space-3);
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgb(255 255 255 / 23%);
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 8%);
+  color: #fff;
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out);
+}
+
+.action strong {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.action strong + span {
+  display: block;
+  margin-top: var(--space-1);
+  color: #e7e1d8;
+  font-size: var(--text-xs);
+}
+
+.arrow {
+  color: #f4cd88;
+  font-size: var(--text-lg);
+}
+
+.action:hover,
+.action:focus-visible {
+  border-color: #f4cd88;
+  background: rgb(255 255 255 / 15%);
+}
+
+@media (max-width: 900px) {
+  .content {
+    grid-template-areas: "copy" "form" "actions";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    row-gap: var(--space-6);
+    padding-block: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .backdrop::after {
+    background: linear-gradient(
+      180deg,
+      rgb(12 14 12 / 81%),
+      rgb(12 14 12 / 59%) 55%,
+      var(--scene-background)
+    );
+  }
+
+  .copy {
+    padding-block: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action {
+    transition: none;
+  }
+}

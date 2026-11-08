@@ -1,240 +1,243 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { preconnect } from "react-dom";
 import Image from "next/image";
 import { heroConfig, buildVimeoEmbedUrl } from "./hero.config";
 import styles from "./Hero.module.css";
 
-// ─── Vimeo embed URL ──────────────────────────────────────────────────────────
-// Pre-built with all Vimeo parameters (clean chrome, muted autoplay, API enabled).
-// To replace video or tweak parameters, edit `src/components/sections/Hero/hero.config.ts`.
 const VIMEO_SRC = buildVimeoEmbedUrl();
+const MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
+const SOUND_FALLBACK_DELAY = 1800;
 
-// ─── postMessage helpers ──────────────────────────────────────────────────────
-/**
- * Dispatches a Vimeo Player API command via window postMessage.
- *
- * The Vimeo player uses the froogaloop2 / postMessage protocol.
- * We communicate directly with the iframe Window to keep the player integration
- * small and avoid loading an SDK for the few controls used here.
- *
- * To add future controls (e.g. seek, speed, fullscreen):
- * Call `vimeoPost(iframe, "<methodName>", <value>)`.
- */
-function vimeoPost(iframe: HTMLIFrameElement, method: string, value?: unknown) {
-  if (!iframe.contentWindow) return;
-  const data: Record<string, unknown> = { method };
-  if (value !== undefined) data.value = value;
-  iframe.contentWindow.postMessage(JSON.stringify(data), heroConfig.vimeoOrigin);
+function subscribeToMotionPreference(callback: () => void) {
+  const preference = window.matchMedia(MOTION_QUERY);
+  preference.addEventListener("change", callback);
+  return () => preference.removeEventListener("change", callback);
 }
 
-function vimeoPing(iframe: HTMLIFrameElement) {
-  iframe.contentWindow?.postMessage(JSON.stringify({ method: "ping" }), "*");
+function prefersMotion() {
+  return window.matchMedia(MOTION_QUERY).matches;
 }
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
-function MuteIcon() {
+function HeroPoster({ hidden = false }: { hidden?: boolean }) {
   return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path
-        d="M4 10h3.2L12 6.4v11.2L7.2 14H4v-4Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 9.2 20.8 14M20.8 9.2 16 14"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+    <Image
+      src={heroConfig.posterSrc}
+      alt=""
+      fill
+      preload
+      sizes="100vw"
+      className={`${styles.poster} ${hidden ? styles.posterHidden : ""}`}
+    />
+  );
+}
+
+function SpeakerIcon({ muted }: { muted: boolean }) {
+  return (
+    <svg
+      className={styles.icon}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 10h3.2L12 6.4v11.2L7.2 14H4v-4Z" />
+      {muted ? (
+        <path d="m16 9.2 4.8 4.8m0-4.8L16 14" />
+      ) : (
+        <path d="M15.4 9.2a3.6 3.6 0 0 1 0 5.6m2.5-8.2a6.4 6.4 0 0 1 0 10" />
+      )}
     </svg>
   );
 }
 
-function UnmuteIcon() {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path
-        d="M4 10h3.2L12 6.4v11.2L7.2 14H4v-4Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M15.4 9.2a3.6 3.6 0 0 1 0 5.6M17.8 7a6.4 6.4 0 0 1 0 10"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
-export function HeroPlayer() {
+function VimeoBackdrop() {
   preconnect(heroConfig.vimeoOrigin);
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const playerReadyRef = useRef(false);
+  const toggleAudioRef = useRef<(() => void) | null>(null);
+  const [ready, setReady] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [hasPicture, setHasPicture] = useState(false);
 
-  // Playback UI state
-  const [isPaused, setIsPaused] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
-  const [posterVisible, setPosterVisible] = useState(true);
-
-  // ── Listen to Vimeo postMessage events ───────────────────────────────────
   useEffect(() => {
-    const handleMessage = (evt: MessageEvent) => {
-      const iframe = iframeRef.current;
-      if (evt.origin !== heroConfig.vimeoOrigin || evt.source !== iframe?.contentWindow) return;
+    const iframe = iframeRef.current;
+    const wrapper = wrapperRef.current;
+    if (!iframe || !wrapper) return;
 
-      let data: unknown;
-      try {
-        data = typeof evt.data === "string" ? JSON.parse(evt.data) : evt.data;
-      } catch {
+    let playerReady = false;
+    let inView = false;
+    let playing = false;
+    let audioMuted = false;
+    let fallbackTimer: number | undefined;
+
+    const post = (method: string, value?: string | boolean) => {
+      iframe.contentWindow?.postMessage(JSON.stringify({ method, value }), heroConfig.vimeoOrigin);
+    };
+    const isVisible = () => inView && !document.hidden;
+    const cancelFallback = () => window.clearTimeout(fallbackTimer);
+
+    const requestMute = (nextMuted: boolean) => {
+      audioMuted = nextMuted;
+      setMuted(nextMuted);
+      post("setMuted", nextMuted);
+    };
+
+    const playMutedIfBlocked = () => {
+      cancelFallback();
+      if (!isVisible() || playing || audioMuted) return;
+
+      // Audible autoplay depends on the visitor's browser permission.
+      requestMute(true);
+      post("play");
+    };
+
+    const syncPlayback = () => {
+      if (!playerReady) return;
+      cancelFallback();
+
+      if (!isVisible()) {
+        playing = false;
+        post("pause");
         return;
       }
 
-      if (typeof data !== "object" || data === null || Array.isArray(data)) return;
-      const event = "event" in data && typeof data.event === "string" ? data.event : undefined;
-      const method = "method" in data && typeof data.method === "string" ? data.method : undefined;
-      const value = "value" in data ? data.value : undefined;
+      post("play");
+      if (!playing && !audioMuted) {
+        fallbackTimer = window.setTimeout(playMutedIfBlocked, SOUND_FALLBACK_DELAY);
+      }
+    };
 
-      if ((event === "ready" || method === "ping") && !playerReadyRef.current) {
-        // A ping also recovers readiness if Vimeo loaded before React attached this listener.
-        if (!iframe) return;
-        playerReadyRef.current = true;
-        vimeoPost(iframe, "addEventListener", "play");
-        vimeoPost(iframe, "addEventListener", "pause");
-        vimeoPost(iframe, "addEventListener", "ended");
-        vimeoPost(iframe, "addEventListener", "volumechange");
-        // Ensure muted state and start playback
-        vimeoPost(iframe, "setVolume", 0);
-        vimeoPost(iframe, "play");
+    toggleAudioRef.current = () => {
+      if (!playerReady) return;
+      requestMute(!audioMuted);
+      if (!playing || !audioMuted) syncPlayback();
+    };
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== heroConfig.vimeoOrigin || event.source !== iframe.contentWindow) return;
+
+      let message: unknown;
+      try {
+        message = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      } catch {
+        return;
+      }
+      if (!isRecord(message)) return;
+
+      if (!playerReady && (message.event === "ready" || message.method === "ping")) {
+        playerReady = true;
+        for (const name of ["play", "playing", "pause", "volumechange", "error"]) {
+          post("addEventListener", name);
+        }
+        setReady(true);
+        post("getMuted");
+        syncPlayback();
+        return;
       }
 
-      if (event === "play" || event === "playing") {
-        setIsPaused(false);
-        setPosterVisible(false);
+      const detail = isRecord(message.data) ? message.data : undefined;
+      if (message.event === "play" || message.event === "playing") {
+        if (!isVisible()) {
+          post("pause");
+          return;
+        }
+
+        playing = true;
+        cancelFallback();
+        if (message.event === "playing") setHasPicture(true);
       }
 
-      if (event === "pause") {
-        setIsPaused(true);
-      }
-
-      if (event === "ended") {
-        // Loop is enabled via URL parameter; this fires before the loop restarts
-        setIsPaused(true);
-      }
-
-      if (event === "volumechange") {
-        if (
-          typeof value === "object" &&
-          value !== null &&
-          "volume" in value &&
-          typeof value.volume === "number"
-        ) {
-          // Treat volume=0 as muted regardless of the muted flag
-          setIsMuted(value.volume === 0 || ("muted" in value && value.muted === true));
+      if (message.event === "pause") {
+        playing = false;
+        // Some mobile browsers pause a running clip if unmuting is blocked.
+        if (isVisible() && !audioMuted) {
+          cancelFallback();
+          fallbackTimer = window.setTimeout(playMutedIfBlocked, SOUND_FALLBACK_DELAY);
         }
       }
+
+      if (message.event === "error" && detail?.method === "play") playMutedIfBlocked();
+
+      const observedMute =
+        message.method === "getMuted"
+          ? message.value
+          : message.event === "volumechange"
+            ? detail?.muted
+            : undefined;
+      if (typeof observedMute === "boolean") {
+        audioMuted = observedMute;
+        setMuted(audioMuted);
+      }
     };
 
-    const iframe = iframeRef.current;
-    const handleLoad = () => {
-      if (iframe) vimeoPing(iframe);
-    };
-
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      syncPlayback();
+    });
+    const handleLoad = () => post("ping");
     window.addEventListener("message", handleMessage);
-    if (iframe) {
-      iframe.addEventListener("load", handleLoad);
-      vimeoPing(iframe);
-    }
+    document.addEventListener("visibilitychange", syncPlayback);
+    iframe.addEventListener("load", handleLoad);
+    // Observe the clipped hero, since the video canvas extends beyond its edges.
+    observer.observe(wrapper.parentElement ?? wrapper);
+    post("ping");
 
     return () => {
+      observer.disconnect();
+      cancelFallback();
       window.removeEventListener("message", handleMessage);
-      iframe?.removeEventListener("load", handleLoad);
+      document.removeEventListener("visibilitychange", syncPlayback);
+      iframe.removeEventListener("load", handleLoad);
+      toggleAudioRef.current = null;
+      if (playerReady) post("pause");
     };
   }, []);
 
-  // ── Controls: Play/Pause ──────────────────────────────────────────────────
-  const togglePlay = useCallback(() => {
-    const iframe = iframeRef.current;
-    if (!iframe || !playerReadyRef.current) return;
-    if (isPaused) {
-      vimeoPost(iframe, "play");
-    } else {
-      vimeoPost(iframe, "pause");
-    }
-  }, [isPaused]);
-
-  // ── Controls: Mute ────────────────────────────────────────────────────────
-  const handleMute = useCallback(() => {
-    const iframe = iframeRef.current;
-    if (!iframe || !playerReadyRef.current) return;
-    if (isMuted) {
-      // Unmute: restore volume to configured level
-      vimeoPost(iframe, "setVolume", heroConfig.unmuteVolume);
-      setIsMuted(false);
-    } else {
-      vimeoPost(iframe, "setVolume", 0);
-      setIsMuted(true);
-    }
-  }, [isMuted]);
-
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className={styles.frame}>
-      {/* Vimeo iframe — full-bleed on desktop, natural 16:9 on mobile and tablet. */}
-      <div className={styles.vimeoWrapper} aria-hidden="true">
+    <>
+      <div ref={wrapperRef} className={styles.vimeoWrapper} aria-hidden="true">
         <iframe
           ref={iframeRef}
           src={VIMEO_SRC}
-          loading="eager"
           className={styles.vimeoIframe}
           allow="autoplay; fullscreen; picture-in-picture"
           title={heroConfig.title}
-          aria-hidden="true"
           tabIndex={-1}
         />
       </div>
+      <HeroPoster hidden={hasPicture} />
+      {ready && (
+        <button
+          type="button"
+          className={styles.muteBtn}
+          aria-label={muted ? "Unmute video" : "Mute video"}
+          onClick={() => toggleAudioRef.current?.()}
+          data-cursor="interactive"
+        >
+          <SpeakerIcon muted={muted} />
+        </button>
+      )}
+    </>
+  );
+}
 
-      {/* ── Poster (fades out once playback starts) ── */}
-      <Image
-        src={heroConfig.posterSrc}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className={`${styles.poster} ${posterVisible ? "" : styles.posterHidden}`}
-      />
+export function HeroPlayer({ children }: { children: ReactNode }) {
+  const motion = useSyncExternalStore(subscribeToMotionPreference, prefersMotion, () => false);
 
-      {/* ── Click-to-toggle layer ── */}
-      <button
-        type="button"
-        className={styles.clickLayer}
-        onClick={togglePlay}
-        aria-label={isPaused ? "Play background video" : "Pause background video"}
-      />
-
-      {/* ── Audio button — centered below header ── */}
-      <button
-        type="button"
-        className={styles.muteBtn}
-        aria-label={isMuted ? "Unmute video" : "Mute video"}
-        onClick={handleMute}
-        data-cursor="interactive"
-      >
-        {isMuted ? <MuteIcon /> : <UnmuteIcon />}
-      </button>
+  return (
+    <div className={styles.frame}>
+      {motion ? <VimeoBackdrop /> : <HeroPoster />}
+      <div className={styles.presentation}>{children}</div>
     </div>
   );
 }

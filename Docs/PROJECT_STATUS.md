@@ -1,5 +1,13 @@
 # FocusTV Website Rebuild
 
+## Homepage revisions — 8 November 2026
+
+The coloured FocusTV logo is used in the header and footer in both themes; the mobile drawer keeps its black logo. The hero starts on its poster with a central play control and does not autoplay. The introduction-to-project spacing and project headings are simplified. Automotive and gaming marks are grouped into separate draggable logo loops, and the cast action uses the shared primary button. Project Vimeo players recover missed ready events and offer retry/direct Vimeo links if the embed remains unresponsive; live Vimeo availability and embedding permissions still require verification outside restricted environments.
+
+## Owner-directed homepage revision — 7 November 2026
+
+The company introduction and documentary chapters are being updated for the new FocusTV positioning. Automotive and gaming featured voices follow the legacy site's separate project groupings; their displayed marks identify names associated with those featured voices, not unverified production partnerships. WA Police cast and related marks require confirmation. The supplied FocusTV brand guide and artwork now inform the logo, icon, primary gold and sans-serif typography. Earlier homepage descriptions below are historical and are superseded by this direction.
+
 ## Project Status
 
 **Last Updated:** 26 October 2026

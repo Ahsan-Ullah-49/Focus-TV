@@ -286,6 +286,60 @@
   text-underline-offset: 3px;
 }
 
+/* The homepage form sits on a photographic panel, so its fields need their own surface. */
+.homeForm .formHeading {
+  margin-bottom: var(--space-6);
+}
+
+.homeForm .formHeading h2 {
+  font-size: clamp(1.75rem, 3.1vw, 2.4rem);
+}
+
+.homeForm .fields {
+  gap: var(--space-4);
+}
+
+.homeForm .field label {
+  margin-bottom: var(--space-2);
+}
+
+.homeForm .field :is(input, select, textarea) {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+}
+
+.homeForm .field :is(input, select, textarea):focus {
+  border-color: var(--color-brand);
+}
+
+.homeForm .field textarea {
+  min-height: 7rem;
+}
+
+.homeForm .message {
+  margin-top: var(--space-4);
+}
+
+.homeForm .formActions {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.homeForm .formActions > p {
+  max-width: none;
+}
+
+.homeForm .submit {
+  justify-content: space-between;
+}
+
+.homeForm .requiredNote {
+  margin-top: var(--space-3);
+}
+
 @media (max-width: 1000px) {
   .page {
     padding-top: calc(var(--header-height) + var(--space-16));

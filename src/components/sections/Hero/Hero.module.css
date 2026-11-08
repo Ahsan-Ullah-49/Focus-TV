@@ -1,39 +1,46 @@
 /*
  * Hero.module.css
- * Full-bleed cinematic Hero for The Answer.
+ * Full-bleed Focus TV hero.
  * Uses a direct Vimeo iframe + postMessage API — no @vimeo/player SDK.
  *
  * Z-index map inside .frame:
  *   0   vimeoWrapper / vimeoIframe
  *   1   poster image
- *   3   clickLayer (transparent, click-to-toggle)
+ *   2   contrast scrim
+ *   3   headline
  *   4   muteBtn
  */
 
-/* ── Section shell ─────────────────────────────────────────────────────────── */
-/*
- * Occupies the first full viewport, starting at the very top of the page.
- * The fixed Header overlays this — we do NOT add padding-top here.
- * Using height with 100svh (small viewport) + dvh fallback for mobile browsers
- * that dynamically resize the viewport height as browser chrome shows/hides.
- */
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
   height: 100svh;
+  min-height: calc(var(--header-height) + 24rem);
   overflow: hidden;
   margin: 0;
   padding: 0;
   background-color: #0a0a0a;
 }
 
-/* ── Frame (fills the section) ─────────────────────────────────────────────── */
 .frame {
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--header-height) + var(--space-8)) var(--page-gutter) var(--space-8);
   background-color: #0a0a0a;
   overflow: hidden;
+  isolation: isolate;
+}
+
+.frame::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 0 0 / 52%), rgb(0 0 0 / 56%) 48%, rgb(0 0 0 / 65%));
+  pointer-events: none;
+  content: "";
 }
 
 /* ── Vimeo wrapper ──────────────────────────────────────────────────────────── */
@@ -67,7 +74,7 @@
 
 /* ── Poster ────────────────────────────────────────────────────────────────── */
 .poster {
-  z-index: 1 !important;
+  z-index: 1;
   object-fit: cover;
   object-position: center 30%;
   transition: opacity 700ms var(--ease-out);
@@ -78,44 +85,63 @@
   opacity: 0;
 }
 
-/* ── Click layer ───────────────────────────────────────────────────────────── */
-.clickLayer {
-  position: absolute;
-  inset: 0;
+.presentation {
   z-index: 3;
-  display: block;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: none;
+  min-width: 0;
+  text-align: center;
 }
 
-.clickLayer:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: -6px;
+.heroCopy {
+  display: grid;
+  max-width: 70rem;
+  justify-items: center;
+  gap: var(--space-4);
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   LIQUID GLASS DESIGN TOKENS (local to this module)
-   ══════════════════════════════════════════════════════════════════════════════ */
-/*
- * All glass surfaces share these characteristics:
- *   – Semi-transparent dark fill
- *   – backdrop-filter blur + saturation boost
- *   – 1px border with soft white translucency
- *   – Faint inset highlight on the top edge
- *   – Restrained box-shadow for depth
- */
+.heroCopy h1 {
+  color: #fff;
+  font-size: clamp(1.9rem, min(5vw, 12svh), 5rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+  text-shadow: 0 4px 32px rgb(0 0 0 / 48%);
+  text-wrap: balance;
+}
 
-/* ── Audio (mute/unmute) button ─────────────────────────────────────────────── */
-/*
- * Positioned at the top-center, slightly higher than the old placement
- * (12px below the header instead of 20px) so it sits in the breathing room
- * between the nav bar and the video content.
- */
+.heroCopy p {
+  max-width: 54ch;
+  color: #faf1df;
+  font-size: clamp(1rem, 1.65vw, 1.25rem);
+  line-height: var(--line-height-relaxed);
+  text-wrap: balance;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.heroActions > a {
+  min-height: 49px;
+}
+
+/* The shared secondary hover uses the same colours as the theme toggle. */
+.projectButton {
+  --color-text: #f3f0e8;
+  --color-border: rgb(255 255 255 / 36%);
+  --color-surface-muted: #1a1a1a;
+}
+
+.heroActions .projectButton:focus-visible {
+  border-color: var(--color-brand);
+  background-color: var(--color-surface-muted);
+  color: var(--color-brand);
+}
+
+/* The audio toggle sits just below the fixed header. */
 .muteBtn {
   position: absolute;
   top: calc(var(--header-height) + 14px);
@@ -152,11 +178,11 @@
 
 .muteBtn:hover {
   background: rgba(10, 10, 10, 0.52);
-  border-color: rgba(191, 139, 37, 0.55);
+  border-color: rgba(203, 132, 10, 0.55);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     0 6px 28px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(191, 139, 37, 0.2);
+    0 0 0 1px rgba(203, 132, 10, 0.2);
   transform: translateX(-50%) scale(1.06);
 }
 
@@ -187,7 +213,6 @@
   .hero {
     height: auto;
     min-height: unset;
-    padding-top: var(--header-height);
   }
 
   .frame {
@@ -195,55 +220,44 @@
     inset: unset;
     width: 100%;
     aspect-ratio: 16 / 9;
-    height: auto;
-  }
-
-  .vimeoWrapper {
-    position: absolute;
-    inset: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform: none;
-  }
-
-  .vimeoIframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    min-height: calc(var(--header-height) + 21rem);
   }
 
   .poster {
     object-position: center center;
   }
+}
+
+@media (max-width: 767px) {
+  .frame {
+    aspect-ratio: auto;
+    min-height: clamp(30rem, 74svh, 38rem);
+    padding-top: calc(var(--header-height) + var(--space-12) + var(--space-2));
+  }
+
+  /* A 16:9 inner canvas gives Vimeo the same cover crop as the portrait poster. */
+  .vimeoWrapper {
+    width: auto;
+    min-width: 100%;
+    aspect-ratio: 16 / 9;
+    transform: translate(-50%, -50%);
+  }
 
   .muteBtn {
-    top: 14px;
+    top: calc(var(--header-height) + var(--space-1));
   }
 }
 
-/* ── Mobile (≤ 768px) ──────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .muteBtn {
-    top: 12px;
-    width: 42px;
-    height: 42px;
+@media (max-width: 420px) {
+  .heroActions > a {
+    padding-inline: var(--space-4);
   }
-}
-
-/* ── Small mobile (≤ 480px) ────────────────────────────────────────────────── */
-@media (max-width: 480px) {
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .poster {
-    transition: none !important;
-  }
-
+  .poster,
   .muteBtn {
-    transition: none !important;
+    transition: none;
   }
 }

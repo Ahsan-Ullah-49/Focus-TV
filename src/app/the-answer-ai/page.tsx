@@ -41,10 +41,10 @@ export default function TheAnswerAIPage() {
           <p className={styles.description}>
             Details will be announced here.
             <br />
-            Until then, discover The Answer.
+            Until then, discover FocusTV.
           </p>
           <Link href="/#the-story" className={styles.link}>
-            Explore The Answer story <span aria-hidden="true">↗</span>
+            Explore the FocusTV story <span aria-hidden="true">↗</span>
           </Link>
         </section>
       </div>

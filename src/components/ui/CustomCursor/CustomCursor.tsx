@@ -308,7 +308,7 @@ export function CustomCursor() {
           <path
             d="M0 0 L0 17 L4.5 13 L7.5 20.5 L10.5 19.2 L7.5 11.8 L13.5 11.8 Z"
             fill="#b8bfc8"
-            stroke="#BF8B25"
+            stroke="var(--color-brand)"
             strokeWidth="1.5"
             strokeLinejoin="round"
             strokeLinecap="round"
@@ -330,7 +330,7 @@ export function CustomCursor() {
           <path
             d="M0,0 C0,-1.5 2,-1.5 2,0 L2,5.5 C2.8,5.1 4.2,5.5 4.2,6.7 L4.2,7.2 C5,6.8 6.4,7.2 6.4,8.4 L6.4,8.9 C7.2,8.7 8.5,9.2 8.5,10.4 L8.5,14.5 C8.5,17.5 5.5,19.5 2.5,19.5 C-1.5,19.5 -3.5,16.5 -3.5,13.5 L-3.5,5.5 C-3.5,4 -1.5,4 -1.5,5.5 L-1.5,8 L0,8 Z"
             fill="#b8bfc8"
-            stroke="#BF8B25"
+            stroke="var(--color-brand)"
             strokeWidth="1.5"
             strokeLinejoin="round"
             strokeLinecap="round"

@@ -1,3 +1,5 @@
+import type { LogoItem } from "./LogoLoop";
+
 export interface PartnerLogo {
   filename: string;
   name: string;
@@ -24,6 +26,32 @@ interface PartnerLogoVariant {
   height: number;
   /** Per-file visual correction that preserves the asset's aspect ratio. */
   scale?: number;
+}
+
+/** Preserve each supplied logo's theme artwork and sizing in every logo loop. */
+export function toLogoItem(logo: PartnerLogo): Extract<LogoItem, { src: string }> {
+  const asset = (filename: string) => `/media/Logos/LOGOS/${encodeURIComponent(filename)}`;
+  return {
+    src: asset(logo.filename),
+    darkSrc: logo.darkVariant ? asset(logo.darkVariant.filename) : undefined,
+    darkWidth: logo.darkVariant?.width,
+    darkHeight: logo.darkVariant?.height,
+    darkScale: logo.darkVariant?.scale,
+    lightSrc: logo.lightVariant ? asset(logo.lightVariant.filename) : undefined,
+    lightWidth: logo.lightVariant?.width,
+    lightHeight: logo.lightVariant?.height,
+    lightScale: logo.lightVariant?.scale,
+    displayScale: logo.displayScale,
+    slotWidth: logo.slotWidth,
+    darkBlend: logo.darkBlend,
+    alt: logo.name,
+    title: logo.name,
+    width: logo.width,
+    height: logo.height,
+    lowContrast: logo.lowContrast,
+    outlineOnLight: logo.outlineOnLight,
+    outlineOnDark: logo.outlineOnDark,
+  };
 }
 
 /**

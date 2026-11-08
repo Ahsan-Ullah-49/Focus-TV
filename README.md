@@ -2,6 +2,8 @@
 
 A custom-coded rebuild of the FocusTV website focused on premium presentation, cinematic storytelling, strong performance, responsive design, and maintainable code.
 
+**Current homepage (8 November 2026):** FocusTV branding leads the site. The hero starts on its poster and plays only after the visitor presses play. The company Story is followed by Automotive Legends, Gaming Legends and WA Police film chapters; automotive and gaming each have a separate draggable logo loop. Earlier milestone descriptions below are historical where they differ from this update.
+
 ---
 
 ## Project Goals
@@ -129,7 +131,7 @@ The 23–25 October owner request authorized completion of all remaining planned
 
 - **Component**: `HeroPlayer.tsx` embeds the Vimeo cinematic showcase in a responsive iframe and communicates through Vimeo's `postMessage` API; it does not use the Vimeo SDK.
 - **Playback Controls**:
-  - Starts autoplaying, looping, and muted by default (`playsinline`).
+  - Starts paused and muted with a central play button; playback loops and uses `playsinline`.
   - Full-surface click/tap and keyboard activation toggle play and pause.
   - Liquid-glass audio toggle allows unmuting/muting with volume restoration.
 - **Configuration & Future Replacement**:
@@ -162,7 +164,7 @@ Shared design tokens are in `src/styles/tokens.css`; the CTA reuses `src/compone
 
 ### 5. Partners, Other Projects and Footer
 
-- The homepage continues with the draggable 55-logo loop headed “Brands & organizations we’ve worked with,” then `src/components/sections/Projects/`, then the shared `Footer` from the root layout. Partner entries and theme-specific sizing live in `src/components/sections/Partners/partners.config.ts`; all base and supplied theme artwork lives together in `public/media/Logos/LOGOS/`.
+- The homepage continues with `src/components/sections/Projects/`, followed by the shared `Footer`. Separate automotive and gaming logo loops reuse `LogoLoop` and the theme artwork configured in `src/components/sections/Partners/partners.config.ts`.
 - The Gaming Legends and WA Police Vimeo films are configured in `projects.config.ts`. Their browser-lazy embeds start muted when scrolled into view and pause offscreen. Vimeo's native timeline and player controls use the FocusTV gold accent; its logo, title and byline are hidden where the Vimeo account settings allow. The browser pointer is visible inside each interactive Vimeo frame, while the animated FocusTV cursor hides there and resumes outside it. A manual pause blocks scroll-triggered autoplay until refresh. Add only further client-confirmed project entries.
 - The shared footer is the final homepage section. Its navigation links to the content routes; contact actions open the enquiry and meeting flows. The brand column uses the Header's desktop logo asset in both themes and places the client-approved Instagram and email icons below the brand note. On small screens, the invitation stays horizontal with its label below the arrow, while Explore links stack vertically. Footer copy and destinations live in `src/components/layout/Footer/Footer.tsx`; visual rules are in `Footer.module.css`.
 

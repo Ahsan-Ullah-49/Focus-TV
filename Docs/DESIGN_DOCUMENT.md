@@ -15,6 +15,10 @@
 
 ## 1. Purpose
 
+### Supplied FocusTV brand guide — 7 November 2026
+
+The owner-supplied `src/Assets/Logos/Focus TV/Branding/focus tv guidlines 2 (2).pdf` supersedes earlier assumptions about the logo, gold and primary typography. It specifies Poppins for typography, Blanka Regular for the logo, logo gold `#A58535`, palette golds `#CB840A` and `#FBCD43`, black `#0A0A0A` and white `#FFFFFF`. Its gradient stops are `#CA6D1A`, `#CB840A`, `#FDCD43`, `#E29C22`, `#DB8B0E`. Use the supplied logo artwork for its distinct lettering. Poppins is the primary sans-serif; existing editorial serif accents and the approved overall layouts remain in place.
+
 This document defines the visual and interaction principles for the FocusTV website.
 
 It is not intended to freeze every section before development. The project will evolve through implementation and client review, but all new design decisions must stay inside the system defined here unless the team intentionally updates this document.

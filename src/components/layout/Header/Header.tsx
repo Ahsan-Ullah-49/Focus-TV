@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 import { Container } from "@/components/layout/Container/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle/ThemeToggle";
 import { Button } from "@/components/ui/Button/Button";
+import { HOME_CONTACT_HREF } from "@/components/pages/Contact/contact.config";
 import styles from "./Header.module.css";
 
 import Image from "next/image";
-import logoPng from "@/Assets/Logos/logo.png";
-import whiteLogoPng from "@/Assets/Logos/White-logo.png";
+import lightLogo from "@/Assets/Logos/Focus TV/focus-tv-light.png";
+import goldLogo from "@/Assets/Logos/Focus TV/focus-tv-gold.png";
+import blackLogo from "@/Assets/Logos/Focus TV/focus-tv-black.png";
 
 const NAV_LINKS = [
   { href: "/", label: "Home", index: "01" },
@@ -109,7 +111,21 @@ export function Header() {
             data-cursor="interactive"
             aria-label="FocusTV Home"
           >
-            <Image src={logoPng} alt="FocusTV" priority className={styles.logoImage} />
+            <Image
+              src={lightLogo}
+              alt="FocusTV"
+              priority
+              sizes="(max-width: 600px) 160px, 190px"
+              className={`${styles.logoImage} ${styles.logoLight}`}
+            />
+            <Image
+              src={goldLogo}
+              alt=""
+              aria-hidden="true"
+              priority
+              sizes="(max-width: 600px) 160px, 190px"
+              className={`${styles.logoImage} ${styles.logoDark}`}
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -132,7 +148,7 @@ export function Header() {
           {/* Desktop Right Actions */}
           <div className={`${styles.actions} ${styles.desktopActions}`}>
             <ThemeToggle className={styles.headerThemeToggle} />
-            <Button href="/contact" variant="primary">
+            <Button href={HOME_CONTACT_HREF} variant="primary">
               Contact Us
             </Button>
           </div>
@@ -190,7 +206,12 @@ export function Header() {
               aria-label="FocusTV Home"
               tabIndex={mobileOpen ? 0 : -1}
             >
-              <Image src={whiteLogoPng} alt="FocusTV" className={styles.mobileLogoImage} />
+              <Image
+                src={blackLogo}
+                alt="FocusTV"
+                sizes="185px"
+                className={styles.mobileLogoImage}
+              />
             </Link>
             <button
               type="button"
@@ -231,7 +252,7 @@ export function Header() {
           {/* Mobile CTA */}
           <div className={styles.mobileCtaWrapper}>
             <Button
-              href="/contact"
+              href={HOME_CONTACT_HREF}
               variant="primary"
               className={styles.mobileCtaButton}
               onClick={handleLinkClick}

@@ -1,0 +1,159 @@
+.gallery {
+  --card-width: clamp(9.5rem, 23vw, 17rem);
+  --card-gap: clamp(0.75rem, 2vw, 1.75rem);
+  --caption-room: 5rem;
+  --curve-room: clamp(1.5rem, 3.6vw, 3.25rem);
+
+  position: relative;
+  min-width: 0;
+}
+
+.rail {
+  display: flex;
+  column-gap: var(--card-gap);
+  align-items: start;
+  min-height: calc(var(--card-width) * 1.08 + var(--caption-room) + var(--curve-room));
+  padding-block: var(--space-2);
+  overflow: auto hidden;
+  list-style: none;
+  scroll-snap-type: x proximity;
+}
+
+.card {
+  width: var(--card-width);
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+
+.card[data-copy] {
+  display: none;
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 0.925;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--chapter-text) 8%, var(--chapter-bg));
+}
+
+.portrait img {
+  object-fit: cover;
+  object-position: 50% 42%;
+  pointer-events: none;
+}
+
+.caption {
+  padding: var(--space-3) var(--space-1) 0;
+  text-align: center;
+}
+
+.name,
+.role {
+  text-wrap: balance;
+}
+
+.name {
+  color: var(--chapter-text);
+  font-size: clamp(0.875rem, 1.45vw, 1.125rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.role {
+  margin-top: var(--space-1);
+  color: var(--chapter-secondary);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+}
+
+/* The extra track room keeps the rotated captions inside the clip at both edges. */
+.rail[data-animated] {
+  position: relative;
+  overflow: clip;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  scroll-snap-type: none;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+}
+
+.rail[data-animated] .card {
+  position: absolute;
+  top: var(--space-2);
+  left: 50%;
+  display: block;
+  translate: -50% 0;
+}
+
+.rail[data-animated][data-in-view] .card {
+  will-change: transform;
+}
+
+.controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rail:not([data-animated]) + .controls {
+  display: none;
+}
+
+.controls button {
+  position: absolute;
+  /* Align with the portrait midpoint at the edges of the curve. */
+  top: calc(var(--card-width) * 0.54 + var(--curve-room) * 0.45 + var(--space-2));
+  display: grid;
+  width: clamp(2.75rem, 4vw, 3.25rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--chapter-rule);
+  border-radius: 50%;
+  background: var(--chapter-bg);
+  box-shadow: 0 var(--space-1) var(--space-4) var(--chapter-shadow);
+  color: var(--chapter-text);
+  translate: 0 -50%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.controls button:first-child {
+  inset-inline-start: 0;
+}
+
+.controls button:last-child {
+  inset-inline-end: 0;
+}
+
+.controls button:hover,
+.controls button:focus-visible {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: #121212;
+}
+
+.controls svg {
+  width: 1.1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: var(--space-6) var(--card-gap);
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .controls button {
+    transition: none;
+  }
+}

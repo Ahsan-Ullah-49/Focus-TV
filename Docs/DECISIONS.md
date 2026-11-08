@@ -1,5 +1,23 @@
 # FocusTV Website Rebuild
 
+## DEC-037 - Homepage Playback and Project Logo Loops
+
+**Status:** Owner-directed (8 November 2026); supersedes earlier hero autoplay, monochrome header/footer logo and project logo-grid choices.
+
+Use the supplied coloured FocusTV wordmark in the header and footer in both themes and over the hero. Preserve the separate black logo inside the mobile drawer. The hero loads its poster and Vimeo player without autoplay; visitors start playback using the central play control. Keep the project Vimeo players' native controls and muted, visibility-driven playback, with readiness recovery and a retry/Vimeo link if the player does not respond. Present automotive and gaming marks in separate draggable logo loops using the existing loop styling and supplied theme assets. The grouped marks identify relevant fields, not an assertion that each brand is a project sponsor.
+
+## DEC-035 - FocusTV Company Positioning and Documentary Chapters
+
+**Status:** Owner-directed, implementation in progress (7 November 2026); supersedes DEC-019 and the homepage sequence in DEC-024.
+
+FocusTV is the media production company, with The Answer as a project rather than the identity of the whole website. Reframe the homepage introduction around the company and organize selected work into Automotive Legends, Gaming Legends and WA Police, with video, context, confirmed featured voices and related marks. Keep the approved header, hero, final invitation and footer composition, replacing The Answer logo artwork with the supplied FocusTV assets. Do not infer a documentary credit from an individual's profession or a brand logo alone.
+
+## DEC-036 - Supplied FocusTV Brand Guide
+
+**Status:** Owner-supplied (7 November 2026); supersedes the earlier logo and brand-colour assumptions.
+
+The supplied brand guide identifies Poppins for typography and Blanka Regular for the logo, and specifies logo gold `#A58535`, palette golds `#CB840A` and `#FBCD43`, black `#0A0A0A` and white `#FFFFFF`. Its gradient uses `#CA6D1A`, `#CB840A`, `#FDCD43`, `#E29C22` and `#DB8B0E`. Use the supplied logo artwork and favicon rather than reconstructing its lettering. Apply Poppins as the primary sans-serif and retain the established editorial serif accents within the protected layout. Use the black, white or gold/black logo variant appropriate to the background.
+
 ## Decision Log
 
 This file records decisions that future developers or AI assistants may otherwise question.

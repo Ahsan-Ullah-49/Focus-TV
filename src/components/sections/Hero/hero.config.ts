@@ -23,14 +23,11 @@ export const heroConfig = {
   title: "The Answer — The Birth of the Automobile",
 
   // ── Playback Settings ───────────────────────────────────────────────────────
-  autoplay: true,
-  muted: true,
   loop: true,
   playsinline: true,
-  unmuteVolume: 0.8, // Volume restored when user clicks unmute (0.0 to 1.0)
 
   // ── Player Chrome Restrictions ──────────────────────────────────────────────
-  // Kept hidden so the custom liquid-glass controls drive playback
+  // Keep native controls out of the background composition.
   hideControls: true,
   hideTitle: true,
   hideByline: true,
@@ -50,8 +47,9 @@ export function buildVimeoEmbedUrl(): string {
     autopause: heroConfig.autopause ? "1" : "0",
     player_id: heroConfig.playerId,
     app_id: heroConfig.appId,
-    autoplay: heroConfig.autoplay ? "1" : "0",
-    muted: heroConfig.muted ? "1" : "0",
+    // The page starts playback once Vimeo is ready and the hero is in view.
+    autoplay: "0",
+    muted: "0",
     loop: heroConfig.loop ? "1" : "0",
     playsinline: heroConfig.playsinline ? "1" : "0",
     controls: heroConfig.hideControls ? "0" : "1",

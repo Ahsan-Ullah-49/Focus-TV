@@ -17,6 +17,16 @@
 
 ## 1. Executive Summary
 
+### Homepage interaction update — 8 November 2026
+
+Use the coloured FocusTV logo across header and footer themes, keeping the mobile drawer's separate black logo. The hero must not autoplay: present its poster with a central play button. Reduce spacing after the company story, remove the selected-work and film-number labels and the introductory projects paragraph, and use the existing draggable logo-loop treatment for separately grouped automotive and gaming marks. Featured voices use gold headings and the shared primary cast button. Keep project videos usable on mobile and provide a recovery path if Vimeo cannot load.
+
+### Owner direction — 7 November 2026
+
+FocusTV is the media production company; The Answer is one of its projects. The homepage introduction should represent the company, and the featured work should be organized by documentary: Automotive Legends, Gaming Legends and WA Police. Each project should present its film, description, confirmed featured people and related marks. This instruction supersedes the earlier exclusion of Automotive Legends and the previous homepage sequence below. Preserve the approved header, hero, final invitation and footer layout; replace The Answer brand artwork with the official FocusTV logo when supplied. Confirm project associations rather than inferring credits.
+
+The subsequently supplied FocusTV brand guide supersedes the earlier logo, colour and typography assumptions: use the supplied FocusTV logo variants, Poppins for primary interface typography, logo gold `#A58535`, and palette gold `#CB840A`. The logo lettering in the guide is Blanka Regular. Preserve the established editorial accents and page compositions.
+
 FocusTV requires a complete rebuild of its existing website.
 
 The new website will not reuse the WordPress frontend architecture. The owner has authorized https://focustv.tv/ as the factual source for existing copy, people, credits, photographs and film embeds. Preserve approved local content where it differs from the legacy site, omit legacy placeholder text, and record imported sources in `Docs/CONTENT_SOURCES.md`.

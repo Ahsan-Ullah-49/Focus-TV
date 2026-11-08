@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/Container/Container";
+import { HOME_CONTACT_HREF, MEETING_CONTACT_HREF } from "@/components/pages/Contact/contact.config";
 import { PageMotion } from "@/components/motion/PageMotion";
-import logo from "@/Assets/Logos/logo.png";
+import lightLogo from "@/Assets/Logos/Focus TV/focus-tv-light.png";
+import goldLogo from "@/Assets/Logos/Focus TV/focus-tv-gold.png";
 import { FooterInvitation } from "./FooterInvitation";
 import styles from "./Footer.module.css";
 
@@ -12,6 +14,7 @@ const explore = [
   { href: "/crew", label: "Our team" },
   { href: "/gallery", label: "Gallery" },
   { href: "/the-answer-ai", label: "The Answer AI" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const socialLinks = [
@@ -99,10 +102,17 @@ export function Footer() {
             <div className={styles.brand}>
               <Link href="/" aria-label="FocusTV home" className={styles.brandLink}>
                 <Image
-                  src={logo}
+                  src={lightLogo}
                   alt="FocusTV"
-                  className={styles.logo}
-                  sizes="(max-width: 760px) 340px, 366px"
+                  className={`${styles.logo} ${styles.logoLight}`}
+                  sizes="(max-width: 760px) 220px, 240px"
+                />
+                <Image
+                  src={goldLogo}
+                  alt=""
+                  aria-hidden="true"
+                  className={`${styles.logo} ${styles.logoDark}`}
+                  sizes="(max-width: 760px) 220px, 240px"
                 />
               </Link>
               <p>
@@ -140,7 +150,7 @@ export function Footer() {
               <h3 id="footer-contact-heading">Get in touch</h3>
               <div className={styles.contactActions}>
                 <Link
-                  href="/contact"
+                  href={HOME_CONTACT_HREF}
                   className={`${styles.contactAction} ${styles.contactPrimary}`}
                 >
                   <span>Start a conversation</span>
@@ -149,7 +159,7 @@ export function Footer() {
                   </span>
                 </Link>
                 <Link
-                  href="/contact?enquiry=meeting"
+                  href={MEETING_CONTACT_HREF}
                   className={`${styles.contactAction} ${styles.contactSecondary}`}
                 >
                   <span>Arrange a meeting</span>

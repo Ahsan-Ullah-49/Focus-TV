@@ -1,8 +1,7 @@
 import { Hero } from "@/components/sections/Hero/Hero";
 import { Intro } from "@/components/sections/Intro/Intro";
-import { Cast } from "@/components/sections/Cast/Cast";
-import { Partners } from "@/components/sections/Partners/Partners";
 import { Projects } from "@/components/sections/Projects/Projects";
+import { HomeContact } from "@/components/sections/HomeContact/HomeContact";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,12 +11,10 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <h1 className="visually-hidden">FocusTV — stories worth telling</h1>
       <Hero />
       <Intro />
-      <Cast />
-      <Partners />
       <Projects />
+      <HomeContact />
     </>
   );
 }
