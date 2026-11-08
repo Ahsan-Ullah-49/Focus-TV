@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button/Button";
 import { CONTACT_EMAIL, HOME_CONTACT_ID } from "./contact.config";
 import styles from "./Contact.module.css";
@@ -17,32 +16,10 @@ const MEETING_REQUEST = "Meeting request";
 type ContactFormVariant = "page" | "home";
 
 export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant }) {
-  return variant === "home" ? (
-    <EnquiryForm initialInquiry={INQUIRY_TYPES[0]} variant="home" />
-  ) : (
-    <MeetingAwareForm />
-  );
-}
-
-function MeetingAwareForm() {
-  const searchParams = useSearchParams();
-  const initialInquiry =
-    searchParams.get("enquiry") === "meeting" ? MEETING_REQUEST : INQUIRY_TYPES[0];
-
-  return <EnquiryForm key={initialInquiry} initialInquiry={initialInquiry} variant="page" />;
-}
-
-function EnquiryForm({
-  initialInquiry,
-  variant,
-}: {
-  initialInquiry: string;
-  variant: ContactFormVariant;
-}) {
-  const [inquiry, setInquiry] = useState(initialInquiry);
-  const [draftLink, setDraftLink] = useState<string | null>(null);
   const onHome = variant === "home";
-  const meeting = !onHome && inquiry === MEETING_REQUEST;
+  const [inquiry, setInquiry] = useState<string>(onHome ? INQUIRY_TYPES[0] : MEETING_REQUEST);
+  const [draftLink, setDraftLink] = useState<string | null>(null);
+  const isMeetingRequest = !onHome && inquiry === MEETING_REQUEST;
   const prefix = onHome ? "home-contact" : "contact";
   const headingId = onHome ? "home-enquiry-heading" : "enquiry-heading";
   const deliveryId = `${prefix}-delivery`;
@@ -113,9 +90,14 @@ function EnquiryForm({
     ]
       .filter(([, value]) => value)
       .map(([label, value]) => `${label}: ${value}`);
+    const meetingPreferences = preferences.length
+      ? ["", "Meeting preferences", ...preferences]
+      : [];
 
-    const subject = meeting ? `Focus TV meeting request — ${name}` : `FocusTV — ${inquiry}`;
-    const lines = meeting
+    const subject = isMeetingRequest
+      ? `Focus TV meeting request — ${name}`
+      : `FocusTV — ${inquiry}`;
+    const lines = isMeetingRequest
       ? [
           "Hello Focus TV team,",
           "",
@@ -123,7 +105,7 @@ function EnquiryForm({
           "",
           "Contact details",
           ...contactDetails,
-          ...(preferences.length ? ["", "Meeting preferences", ...preferences] : []),
+          ...meetingPreferences,
           "",
           "Message",
           message,
@@ -131,7 +113,7 @@ function EnquiryForm({
           "Kind regards,",
           name,
         ]
-      : [...contactDetails, `Enquiry: ${inquiry}`, "", message.trim()];
+      : [...contactDetails, `Enquiry: ${inquiry}`, ...meetingPreferences, "", message.trim()];
 
     // Mailto bodies use CRLF, including line breaks already typed into the message.
     const body = lines.join("\n").replace(/\r\n?|\n/g, "\r\n");
@@ -212,7 +194,7 @@ function EnquiryForm({
         </div>
       </div>
 
-      {meeting && (
+      {!onHome && (
         <fieldset className={styles.meeting}>
           <legend>
             A time that suits you <span className={styles.optional}>(optional)</span>
@@ -258,12 +240,12 @@ function EnquiryForm({
 
       <div className={styles.formActions}>
         <p id={deliveryId}>
-          {meeting
+          {isMeetingRequest
             ? "Review and send your prefilled meeting request from your email app."
             : "This opens a draft in your email app. Review your message and send it from there."}
         </p>
         <Button type="submit" variant="primary" className={styles.submit}>
-          {meeting ? "Open meeting email draft" : "Open email draft"}{" "}
+          {isMeetingRequest ? "Open meeting email draft" : "Open email draft"}{" "}
           <span aria-hidden="true">↗</span>
         </Button>
       </div>

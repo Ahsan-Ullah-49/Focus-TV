@@ -109,9 +109,9 @@
 }
 
 .heroCopy p {
-  max-width: 54ch;
+  justify-self: stretch;
   color: #faf1df;
-  font-size: clamp(1rem, 1.65vw, 1.25rem);
+  font-size: clamp(var(--text-sm), 1.15vw, var(--text-base));
   line-height: var(--line-height-relaxed);
   text-wrap: balance;
 }
@@ -128,16 +128,15 @@
   min-height: 49px;
 }
 
-/* The shared secondary hover uses the same colours as the theme toggle. */
+/* Keep the shared secondary hover transparent on the hero. */
 .projectButton {
   --color-text: #f3f0e8;
   --color-border: rgb(255 255 255 / 36%);
-  --color-surface-muted: #1a1a1a;
+  --color-surface-muted: transparent;
 }
 
 .heroActions .projectButton:focus-visible {
   border-color: var(--color-brand);
-  background-color: var(--color-surface-muted);
   color: var(--color-brand);
 }
 

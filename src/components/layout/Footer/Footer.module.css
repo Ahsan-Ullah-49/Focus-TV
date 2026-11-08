@@ -1,4 +1,5 @@
 .footer {
+  container-type: inline-size;
   overflow: hidden;
   background: var(--color-surface-muted);
   border-top: 1px solid var(--color-border);
@@ -339,7 +340,9 @@
   background-clip: text;
   color: transparent;
   font-weight: 500;
-  font-size: clamp(4rem, 25vw, 100vw);
+  /* Scale to the footer's available width, excluding the scrollbar. */
+  font-size: 22.75vw;
+  font-size: 22.75cqi;
   letter-spacing: -0.1em;
   line-height: 0.78;
   text-align: center;
@@ -369,10 +372,6 @@
 }
 
 @media (max-width: 1024px) {
-  .wordmark {
-    font-size: clamp(4rem, 24.5vw, 100vw);
-  }
-
   .contactGroup {
     flex-direction: column-reverse;
     gap: var(--space-2);
@@ -482,10 +481,6 @@
   .socialLink {
     width: 3.25rem;
     height: 3.25rem;
-  }
-
-  .wordmark {
-    font-size: clamp(4rem, 22.75vw, 100vw);
   }
 
   .brandLink {

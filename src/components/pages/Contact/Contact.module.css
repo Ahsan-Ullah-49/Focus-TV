@@ -119,10 +119,6 @@
   min-width: 0;
 }
 
-.formPlaceholder {
-  min-height: 36rem;
-}
-
 .formHeading {
   display: flex;
   align-items: baseline;

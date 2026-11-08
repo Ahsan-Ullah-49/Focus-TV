@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { ContactForm } from "@/components/pages/Contact/ContactForm";
 import { CONTACT_EMAIL, CONTACT_SOCIALS } from "@/components/pages/Contact/contact.config";
 import styles from "@/components/pages/Contact/Contact.module.css";
@@ -56,15 +55,7 @@ export default function ContactPage() {
           </div>
         </aside>
         <div className={styles.formPanel} data-reveal="fade-right">
-          <Suspense
-            fallback={
-              <p className={styles.formPlaceholder} role="status">
-                Preparing the enquiry form…
-              </p>
-            }
-          >
-            <ContactForm />
-          </Suspense>
+          <ContactForm />
         </div>
       </div>
     </div>

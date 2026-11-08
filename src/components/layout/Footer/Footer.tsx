@@ -10,7 +10,7 @@ import styles from "./Footer.module.css";
 
 const explore = [
   { href: "/", label: "Home" },
-  { href: "/cast", label: "Our cast" },
+  { href: "/cast", label: "Projects" },
   { href: "/crew", label: "Our team" },
   { href: "/gallery", label: "Gallery" },
   { href: "/the-answer-ai", label: "The Answer AI" },

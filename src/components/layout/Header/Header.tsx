@@ -16,7 +16,7 @@ import blackLogo from "@/Assets/Logos/Focus TV/focus-tv-black.png";
 
 const NAV_LINKS = [
   { href: "/", label: "Home", index: "01" },
-  { href: "/cast", label: "Cast", index: "02" },
+  { href: "/cast", label: "Projects", index: "02" },
   { href: "/crew", label: "Team", index: "03" },
   { href: "/gallery", label: "Gallery", index: "04" },
   { href: "/the-answer-ai", label: "The Answer AI", index: "05" },
