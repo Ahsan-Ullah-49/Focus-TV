@@ -1,13 +1,28 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./HomeContact.module.css";
 
-const CONTACT_PHOTO = "/media/story/main%20image.webp";
 const PHOTO_SCROLL_SPEED = 0.4;
+
+const { props: desktopPhoto } = getImageProps({
+  src: "/media/story/contact%20section%20desktop%20version.webp",
+  alt: "",
+  fill: true,
+  sizes: "(max-width: 1920px) 1920px, 100vw",
+});
+
+const {
+  props: { srcSet: portraitSrcSet, sizes: portraitSizes },
+} = getImageProps({
+  src: "/media/story/contact%20section%20mobile%20version.webp",
+  alt: "",
+  fill: true,
+  sizes: "(max-width: 420px) 420px, 100vw",
+});
 
 export function HomeContactBackdrop() {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -53,13 +68,14 @@ export function HomeContactBackdrop() {
   return (
     <div ref={frameRef} className={styles.backdrop} aria-hidden="true">
       <div ref={photoRef} className={styles.backdropPhoto}>
-        <Image
-          className={styles.backdropImage}
-          src={CONTACT_PHOTO}
-          alt=""
-          fill
-          sizes="(max-width: 1920px) 1920px, 100vw"
-        />
+        <picture>
+          <source
+            media="(max-width: 600px) and (orientation: portrait)"
+            srcSet={portraitSrcSet}
+            sizes={portraitSizes}
+          />
+          <img {...desktopPhoto} alt="" className={styles.backdropImage} />
+        </picture>
       </div>
     </div>
   );

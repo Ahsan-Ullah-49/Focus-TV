@@ -179,7 +179,7 @@
   }
 
   .backdropImage {
-    object-position: 22% center;
+    object-position: 60% center;
   }
 
   .backdrop::after {
@@ -193,6 +193,25 @@
 
   .copy {
     padding-block: var(--space-3);
+  }
+}
+
+@media (max-width: 600px) and (orientation: portrait) {
+  .backdrop {
+    --parallax-travel: clamp(10rem, 27svh, 15rem);
+  }
+
+  .backdropImage {
+    object-position: center;
+  }
+
+  .backdrop::after {
+    background: linear-gradient(
+      180deg,
+      rgb(12 14 12 / 73%),
+      rgb(12 14 12 / 54%) 46%,
+      rgb(12 14 12 / 78%)
+    );
   }
 }
 
