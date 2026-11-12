@@ -9,12 +9,13 @@ The homepage, cast directory and gallery reuse shared original photographs. All 
 - Nolan Bushnell: `public/media/Stills/optimized/20.webp`.
 - Will Wright: `public/media/Stills/optimized/21.webp`.
 - Naveen Jain: `public/media/Stills/optimized/22.webp`.
+- Mate Rimac: `public/media/Stills/optimized/23.webp` (homepage Automotive Legends).
 
-The owner confirmed all five filename mappings. The old PNG filenames have been replaced throughout the code. Obsolete source photos for these five entries have been removed.
+The owner confirmed all six filename mappings. The old PNG filenames have been replaced throughout the code. Obsolete source photos for the replaced entries have been removed.
 
 ## Homepage interview stills to confirm or supply
 
-Mate Rimac, Katsuhiro Harada and Fawzi Mesmar. Existing unedited source photographs for Katsuhiro and Fawzi are retained until replacement stills are supplied. Mate has no local original photograph, so only his name and role are shown.
+Katsuhiro Harada and Fawzi Mesmar. Their existing unedited source photographs are retained until replacement stills are supplied.
 
 ## Other cast directory entries
 

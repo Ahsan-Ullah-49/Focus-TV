@@ -2,6 +2,8 @@
 
 **Asset maintenance (12 November 2026):** Runtime images and logos use WebP; the small App Router favicon remains PNG. Local video downloads are removed: The Answer uses official Vimeo `1075036022` with hash `417f274a07`, keeping its existing WebP poster. Unused branding/logo artwork and video-compression tooling were removed. See `Docs/CONTENT_SOURCES.md` and `Docs/MISSING_INTERVIEW_STILLS.md` for current maintenance notes. Older milestone inventories below are historical.
 
+**Local folder size:** `node_modules/` contains the installed development dependencies; `.next/` contains generated build output and caches. Both are ignored by Git. `.next/` can be removed after stopping the local server and is recreated by `npm run dev` or `npm run build`. Keep `node_modules/` for local development; a fresh checkout restores it with `npm ci`. Website media belongs in `public/` and uses WebP images with externally hosted video.
+
 A custom-coded rebuild of the FocusTV website focused on premium presentation, cinematic storytelling, strong performance, responsive design, and maintainable code.
 
 **Current homepage (8 November 2026):** FocusTV branding leads the site. The hero starts on its poster and plays only after the visitor presses play. The company Story is followed by Automotive Legends, Gaming Legends and WA Police film chapters; automotive and gaming each have a separate draggable logo loop. Earlier milestone descriptions below are historical where they differ from this update.

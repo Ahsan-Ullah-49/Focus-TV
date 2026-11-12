@@ -86,6 +86,7 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
         id: "mate-rimac",
         name: "Mate Rimac",
         title: "Founder & CEO, Rimac Group",
+        imageSrc: "/media/Stills/optimized/23.webp",
       },
       ...castById(["sasha-selipanov"]),
       {
