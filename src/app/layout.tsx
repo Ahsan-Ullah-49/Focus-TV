@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: "/media/hero/focustv-Hero-poster.png",
+        url: "/media/hero/focustv-Hero-poster.webp",
         alt: "Automotive documentary imagery from FocusTV",
       },
     ],

@@ -6,13 +6,13 @@ import { usePathname } from "next/navigation";
 import { Container } from "@/components/layout/Container/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle/ThemeToggle";
 import { Button } from "@/components/ui/Button/Button";
-import { HOME_CONTACT_HREF } from "@/components/pages/Contact/contact.config";
+import { CONTACT_PAGE_HREF } from "@/components/pages/Contact/contact.config";
 import styles from "./Header.module.css";
 
 import Image from "next/image";
-import lightLogo from "@/Assets/Logos/Focus TV/focus-tv-light.png";
-import goldLogo from "@/Assets/Logos/Focus TV/focus-tv-gold.png";
-import blackLogo from "@/Assets/Logos/Focus TV/focus-tv-black.png";
+import lightLogo from "@/Assets/Logos/Focus TV/focus-tv-light.webp";
+import goldLogo from "@/Assets/Logos/Focus TV/focus-tv-gold.webp";
+import blackLogo from "@/Assets/Logos/Focus TV/focus-tv-black.webp";
 
 const NAV_LINKS = [
   { href: "/", label: "Home", index: "01" },
@@ -148,7 +148,7 @@ export function Header() {
           {/* Desktop Right Actions */}
           <div className={`${styles.actions} ${styles.desktopActions}`}>
             <ThemeToggle className={styles.headerThemeToggle} />
-            <Button href={HOME_CONTACT_HREF} variant="primary">
+            <Button href={CONTACT_PAGE_HREF} variant="primary">
               Contact Us
             </Button>
           </div>
@@ -252,7 +252,7 @@ export function Header() {
           {/* Mobile CTA */}
           <div className={styles.mobileCtaWrapper}>
             <Button
-              href={HOME_CONTACT_HREF}
+              href={CONTACT_PAGE_HREF}
               variant="primary"
               className={styles.mobileCtaButton}
               onClick={handleLinkClick}

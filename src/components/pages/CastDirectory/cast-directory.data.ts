@@ -184,6 +184,14 @@ const additional: Array<{
   },
 ];
 
+// Owner-confirmed interview stills, shared by the directory and homepage projects.
+const additionalInterviewStills: Record<string, string> = {
+  "shiro-nakamura": "/media/Stills/optimized/18.webp",
+  "ahmed-mansour": "/media/Stills/optimized/19.webp",
+  "will-wright": "/media/Stills/optimized/21.webp",
+  "naveen-jain": "/media/Stills/optimized/22.webp",
+};
+
 export const DIRECTORY_CAST: DirectoryMember[] = [
   ...CAST.map((member) => ({
     ...member,
@@ -192,7 +200,7 @@ export const DIRECTORY_CAST: DirectoryMember[] = [
   })),
   ...additional.map((member) => ({
     ...member,
-    imageSrc: `/media/cast-extra/${member.id}.webp`,
+    imageSrc: additionalInterviewStills[member.id] ?? `/media/cast-extra/${member.id}.webp`,
     imageAlt: member.isOrg ? member.name : `Portrait of ${member.name}`,
   })),
 ];

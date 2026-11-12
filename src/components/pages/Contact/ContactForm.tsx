@@ -1,70 +1,33 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button/Button";
-import { CONTACT_EMAIL, HOME_CONTACT_ID } from "./contact.config";
+import {
+  CONTACT_EMAIL,
+  CONTACT_FIELD_LIMITS,
+  CONTACT_FORM_ENDPOINT,
+  INQUIRY_TYPES,
+  MEETING_REQUEST,
+} from "./contact.config";
 import styles from "./Contact.module.css";
 
-const INQUIRY_TYPES = [
-  "General enquiry",
-  "Partnership & sponsorship",
-  "Production enquiry",
-  "Guest enquiry",
-] as const;
-
-const MEETING_REQUEST = "Meeting request";
-type ContactFormVariant = "page" | "home";
+const SEND_ERROR = "We couldn't send your enquiry right now. Please try again in a moment.";
+type ContactFormVariant = "page" | "compact";
+type Submission = { status: "idle" | "sending" | "sent" } | { status: "error"; message: string };
 
 export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant }) {
-  const onHome = variant === "home";
-  const [inquiry, setInquiry] = useState<string>(onHome ? INQUIRY_TYPES[0] : MEETING_REQUEST);
-  const [draftLink, setDraftLink] = useState<string | null>(null);
-  const isMeetingRequest = !onHome && inquiry === MEETING_REQUEST;
-  const prefix = onHome ? "home-contact" : "contact";
-  const headingId = onHome ? "home-enquiry-heading" : "enquiry-heading";
+  const isCompact = variant === "compact";
+  const [submission, setSubmission] = useState<Submission>({ status: "idle" });
+  const submitting = useRef(false);
+  const lastAttempt = useRef<{ body: string; key: string } | null>(null);
+  const prefix = isCompact ? "compact-contact" : "contact";
+  const headingId = isCompact ? "compact-enquiry-heading" : "enquiry-heading";
   const deliveryId = `${prefix}-delivery`;
 
-  useEffect(() => {
-    if (!onHome) return;
-
-    const hash = `#${HOME_CONTACT_ID}`;
-    const section = document.getElementById(HOME_CONTACT_ID);
-    let pending: AbortController | undefined;
-
-    const alignContact = () => {
-      pending?.abort();
-      if (!section || window.location.hash !== hash) return;
-
-      const intent = new AbortController();
-      pending = intent;
-      const cancel = () => intent.abort();
-      const options = { once: true, passive: true, signal: intent.signal };
-      window.addEventListener("pointerdown", cancel, options);
-      window.addEventListener("wheel", cancel, options);
-      window.addEventListener("keydown", cancel, options);
-
-      // A direct hash can scroll before the fonts and galleries above the form settle.
-      void document.fonts.ready.then(() => {
-        if (intent.signal.aborted) return;
-        requestAnimationFrame(() => {
-          if (!intent.signal.aborted && window.location.hash === hash) {
-            section.scrollIntoView({ block: "start", behavior: "instant" });
-          }
-          cancel();
-        });
-      });
-    };
-
-    alignContact();
-    window.addEventListener("hashchange", alignContact);
-    return () => {
-      pending?.abort();
-      window.removeEventListener("hashchange", alignContact);
-    };
-  }, [onHome]);
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submitting.current) return;
+
     const form = event.currentTarget;
     for (const name of ["name", "message"]) {
       const input = form.elements.namedItem(name);
@@ -73,67 +36,63 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
       }
     }
     if (!form.reportValidity()) return;
-    const data = new FormData(form);
-    const field = (name: string) => String(data.get(name) ?? "").trim();
-    const name = field("name");
-    const phone = field("phone");
-    const message = String(data.get("message") ?? "");
-    const contactDetails = [
-      `Name: ${name}`,
-      `Email: ${field("email")}`,
-      ...(phone ? [`Phone: ${phone}`] : []),
-    ];
-    const preferences = [
-      ["Preferred date", field("date")],
-      ["Preferred time", field("time")],
-      ["Time zone", field("timezone")],
-    ]
-      .filter(([, value]) => value)
-      .map(([label, value]) => `${label}: ${value}`);
-    const meetingPreferences = preferences.length
-      ? ["", "Meeting preferences", ...preferences]
-      : [];
 
-    const subject = isMeetingRequest
-      ? `Focus TV meeting request — ${name}`
-      : `FocusTV — ${inquiry}`;
-    const lines = isMeetingRequest
-      ? [
-          "Hello Focus TV team,",
-          "",
-          "I'd like to arrange a meeting.",
-          "",
-          "Contact details",
-          ...contactDetails,
-          ...meetingPreferences,
-          "",
-          "Message",
-          message,
-          "",
-          "Kind regards,",
-          name,
-        ]
-      : [...contactDetails, `Enquiry: ${inquiry}`, ...meetingPreferences, "", message.trim()];
+    submitting.current = true;
+    setSubmission({ status: "sending" });
+    try {
+      const body = JSON.stringify(Object.fromEntries(new FormData(form)));
+      // Reuse the key when retrying the same enquiry after an uncertain response.
+      const key =
+        lastAttempt.current?.body === body
+          ? lastAttempt.current.key
+          : crypto.getRandomValues(new Uint32Array(4)).join("-");
+      lastAttempt.current = { body, key };
 
-    // Mailto bodies use CRLF, including line breaks already typed into the message.
-    const body = lines.join("\n").replace(/\r\n?|\n/g, "\r\n");
-    const href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const response = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Idempotency-Key": key },
+        body,
+        signal: AbortSignal.timeout(15000),
+      });
+      const result: { ok?: boolean; message?: string } | null = await response
+        .json()
+        .catch(() => null);
+      if (!response.ok || result?.ok !== true) {
+        setSubmission({
+          status: "error",
+          message: typeof result?.message === "string" ? result.message : SEND_ERROR,
+        });
+        return;
+      }
 
-    setDraftLink(href);
-    window.location.assign(href);
+      // Preserve any new edits the visitor made while the previous message was sending.
+      if (JSON.stringify(Object.fromEntries(new FormData(form))) === body) form.reset();
+      lastAttempt.current = null;
+      setSubmission({ status: "sent" });
+    } catch {
+      setSubmission({ status: "error", message: SEND_ERROR });
+    } finally {
+      submitting.current = false;
+    }
   }
 
   return (
     <form
-      className={onHome ? `${styles.form} ${styles.homeForm}` : styles.form}
+      className={isCompact ? `${styles.form} ${styles.homeForm}` : styles.form}
+      method="post"
       onSubmit={handleSubmit}
-      onChange={() => setDraftLink(null)}
+      onChange={() =>
+        setSubmission((current) =>
+          current.status === "sent" || current.status === "error" ? { status: "idle" } : current
+        )
+      }
+      aria-busy={submission.status === "sending"}
       aria-labelledby={headingId}
       aria-describedby={deliveryId}
     >
       <div className={styles.formHeading}>
-        {!onHome && <span className={styles.index}>01 /</span>}
-        <h2 id={headingId}>{onHome ? "Send an enquiry" : "Tell us what you have in mind."}</h2>
+        {!isCompact && <span className={styles.index}>01 /</span>}
+        <h2 id={headingId}>{isCompact ? "Send an enquiry" : "Tell us what you have in mind."}</h2>
       </div>
 
       <div className={styles.fields}>
@@ -147,7 +106,7 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
             autoComplete="name"
             placeholder="Full name"
             required
-            maxLength={100}
+            maxLength={CONTACT_FIELD_LIMITS.name}
             onInput={(event) => event.currentTarget.setCustomValidity("")}
           />
         </div>
@@ -162,7 +121,7 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
             autoComplete="email"
             placeholder="you@example.com"
             required
-            maxLength={254}
+            maxLength={CONTACT_FIELD_LIMITS.email}
           />
         </div>
         <div className={styles.field}>
@@ -175,7 +134,7 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
             type="tel"
             autoComplete="tel"
             placeholder="Include country code"
-            maxLength={40}
+            maxLength={CONTACT_FIELD_LIMITS.phone}
           />
         </div>
         <div className={styles.field}>
@@ -183,18 +142,17 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
           <select
             id={`${prefix}-inquiry`}
             name="inquiry"
-            value={inquiry}
-            onChange={(event) => setInquiry(event.target.value)}
+            defaultValue={isCompact ? INQUIRY_TYPES[0] : MEETING_REQUEST}
           >
             {INQUIRY_TYPES.map((type) => (
               <option key={type}>{type}</option>
             ))}
-            {!onHome && <option>{MEETING_REQUEST}</option>}
+            {!isCompact && <option>{MEETING_REQUEST}</option>}
           </select>
         </div>
       </div>
 
-      {!onHome && (
+      {!isCompact && (
         <fieldset className={styles.meeting}>
           <legend>
             A time that suits you <span className={styles.optional}>(optional)</span>
@@ -215,7 +173,7 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
                 id="contact-timezone"
                 name="timezone"
                 placeholder="e.g. Perth, Australia (AWST)"
-                maxLength={80}
+                maxLength={CONTACT_FIELD_LIMITS.timezone}
               />
             </div>
           </div>
@@ -232,33 +190,47 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
           rows={5}
           placeholder="A little about your idea, project or question…"
           required
-          maxLength={1800}
+          maxLength={CONTACT_FIELD_LIMITS.message}
           onInput={(event) => event.currentTarget.setCustomValidity("")}
           data-lenis-prevent
         />
       </div>
 
+      <div hidden>
+        <label htmlFor={`${prefix}-company-website`}>Company website</label>
+        <input
+          id={`${prefix}-company-website`}
+          name="companyWebsite"
+          autoComplete="off"
+          tabIndex={-1}
+        />
+      </div>
+
       <div className={styles.formActions}>
         <p id={deliveryId}>
-          {isMeetingRequest
-            ? "Review and send your prefilled meeting request from your email app."
-            : "This opens a draft in your email app. Review your message and send it from there."}
+          Your enquiry goes directly to <strong>{CONTACT_EMAIL}</strong>.
         </p>
-        <Button type="submit" variant="primary" className={styles.submit}>
-          {isMeetingRequest ? "Open meeting email draft" : "Open email draft"}{" "}
+        <Button
+          type="submit"
+          variant="primary"
+          className={styles.submit}
+          disabled={submission.status === "sending"}
+        >
+          {submission.status === "sending" ? "Sending…" : "Send enquiry"}{" "}
           <span aria-hidden="true">↗</span>
         </Button>
       </div>
       <p className={styles.requiredNote}>Fields marked * are required.</p>
 
-      {draftLink && (
-        <div className={styles.draftNotice} role="status">
-          <p>Your draft is ready to review and send in your email app.</p>
-          <p>
-            If your email app didn&apos;t open, <a href={draftLink}>open the draft again</a> or
-            email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
-          </p>
-        </div>
+      {submission.status === "sent" && (
+        <p className={styles.formNotice} role="status">
+          Thanks for getting in touch. Your enquiry has been submitted.
+        </p>
+      )}
+      {submission.status === "error" && (
+        <p className={styles.formNotice} role="alert">
+          {submission.message} Your details are still in the form.
+        </p>
       )}
     </form>
   );

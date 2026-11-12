@@ -343,7 +343,7 @@ Core fields:
 
 Meeting booking is optional.
 
-The current implementation opens a populated draft in the visitor's email application and explicitly requires the visitor to review and send it. It does not submit mail from a server or report delivery. This is a working interim flow while the production recipient and sending service are confirmed; inbox delivery remains a launch requirement. The legacy site currently publishes a Hostinger staging-domain recipient, which must be confirmed before launch.
+Visitors submit enquiries on the website. The server sends the enquiry and any meeting preferences to `hammad@focustv.tv`. The form shows success or an error on the same page. Live inbox delivery must be verified before launch.
 
 ---
 

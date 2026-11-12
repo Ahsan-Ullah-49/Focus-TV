@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/Container/Container";
-import { HOME_CONTACT_HREF, MEETING_CONTACT_HREF } from "@/components/pages/Contact/contact.config";
+import {
+  CONTACT_EMAIL,
+  CONTACT_PAGE_HREF,
+  MEETING_CONTACT_HREF,
+} from "@/components/pages/Contact/contact.config";
 import { PageMotion } from "@/components/motion/PageMotion";
-import lightLogo from "@/Assets/Logos/Focus TV/focus-tv-light.png";
-import goldLogo from "@/Assets/Logos/Focus TV/focus-tv-gold.png";
-import { FooterInvitation } from "./FooterInvitation";
+import lightLogo from "@/Assets/Logos/Focus TV/focus-tv-light.webp";
+import goldLogo from "@/Assets/Logos/Focus TV/focus-tv-gold.webp";
 import styles from "./Footer.module.css";
 
 const explore = [
@@ -26,7 +29,7 @@ const socialLinks = [
     external: true,
   },
   {
-    href: "mailto:hammad@focustv.tv",
+    href: `mailto:${CONTACT_EMAIL}`,
     label: "Email FocusTV",
     platform: "email",
     external: false,
@@ -95,9 +98,6 @@ export function Footer() {
     <footer className={styles.footer}>
       <PageMotion>
         <Container>
-          <FooterInvitation />
-        </Container>
-        <Container>
           <div className={styles.columns} data-reveal-group="fade-up" data-reveal-stagger="0.07">
             <div className={styles.brand}>
               <Link href="/" aria-label="FocusTV home" className={styles.brandLink}>
@@ -115,10 +115,6 @@ export function Footer() {
                   sizes="(max-width: 760px) 220px, 240px"
                 />
               </Link>
-              <p>
-                Real people. Remarkable stories.
-                <br />A different perspective.
-              </p>
               <span className={styles.brandNote}>Turning thoughts into reality.</span>
               <nav className={styles.socials} aria-label="Instagram and email links">
                 {socialLinks.map((social) => (
@@ -150,7 +146,7 @@ export function Footer() {
               <h3 id="footer-contact-heading">Get in touch</h3>
               <div className={styles.contactActions}>
                 <Link
-                  href={HOME_CONTACT_HREF}
+                  href={CONTACT_PAGE_HREF}
                   className={`${styles.contactAction} ${styles.contactPrimary}`}
                 >
                   <span>Start a conversation</span>

@@ -1,5 +1,5 @@
 .contact {
-  scroll-margin-top: var(--header-height);
+  padding-top: var(--header-height);
 }
 
 .scene {
@@ -80,7 +80,7 @@
   content: "";
 }
 
-.copy h2 {
+.copy h1 {
   color: #fff;
   font-size: clamp(2.65rem, 5.3vw, 5.25rem);
   font-weight: 500;
@@ -89,7 +89,7 @@
   text-wrap: balance;
 }
 
-.copy h2 em {
+.copy h1 em {
   display: block;
   color: #f4cd88;
   font-family: var(--font-serif);

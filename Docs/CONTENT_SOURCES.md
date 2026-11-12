@@ -1,5 +1,13 @@
 # Content sources and maintenance
 
+## Asset cleanup — 12 November 2026
+
+Current runtime images use WebP, including transparent logos and header/footer artwork; `src/app/icon.png` remains the small framework favicon. The supplied brand-guide PDF is retained as project documentation. The homepage uses only the active project logo groups; unused logo artwork, duplicate branding files and the unrendered Atlas assets were removed. Theme variants, image dimensions and display settings are preserved. Missing active Crew, Gallery and cast source photographs were restored from the committed originals to avoid broken pages.
+
+The Answer now embeds official Vimeo `1075036022` (`417f274a07`), verified by oEmbed as **The Answer - Turning Thoughts Into Reality** (103 seconds). Its local MP4, the obsolete compression script and the unused `ffmpeg-static` dependency were removed. Film posters remain local WebP thumbnails. Historical asset paths below describe earlier versions and may refer to files removed or converted during this cleanup. Current paths are authoritative in the source config files.
+
+New-still mappings and outstanding owner confirmations are tracked in `MISSING_INTERVIEW_STILLS.md`.
+
 ## Owner-directed revision — 7 November 2026
 
 The owner identifies the hero film as Automotive Legends and requests automotive, gaming and WA Police documentary chapters on the company homepage. The legacy [FocusTV project page](https://focustv.tv/test/) groups automotive and gaming participants separately. Displayed brand marks are associated with featured participants; they are not presented as verified production partners. WA Police cast and marks remain unconfirmed. Official artwork and the four-page brand guide are in `src/Assets/Logos/Focus TV/`.
@@ -65,7 +73,7 @@ Keep configured filenames and intrinsic dimensions synchronized when replacing o
 - **Cast:** edit the full-directory data for additional profiles/categories. Edit approved homepage `CAST` only when the owner asks to change that protected section. The full directory includes 28 source-backed entries, including organization entries.
 - **Crew:** update the seven profiles and Sandbox section in the crew route; avoid conflating production credits with current employment claims.
 - **Gallery:** update `galleryFilms` and `galleryStills`, plus local optimized posters. New video players load only after interaction.
-- **Contact:** replace `CONTACT_EMAIL` only with the confirmed recipient. The currently published `hammad@darkturquoise-gull-903348.hostingersite.com` appears to be a legacy staging-domain address; its ownership and delivery have not been verified. Social accounts are `the.answer_unlocked` and `focutivity` on Instagram.
+- The approved Contact recipient is `hammad@focustv.tv`. Social accounts are `the.answer_unlocked` and `focutivity` on Instagram.
 - **Homepage footer:** the current approved destinations are Instagram `the.answer_unlocked` and `mailto:hammad@focustv.tv`, in that order. Keep these two icons under the brand note; do not add the other historical Instagram account or Facebook/YouTube without a new client request. The footer uses the coloured FocusTV logo variants for light and dark surfaces.
 - **Partner logos:** the owner-approved Partners & Media loop contains 55 configured logos, with fourteen Dark variants and three Light variants. It uses a 64px logo height and gap, a draggable left-moving track, and a responsive brand-accent heading. Remaining optional theme-contrast replacements are recorded in `Docs/PROJECT_STATUS.md`. The 72 canonical files and per-logo display settings live in `public/media/Logos/LOGOS/` and `src/components/sections/Partners/partners.config.ts`.
 

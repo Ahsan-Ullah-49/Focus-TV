@@ -1,5 +1,7 @@
 # FocusTV Website Rebuild
 
+**Asset maintenance (12 November 2026):** Runtime images and logos use WebP; the small App Router favicon remains PNG. Local video downloads are removed: The Answer uses official Vimeo `1075036022` with hash `417f274a07`, keeping its existing WebP poster. Unused branding/logo artwork and video-compression tooling were removed. See `Docs/CONTENT_SOURCES.md` and `Docs/MISSING_INTERVIEW_STILLS.md` for current maintenance notes. Older milestone inventories below are historical.
+
 A custom-coded rebuild of the FocusTV website focused on premium presentation, cinematic storytelling, strong performance, responsive design, and maintainable code.
 
 **Current homepage (8 November 2026):** FocusTV branding leads the site. The hero starts on its poster and plays only after the visitor presses play. The company Story is followed by Automotive Legends, Gaming Legends and WA Police film chapters; automotive and gaming each have a separate draggable logo loop. Earlier milestone descriptions below are historical where they differ from this update.
@@ -176,7 +178,7 @@ Unused duplicate logo sources and cast SVGs were removed on 25 October at the ow
 - `/crew`: seven profiles and Sandbox production-company section, with local optimized portraits.
 - `/gallery`: six verified films and six approved interview stills. Data: `src/components/pages/Gallery/gallery.data.ts`. Shared `MediaDialog` handles explicit playback, image viewing, keyboard navigation and closing.
 - `/the-answer-ai`: intentional Coming Soon teaser, without invented capabilities or dates.
-- `/contact`: validated email-draft composer. `/contact?enquiry=meeting` preselects meeting preferences. Confirm `CONTACT_EMAIL` in `contact.config.ts` before launch; no server mail delivery is configured or claimed.
+- `/contact` accepts enquiries with optional meeting preferences. Both this page and the homepage submit through the same server endpoint and show the result on the page.
 - The Answer series narrative remains on the homepage.
 
 ### 7. Motion and Navigation
@@ -225,16 +227,13 @@ Never commit `.env.local`.
 
 Create and maintain `.env.example` with variable names only.
 
-Potential variables may include:
-
 ```text
 NEXT_PUBLIC_SITE_URL=
-CONTACT_TO_EMAIL=
 CONTACT_FROM_EMAIL=
 MAIL_API_KEY=
 ```
 
-Only add variables that are actually required.
+The contact endpoint sends to `hammad@focustv.tv` through the Resend HTTPS API. To enable sending, [verify a sender domain or subdomain](https://resend.com/docs/dashboard/domains/introduction), such as `forms.focustv.tv`. Set `CONTACT_FROM_EMAIL` to an address on that verified domain and `MAIL_API_KEY` to a [sending-access API key](https://resend.com/docs/dashboard/api-keys/introduction). Add both to the hosting environment as private variables. Use the Resend dashboard to confirm delivery during a live test.
 
 ---
 

@@ -14,9 +14,6 @@
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh;
-  height: 100svh;
-  min-height: calc(var(--header-height) + 24rem);
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -24,11 +21,17 @@
 }
 
 .frame {
-  position: absolute;
-  inset: 0;
+  --audio-offset: 14px;
+  --audio-size: 44px;
+
+  position: relative;
   display: grid;
   place-items: center;
-  padding: calc(var(--header-height) + var(--space-8)) var(--page-gutter) var(--space-8);
+  min-height: max(100vh, calc(var(--header-height) + 24rem));
+  min-height: max(100svh, calc(var(--header-height) + 24rem));
+  /* Reserve room under the audio control even when the copy wraps onto more lines. */
+  padding: calc(var(--header-height) + var(--audio-offset) + var(--audio-size) + var(--space-2))
+    var(--page-gutter) var(--space-8);
   background-color: #0a0a0a;
   overflow: hidden;
   isolation: isolate;
@@ -87,63 +90,67 @@
 
 .presentation {
   z-index: 3;
+  align-self: center;
+  justify-self: stretch;
+  width: 100%;
   min-width: 0;
+  max-width: var(--container-md);
+  margin-inline: auto;
   text-align: center;
 }
 
 .heroCopy {
   display: grid;
-  max-width: 70rem;
+  width: 100%;
   justify-items: center;
-  gap: var(--space-4);
+  gap: clamp(var(--space-4), 2.2vw, var(--space-8));
 }
 
 .heroCopy h1 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  width: 100%;
+  row-gap: clamp(var(--space-4), 2vw, var(--space-8));
   color: #fff;
-  font-size: clamp(1.9rem, min(5vw, 12svh), 5rem);
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 1.02;
-  text-shadow: 0 4px 32px rgb(0 0 0 / 48%);
+  text-shadow: 0 2px 16px rgb(0 0 0 / 45%);
+}
+
+.headingLead {
+  font-size: clamp(2.25rem, 6vw, 6rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
-.heroCopy p {
-  justify-self: stretch;
-  color: #faf1df;
-  font-size: clamp(var(--text-sm), 1.15vw, var(--text-base));
-  line-height: var(--line-height-relaxed);
+.headingLead > span {
+  display: block;
+}
+
+.headingDetail {
+  max-width: 72ch;
+  font-size: clamp(var(--text-base), 1.25vw, var(--text-lg));
+  font-weight: 500;
+  line-height: 1.6;
   text-wrap: balance;
 }
 
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-top: var(--space-2);
-}
-
-.heroActions > a {
-  min-height: 49px;
-}
-
-/* Keep the shared secondary hover transparent on the hero. */
-.projectButton {
-  --color-text: #f3f0e8;
-  --color-border: rgb(255 255 255 / 36%);
-  --color-surface-muted: transparent;
-}
-
-.heroActions .projectButton:focus-visible {
-  border-color: var(--color-brand);
-  color: var(--color-brand);
+.services {
+  color: rgb(255 255 255 / 85%);
+  font-size: clamp(var(--text-xs), 1vw, var(--text-sm));
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+  letter-spacing: 0.035em;
+  text-shadow: 0 2px 10px rgb(0 0 0 / 50%);
+  text-wrap: balance;
 }
 
 /* The audio toggle sits just below the fixed header. */
 .muteBtn {
   position: absolute;
-  top: calc(var(--header-height) + 14px);
+  top: calc(var(--header-height) + var(--audio-offset));
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
@@ -151,8 +158,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: var(--audio-size);
+  height: var(--audio-size);
   border-radius: 50%;
 
   /* Liquid glass surface */
@@ -207,19 +214,24 @@
    RESPONSIVE
    ══════════════════════════════════════════════════════════════════════════════ */
 
+/* Preserve the canvas that the old title filled on short desktop windows. */
+@media (min-width: 1280px) and (max-height: 34rem) {
+  .frame {
+    min-height: max(100svh, calc(var(--header-height) + 24rem), calc(24.5rem + 24.4svh));
+  }
+}
+
+@media (min-width: 1400px) and (36rem <= height <= 39rem) {
+  .frame {
+    min-height: max(100svh, calc(24.5rem + 36.7svh));
+  }
+}
+
 /* ── Tablet & Mobile (≤ 1024px) ────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .hero {
-    height: auto;
-    min-height: unset;
-  }
-
   .frame {
-    position: relative;
-    inset: unset;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    min-height: calc(var(--header-height) + 21rem);
+    /* Keep the previous tablet canvas when the copy no longer fills it. */
+    min-height: max(calc(100vw * 9 / 16), calc(var(--header-height) + 23rem));
   }
 
   .poster {
@@ -229,9 +241,9 @@
 
 @media (max-width: 767px) {
   .frame {
-    aspect-ratio: auto;
+    --audio-offset: var(--space-1);
+
     min-height: clamp(30rem, 74svh, 38rem);
-    padding-top: calc(var(--header-height) + var(--space-12) + var(--space-2));
   }
 
   /* A 16:9 inner canvas gives Vimeo the same cover crop as the portrait poster. */
@@ -241,15 +253,39 @@
     aspect-ratio: 16 / 9;
     transform: translate(-50%, -50%);
   }
+}
 
-  .muteBtn {
-    top: calc(var(--header-height) + var(--space-1));
+@media (max-width: 480px) {
+  .headingLead {
+    font-size: clamp(1.875rem, 8.5vw, 2.5rem);
   }
 }
 
-@media (max-width: 420px) {
-  .heroActions > a {
-    padding-inline: var(--space-4);
+@media (min-width: 901px) and (max-height: 40rem) {
+  .headingLead {
+    /* Keep the title and supporting copy inside the existing short video canvas. */
+    font-size: clamp(2.25rem, 5vw, 4rem);
+  }
+}
+
+@media (max-width: 900px) and (max-height: 40rem) {
+  .presentation {
+    /* Keep the services line in view while the portrait video retains its full canvas. */
+    align-self: start;
+  }
+
+  .headingLead {
+    font-size: clamp(1.875rem, 4.5vw, 3rem);
+  }
+}
+
+@media (max-width: 400px) {
+  .frame {
+    /* The old copy expanded the portrait canvas at widths between 320px and 375px. */
+    min-height: max(
+      clamp(30rem, 74svh, 38rem),
+      clamp(31.8rem, calc(38.65rem + (20rem - 100vw) * 2.2), 38.65rem)
+    );
   }
 }
 

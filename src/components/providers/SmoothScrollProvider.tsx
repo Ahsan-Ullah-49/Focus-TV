@@ -27,7 +27,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       document.documentElement.style.scrollBehavior = "auto";
 
       const lenis = new Lenis({
-        duration: 1.2,
+        duration: 1.65,
         easing: (time: number) => Math.min(1, 1.001 - Math.pow(2, -10 * time)),
         syncTouch: false,
         infinite: false,
@@ -39,6 +39,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
       const tick = (time: number) => lenis.raf(time * 1000);
       lenis.on("scroll", ScrollTrigger.update);
+      // Keep Lenis and ScrollTrigger on the same clock after a slow frame.
+      gsap.ticker.lagSmoothing(0);
       gsap.ticker.add(tick);
 
       // Dialogs and the mobile menu must also stop momentum already in flight.

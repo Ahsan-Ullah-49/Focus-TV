@@ -74,7 +74,7 @@ Lenis
 
 ### Forms
 
-Current review implementation: a validated, client-side email draft composer. Server-side email delivery remains a launch integration, pending the recipient and sending-service decision. See the current implementation note in section 12.
+Both contact forms submit to the server endpoint described in section 12. Live inbox delivery requires verified sender credentials in the hosting environment.
 
 ### Validation
 
@@ -382,11 +382,11 @@ For launch, revalidate the image strategy against the final Hostinger deployment
 
 ## 12. Form Architecture
 
-### Current implementation (25 October 2026)
+### Current implementation
 
-`src/components/pages/Contact/ContactForm.tsx` composes a URL-encoded `mailto:` draft. It validates required fields, rejects whitespace-only messages/names, supports optional phone and meeting preferences, and explains that the visitor must send from their email app. It makes no network submission, stores no enquiry, and never reports a delivered message.
+The homepage and Contact page share `ContactForm.tsx` and post to `/api/contact`. The endpoint validates input and sends a plain-text email to `hammad@focustv.tv` using Resend. Replies go to the visitor's email address. The form keeps entered details on errors and confirms submission after the provider accepts the email.
 
-The static Contact page wraps `useSearchParams` in Suspense; `/contact?enquiry=meeting` preselects the meeting fields. The recipient is centralized in `contact.config.ts` and is currently the exact legacy site's published Hostinger-domain email. Confirm/replace it before launch. No credentials or sending dependency have been added. The server validation, spam protection and delivery requirements below apply when a server sender is connected; they are not represented as implemented by the draft composer.
+The endpoint uses a honeypot, bounded request bodies and per-instance rate limits. The rate limits reset when an instance restarts and apply independently to each server instance. Resend idempotency keys prevent duplicate emails when the visitor retries an unchanged submission. Sender setup is documented in the README.
 
 Initial contact fields:
 
@@ -583,10 +583,9 @@ Do not mark work complete when the production build is failing.
 
 Create `.env.example`.
 
-Potential variables:
+Current variables:
 
 ```text
-CONTACT_TO_EMAIL=
 CONTACT_FROM_EMAIL=
 MAIL_API_KEY=
 NEXT_PUBLIC_SITE_URL=

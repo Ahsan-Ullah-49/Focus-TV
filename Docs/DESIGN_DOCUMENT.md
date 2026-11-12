@@ -416,7 +416,7 @@ Hero video playback depends on the external Vimeo player. The `/cast` route now 
 - **Crew:** alternating producer compositions, supporting production team and a typographic Sandbox production-company section.
 - **Gallery:** curated film posters and interview stills in varied editorial sizes, opened in an accessible media viewer.
 - **AI:** minimal type-led Coming Soon treatment, no feature claims or countdown.
-- **Contact:** generous title, compact contact details and a straightforward enquiry form with optional meeting fields. Email draft behavior is explained next to the action.
+- **Contact** uses a generous title, compact contact details and an enquiry form with optional meeting fields. The form displays the result on the page after submission.
 
 ### Shared Motion
 

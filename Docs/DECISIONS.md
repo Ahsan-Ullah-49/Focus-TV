@@ -372,7 +372,7 @@ Keep both theme variants available and use the existing Header theme selection w
 
 ## DEC-027 - Interim Contact Delivery
 
-**Status:** Interim implementation; production delivery pending
+**Status:** Superseded by the in-page delivery described in the Technical Plan.
 
 **Decision:** In the absence of an approved sending service/credentials, provide a validated email-draft composer with explicit review-and-send instructions. Use the exact published recipient rather than guessing a FocusTV address.
 

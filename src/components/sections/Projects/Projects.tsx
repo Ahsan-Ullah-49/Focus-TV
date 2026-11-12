@@ -9,6 +9,39 @@ import { ProjectMedia } from "./ProjectMedia";
 import { STUDIO_PROJECTS, type HomepageProject } from "./projects.config";
 import styles from "./Projects.module.css";
 
+function ProjectFilm({ project, index }: { project: HomepageProject; index: number }) {
+  return (
+    <div className={styles.film}>
+      <div className={styles.screen}>
+        <ProjectMedia project={project} index={index} />
+        {project.subtitle && <p className={styles.projectSubtitle}>{project.subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
+function TheAnswerIntroduction({ project, index }: { project: HomepageProject; index: number }) {
+  return (
+    <div className={styles.answerLayout}>
+      <div className={styles.answerStory}>
+        <h3 className={styles.projectTitle} id={`${project.id}-title`}>
+          The <em>Answer</em>
+        </h3>
+        <p className={styles.answerLead}>{project.lead}</p>
+        <div className={`${styles.description} ${styles.answerCopy}`}>
+          {project.description.slice(0, -1).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+      <div className={styles.answerMediaColumn}>
+        <ProjectFilm project={project} index={index} />
+        <p className={styles.answerConclusion}>{project.description.at(-1)}</p>
+      </div>
+    </div>
+  );
+}
+
 function ProjectMarks({ project }: { project: HomepageProject }) {
   const logos = project.logos.map((logo) =>
     toLogoItem({
@@ -56,17 +89,19 @@ function ProjectMarks({ project }: { project: HomepageProject }) {
 }
 
 export function Projects() {
+  const homepageProjects = STUDIO_PROJECTS.filter((project) => project.showOnHomepage !== false);
+
   return (
     <section className={styles.section} id="other-projects" aria-labelledby="projects-heading">
       <Container>
         <header className={styles.introduction}>
           <h2 id="projects-heading">
-            OUR PROUD <em>PROJECTS</em>
+            Our Original <em>Productions</em>
           </h2>
         </header>
       </Container>
 
-      {STUDIO_PROJECTS.map((project, index) => (
+      {homepageProjects.map((project, index) => (
         <article
           className={styles.project}
           data-project={project.id}
@@ -74,37 +109,42 @@ export function Projects() {
           aria-labelledby={`${project.id}-title`}
         >
           <Container>
-            <div className={styles.projectTop}>
-              <h3 className={styles.projectTitle} id={`${project.id}-title`}>
-                {project.title.endsWith(" Legends") ? (
-                  <>
-                    {project.title.replace(/ Legends$/, "")} <em>Legends</em>
-                  </>
-                ) : (
-                  project.title
-                )}
-              </h3>
+            {project.id === "the-answer" ? (
+              <TheAnswerIntroduction project={project} index={index} />
+            ) : (
+              <div className={styles.projectTop}>
+                <h3 className={styles.projectTitle} id={`${project.id}-title`}>
+                  {project.title.endsWith(" Legends") ? (
+                    <>
+                      {project.title.replace(/ Legends$/, "")} <em>Legends</em>
+                    </>
+                  ) : (
+                    project.title
+                  )}
+                </h3>
 
-              <div className={styles.film}>
-                <div className={styles.screen}>
-                  <ProjectMedia project={project} index={index} />
+                <ProjectFilm project={project} index={index} />
+
+                <div className={styles.description}>
+                  {project.lead && <p className={styles.projectLead}>{project.lead}</p>}
+                  {project.description.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
                 </div>
               </div>
-
-              <div className={styles.description}>
-                {project.description.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            </div>
+            )}
 
             {project.cast.length > 0 && (
               <div className={styles.people}>
                 <div className={styles.subheading}>
                   <h4>Featured voices</h4>
-                  <Button href="/cast" variant="primary" className={styles.castButton}>
-                    Explore the cast <span aria-hidden="true">↗</span>
-                  </Button>
+                  {project.id !== "the-answer" &&
+                    project.id !== "automotive" &&
+                    project.id !== "gaming" && (
+                      <Button href="/cast" variant="primary" className={styles.castButton}>
+                        Explore the cast <span aria-hidden="true">↗</span>
+                      </Button>
+                    )}
                 </div>
                 <CastGallery members={project.cast} label={`${project.title} cast`} />
               </div>

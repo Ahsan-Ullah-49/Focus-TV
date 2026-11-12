@@ -5,7 +5,7 @@ import { useEffect, useId, useRef } from "react";
 import type { DirectoryMember } from "@/components/pages/CastDirectory/cast-directory.data";
 import styles from "./CastGallery.module.css";
 
-type CastPortrait = Pick<DirectoryMember, "id" | "name" | "title" | "imageSrc">;
+type CastPortrait = Pick<DirectoryMember, "id" | "name" | "title"> & { imageSrc?: string };
 
 const DRIFT_SPEED = 54; // Pixels per second at full speed.
 
@@ -182,13 +182,15 @@ export function CastGallery({ members, label }: { members: CastPortrait[]; label
               aria-hidden={copy ? true : undefined}
             >
               <div className={styles.portrait}>
-                <Image
-                  src={member.imageSrc}
-                  alt=""
-                  fill
-                  sizes="(max-width: 660px) 152px, (max-width: 1180px) 23vw, 272px"
-                  draggable={false}
-                />
+                {member.imageSrc && (
+                  <Image
+                    src={member.imageSrc}
+                    alt=""
+                    fill
+                    sizes="(max-width: 660px) 152px, (max-width: 1180px) 23vw, 272px"
+                    draggable={false}
+                  />
+                )}
               </div>
               <div className={styles.caption}>
                 <p className={styles.name}>{member.name}</p>

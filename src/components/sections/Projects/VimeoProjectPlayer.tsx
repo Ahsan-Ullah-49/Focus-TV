@@ -57,10 +57,12 @@ export function VimeoProjectPlayer({
   title,
   video,
   poster,
+  posterSizes = "(max-width: 820px) 92vw, (max-width: 1440px) 57vw, 800px",
 }: {
   title: string;
   video: VimeoVideo;
   poster?: string;
+  posterSizes?: string;
 }) {
   const mediaRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -218,13 +220,7 @@ export function VimeoProjectPlayer({
           data-native-cursor
         />
         {showPoster && (
-          <Image
-            src={poster}
-            alt=""
-            fill
-            sizes="(max-width: 820px) 92vw, (max-width: 1440px) 57vw, 800px"
-            className={styles.loadingPoster}
-          />
+          <Image src={poster} alt="" fill sizes={posterSizes} className={styles.loadingPoster} />
         )}
       </div>
       {showFallback && (

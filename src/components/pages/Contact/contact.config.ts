@@ -1,8 +1,23 @@
-// Published by focustv.tv/contact-us/. Confirm this legacy recipient before launch.
-export const CONTACT_EMAIL = "hammad@darkturquoise-gull-903348.hostingersite.com";
-export const HOME_CONTACT_ID = "contact";
-export const HOME_CONTACT_HREF = `/#${HOME_CONTACT_ID}`;
+export const CONTACT_EMAIL = "hammad@focustv.tv";
+export const CONTACT_PAGE_HREF = "/contact";
 export const MEETING_CONTACT_HREF = "/contact?enquiry=meeting";
+export const CONTACT_FORM_ENDPOINT = "/api/contact";
+
+export const INQUIRY_TYPES = [
+  "General enquiry",
+  "Partnership & sponsorship",
+  "Production enquiry",
+  "Guest enquiry",
+] as const;
+export const MEETING_REQUEST = "Meeting request";
+
+export const CONTACT_FIELD_LIMITS = {
+  name: 100,
+  email: 254,
+  phone: 40,
+  timezone: 80,
+  message: 1800,
+} as const;
 
 export const CONTACT_SOCIALS = [
   {

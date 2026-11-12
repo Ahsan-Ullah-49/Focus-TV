@@ -244,6 +244,7 @@
   max-width: 26ch;
   font-size: var(--text-xs);
   line-height: var(--line-height-relaxed);
+  overflow-wrap: anywhere;
 }
 
 .submit {
@@ -262,7 +263,7 @@
   font-size: var(--text-xs);
 }
 
-.draftNotice {
+.formNotice {
   margin-top: var(--space-6);
   padding: var(--space-6);
   border-left: 2px solid var(--color-brand);
@@ -270,16 +271,6 @@
   font-size: var(--text-sm);
   line-height: var(--line-height-relaxed);
   overflow-wrap: anywhere;
-}
-
-.draftNotice p + p {
-  margin-top: var(--space-2);
-}
-
-.draftNotice a {
-  color: var(--color-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 /* The homepage form sits on a photographic panel, so its fields need their own surface. */

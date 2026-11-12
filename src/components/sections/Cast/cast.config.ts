@@ -1,8 +1,8 @@
 /**
  * FocusTV — Meet the Cast section data
  *
- * Keep portrait paths in the same order as the numbered files in
- * /public/media/Stills/optimized.
+ * Original interview stills live in /public/media/Stills/optimized.
+ * Nolan's updated interview is 20.webp; Will Wright's is 21.webp.
  *
  * No other files need editing to add, remove, or reorder entries.
  */
@@ -87,7 +87,7 @@ export const CAST: CastMember[] = [
     id: "nolan-bushnell",
     name: "Nolan Bushnell",
     title: "Founder, Atari",
-    imageSrc: "/media/Stills/optimized/9.webp",
+    imageSrc: "/media/Stills/optimized/20.webp",
     imageAlt: "Portrait of Nolan Bushnell",
   },
   {

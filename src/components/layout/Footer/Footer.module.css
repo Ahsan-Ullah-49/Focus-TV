@@ -9,121 +9,11 @@
   background: color-mix(in srgb, var(--color-surface-muted) 96%, var(--color-text) 4%);
 }
 
-.invitation {
-  position: relative;
-  display: flex;
-  min-height: clamp(13rem, 21vw, 18rem);
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-12);
-  padding-block: clamp(3.5rem, 6vw, 5.5rem);
-}
-
-.invitation::after {
-  position: absolute;
-  inset-block-end: 0;
-  inset-inline-start: 50%;
-  width: 100vw;
-  border-bottom: 1px solid var(--color-border);
-  content: "";
-  transform: translateX(-50%);
-}
-
-.invitation h2 {
-  max-width: 19ch;
-  font-size: clamp(2.25rem, 4.4vw, 4rem);
-  font-weight: 500;
-  letter-spacing: -0.055em;
-  line-height: 1.08;
-}
-
-.invitation h2 em {
-  color: var(--color-brand);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-}
-
-.contactGroup {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-}
-
-.contactText {
-  font-size: clamp(1.125rem, 1.45vw, 1.35rem);
-  font-weight: 600;
-  white-space: nowrap;
-  transition: color var(--duration-normal) var(--ease-out);
-}
-
-.contactText:hover {
-  color: var(--color-brand);
-}
-
-.contactArrow {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  width: clamp(5.5rem, 7.5vw, 7.25rem);
-  height: clamp(5.5rem, 7.5vw, 7.25rem);
-  flex: 0 0 auto;
-  place-items: center;
-  overflow: hidden;
-  border: 1px solid var(--color-brand);
-  border-radius: 50%;
-  background: var(--color-brand);
-  color: #121212;
-  will-change: transform;
-}
-
-.contactArrow::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--color-text);
-  content: "";
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 500ms var(--ease-out);
-}
-
-.contactArrow:hover::before {
-  transform: scaleX(1);
-}
-
-.contactArrow:hover {
-  border-color: var(--color-text);
-  color: var(--color-bg);
-}
-
-.contactArrow:focus-visible,
-.contactText:focus-visible,
 .navigation a:focus-visible,
 .contactAction:focus-visible,
 .socialLink:focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 5px;
-}
-
-.contactArrowIcon {
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  place-items: center;
-  transition: transform var(--duration-normal) var(--ease-out);
-}
-
-.contactArrowIcon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.contactArrow:hover .contactArrowIcon {
-  transform: translate(3px, -3px) scale(1.08);
 }
 
 .columns {
@@ -151,12 +41,6 @@
 
 :global(html[data-theme="dark"]) .logoDark {
   display: block;
-}
-
-.brand p {
-  margin-top: var(--space-4);
-  font-size: var(--text-sm);
-  line-height: var(--line-height-relaxed);
 }
 
 .brandNote {
@@ -371,39 +255,6 @@
   margin: 0;
 }
 
-@media (max-width: 1024px) {
-  .contactGroup {
-    flex-direction: column-reverse;
-    gap: var(--space-2);
-  }
-
-  .invitation {
-    min-height: 0;
-    gap: var(--space-6);
-    padding-block: clamp(2rem, 5vw, 3rem);
-  }
-
-  .invitation h2 {
-    flex: 1 1 auto;
-    min-width: 0;
-    font-size: clamp(1.25rem, 4.4vw, 2.5rem);
-  }
-
-  .contactText {
-    font-size: clamp(0.75rem, 1.6vw, 1rem);
-  }
-
-  .contactArrow {
-    width: clamp(3.25rem, 5.5vw, 4rem);
-    height: clamp(3.25rem, 5.5vw, 4rem);
-  }
-
-  .contactArrowIcon {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-}
-
 @media (max-width: 900px) {
   .columns {
     grid-template-columns: 1.1fr 0.8fr 1.05fr;
@@ -416,23 +267,6 @@
 }
 
 @media (max-width: 760px) {
-  .invitation {
-    min-height: 0;
-    align-items: center;
-    flex-direction: row;
-    gap: var(--space-3);
-    padding-block: clamp(1.5rem, 7vw, 2rem);
-  }
-
-  .invitation h2 {
-    font-size: clamp(1.125rem, 4.5vw, 1.75rem);
-  }
-
-  .contactGroup {
-    align-self: center;
-    flex-wrap: nowrap;
-  }
-
   .columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-12) var(--space-6);
@@ -504,9 +338,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contactText,
-  .contactArrow::before,
-  .contactArrowIcon,
   .navigation a,
   .contactAction,
   .contactAction::before,
@@ -515,7 +346,6 @@
     transition: none;
   }
 
-  .contactArrow,
   .socialLink:hover {
     transform: none;
   }

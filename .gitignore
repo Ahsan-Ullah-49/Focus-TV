@@ -34,3 +34,8 @@ Thumbs.db
 
 # temporary scaffold
 /temp_scaffold
+
+# Films are hosted externally; keep downloaded video out of website assets.
+/public/**/*.mp4
+/public/**/*.webm
+/public/**/*.mov

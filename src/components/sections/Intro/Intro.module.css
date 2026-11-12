@@ -1,6 +1,4 @@
 .story {
-  --story-accent: color-mix(in srgb, var(--color-brand) 67%, var(--color-text));
-
   padding-block: clamp(3.5rem, 8vw, 7.5rem) clamp(2rem, 4vw, 4rem);
   scroll-margin-top: var(--header-height);
 }
@@ -9,61 +7,83 @@
   display: grid;
   grid-template-columns: minmax(0, 0.87fr) minmax(0, 1.13fr);
   align-items: center;
-  gap: clamp(2.5rem, 6vw, 6rem);
+  column-gap: clamp(2.5rem, 6vw, 6rem);
+  row-gap: clamp(var(--space-6), 3.25vw, var(--space-12));
+}
+
+.titleBlock {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: clamp(var(--space-4), 2.2vw, var(--space-8));
+  padding-block-end: clamp(var(--space-4), 2.5vw, var(--space-8));
+}
+
+.identity {
+  display: grid;
+  grid-template-columns: auto minmax(var(--space-4), 1fr) minmax(0, max-content);
+  align-items: baseline;
+  column-gap: clamp(var(--space-1), 1.1vw, var(--space-4));
+  font-size: var(--text-sm);
+}
+
+.identity::after {
+  grid-area: 1 / 2;
+  align-self: start;
+  /* Match the first text line even when the descriptor wraps. */
+  margin-block-start: calc((1lh - var(--space-1) - 2px) / 2);
+  block-size: calc(var(--space-1) + 2px);
+  border-block: 1px solid var(--color-border);
+  content: "";
+}
+
+.brand {
+  color: var(--color-brand);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.descriptor {
+  text-align: end;
+  text-wrap: balance;
+}
+
+.heading {
+  font-size: clamp(var(--text-2xl), 4.3vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.heading em {
+  display: inline-block;
+  max-inline-size: 100%;
+  color: var(--color-brand);
+  font-family: var(--font-serif);
+  font-size: 1.08em;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1;
 }
 
 .copy {
   display: grid;
-  align-content: center;
   justify-items: start;
   gap: var(--space-4);
 }
 
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  color: var(--story-accent);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
+.body {
+  display: grid;
+  gap: var(--space-4);
+  max-inline-size: 48ch;
+  font-size: clamp(var(--text-base), 1.25vw, var(--text-lg));
+  line-height: var(--line-height-relaxed);
+  text-wrap: pretty;
 }
 
-.eyebrow::before {
-  width: var(--space-6);
-  height: 1px;
-  background: currentColor;
-  content: "";
-}
-
-.heading {
-  margin-block: var(--space-2) var(--space-3);
-  font-size: clamp(2.75rem, 5.7vw, 5.5rem);
-  font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 0.99;
-}
-
-.heading em {
-  display: block;
-  color: var(--color-brand);
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: -0.045em;
-}
-
-.lead {
-  max-width: 43ch;
+.body p:first-child {
   color: var(--color-text);
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  line-height: var(--line-height-relaxed);
-}
-
-.description {
-  max-width: 47ch;
-  font-size: var(--text-sm);
-  line-height: var(--line-height-relaxed);
 }
 
 .workLink {
@@ -153,6 +173,12 @@
   }
 }
 
+@media (min-width: 601px) {
+  .heading > span {
+    display: block;
+  }
+}
+
 @media (max-width: 820px) {
   .spread {
     grid-template-columns: minmax(0, 1fr);
@@ -164,6 +190,11 @@
 }
 
 @media (max-width: 480px) {
+  .descriptor {
+    max-inline-size: 13em;
+    justify-self: end;
+  }
+
   .mainFrame::after {
     inset: var(--space-2);
   }

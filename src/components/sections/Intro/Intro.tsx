@@ -7,20 +7,35 @@ export function Intro() {
   return (
     <section className={styles.story} id="the-story" aria-labelledby="story-heading">
       <Container className={styles.spread}>
-        <div className={styles.copy} data-reveal-group="fade-up" data-reveal-stagger="0.07">
-          <p className={styles.eyebrow}>Our Story</p>
+        <header
+          className={styles.titleBlock}
+          data-reveal-group="fade-up"
+          data-reveal-stagger="0.07"
+        >
+          <div className={styles.identity}>
+            <p className={styles.brand}>FOCUS TV</p>
+            <p className={styles.descriptor}>Film Production &amp; Entertainment Company</p>
+          </div>
           <h2 className={styles.heading} id="story-heading">
-            It starts with <em>a conversation.</em>
+            <span>We Create Stories That Explore</span>{" "}
+            <span>
+              the Extraordinary <em>Power of Being Human.</em>
+            </span>
           </h2>
-          <p className={styles.lead}>
-            Focus TV produces documentaries and video projects, from interviews with car designers
-            and game creators to a film about policing in Perth.
-          </p>
-          <p className={styles.description}>
-            In our series <cite>The Answer</cite>, host Hammad Chaudhry sits down with people who
-            helped shape their fields. We ask them how they got started, what went into their work
-            and what they learned along the way.
-          </p>
+        </header>
+
+        <div className={styles.copy} data-reveal-group="fade-up" data-reveal-stagger="0.07">
+          <div className={styles.body}>
+            <p>
+              Focus TV is an Australian film production and entertainment company specialising in
+              original documentaries, documentary series, cinematic storytelling and commercial film
+              production.
+            </p>
+            <p>
+              We produce thought-provoking films exploring human potential, creativity, innovation
+              and the extraordinary people and ideas shaping our world.
+            </p>
+          </div>
           <div>
             <Button href="#other-projects" variant="text" className={styles.workLink}>
               See our projects <span aria-hidden="true">↓</span>

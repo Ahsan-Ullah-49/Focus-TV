@@ -1,7 +1,6 @@
 import { Hero } from "@/components/sections/Hero/Hero";
 import { Intro } from "@/components/sections/Intro/Intro";
 import { Projects } from "@/components/sections/Projects/Projects";
-import { HomeContact } from "@/components/sections/HomeContact/HomeContact";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export default function HomePage() {
       <Hero />
       <Intro />
       <Projects />
-      <HomeContact />
     </>
   );
 }
