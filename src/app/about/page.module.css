@@ -140,16 +140,19 @@
   box-shadow: 0 18px 36px rgb(0 0 0 / 12%);
 }
 .chapterImages[data-chapter="the-vision"] .imageFrame {
-  aspect-ratio: 5034 / 5269;
+  aspect-ratio: 4 / 3;
 }
 .chapterImages[data-chapter="the-vision"] {
-  width: min(100%, 24rem);
+  width: 100%;
 }
 .chapterImages[data-chapter="humble-beginnings"] .imageFrame {
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 4 / 3;
 }
 .chapterImages[data-chapter="humble-beginnings"] {
-  width: min(100%, 19rem);
+  width: 100%;
+}
+.chapterImages[data-chapter="humble-beginnings"] img {
+  object-position: center top;
 }
 .imageFrame img {
   object-fit: cover;
@@ -274,7 +277,14 @@
   }
   .chapterImages[data-chapter="the-vision"],
   .chapterImages[data-chapter="humble-beginnings"] {
-    width: min(62vw, 14rem);
+    width: min(66vw, 15rem);
+    justify-self: start;
+  }
+  .chapterImages[data-chapter="the-vision"] .imageFrame {
+    aspect-ratio: 5034 / 5269;
+  }
+  .chapterImages[data-chapter="humble-beginnings"] .imageFrame {
+    aspect-ratio: 1;
   }
   .chapterImages[data-chapter="going-global"] .imageFrame {
     aspect-ratio: 1;

@@ -36,7 +36,12 @@ export function AboutTimeline({ children, className }: { children: ReactNode; cl
       const progress = reduced
         ? 1
         : Math.max(0, Math.min(1, (current - centers[0]) / (centers.at(-1)! - centers[0])));
+      const curve = reduced ? 0 : Math.sin(progress * Math.PI);
       scope.style.setProperty("--journey-progress", String(progress));
+      // The curve peaks only through the middle of the journey, leaving its start and end flat.
+      scope.style.setProperty("--journey-rotation", `${curve * -1.25}deg`);
+      scope.style.setProperty("--journey-scale", String(1 - curve * 0.012));
+      scope.style.setProperty("--journey-shadow-opacity", String(curve * 0.65));
       chapters.forEach((chapter, index) => {
         const active = String(reduced || current >= centers[index]);
         if (chapter.dataset.journeyActive !== active) chapter.dataset.journeyActive = active;
@@ -62,6 +67,9 @@ export function AboutTimeline({ children, className }: { children: ReactNode; cl
     return () => {
       resize.disconnect();
       trigger.kill();
+      scope.style.removeProperty("--journey-rotation");
+      scope.style.removeProperty("--journey-scale");
+      scope.style.removeProperty("--journey-shadow-opacity");
     };
   }, []);
 

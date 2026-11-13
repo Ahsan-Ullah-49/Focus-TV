@@ -1,6 +1,25 @@
 .timeline {
   position: relative;
 }
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .timeline {
+    isolation: isolate;
+    transform: perspective(1800px) rotateX(var(--journey-rotation, 0deg))
+      scaleX(var(--journey-scale, 1));
+    transform-origin: center center;
+    will-change: transform;
+  }
+  .timeline::before {
+    position: absolute;
+    z-index: -1;
+    inset: 2% -1.5%;
+    border-radius: 50% / 3%;
+    box-shadow: 0 28px 54px rgb(0 0 0 / 12%);
+    content: "";
+    opacity: var(--journey-shadow-opacity, 0);
+    pointer-events: none;
+  }
+}
 .rail {
   position: absolute;
   left: calc(50% - 1px);
