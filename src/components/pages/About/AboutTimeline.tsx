@@ -39,9 +39,9 @@ export function AboutTimeline({ children, className }: { children: ReactNode; cl
       const curve = reduced ? 0 : Math.sin(progress * Math.PI);
       scope.style.setProperty("--journey-progress", String(progress));
       // The curve peaks only through the middle of the journey, leaving its start and end flat.
-      scope.style.setProperty("--journey-rotation", `${curve * -1.25}deg`);
-      scope.style.setProperty("--journey-scale", String(1 - curve * 0.012));
-      scope.style.setProperty("--journey-shadow-opacity", String(curve * 0.65));
+      scope.style.setProperty("--journey-rotation", `${curve * -4.75}deg`);
+      scope.style.setProperty("--journey-scale", String(1 - curve * 0.055));
+      scope.style.setProperty("--journey-shadow-opacity", String(curve * 0.8));
       chapters.forEach((chapter, index) => {
         const active = String(reduced || current >= centers[index]);
         if (chapter.dataset.journeyActive !== active) chapter.dataset.journeyActive = active;
