@@ -142,8 +142,14 @@
 .chapterImages[data-chapter="the-vision"] .imageFrame {
   aspect-ratio: 5034 / 5269;
 }
+.chapterImages[data-chapter="the-vision"] {
+  width: min(100%, 24rem);
+}
 .chapterImages[data-chapter="humble-beginnings"] .imageFrame {
   aspect-ratio: 2 / 3;
+}
+.chapterImages[data-chapter="humble-beginnings"] {
+  width: min(100%, 19rem);
 }
 .imageFrame img {
   object-fit: cover;
@@ -268,7 +274,7 @@
   }
   .chapterImages[data-chapter="the-vision"],
   .chapterImages[data-chapter="humble-beginnings"] {
-    width: min(72vw, 16.25rem);
+    width: min(62vw, 14rem);
   }
   .chapterImages[data-chapter="going-global"] .imageFrame {
     aspect-ratio: 1;

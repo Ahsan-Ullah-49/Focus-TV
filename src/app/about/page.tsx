@@ -141,7 +141,7 @@ export default function AboutPage() {
                       src={photo.src}
                       alt={photo.alt}
                       fill
-                      quality={chapter.id === "the-future" ? 95 : 90}
+                      quality={chapter.id === "the-future" ? 100 : 90}
                       sizes={
                         chapter.images.length > 1
                           ? "(max-width: 760px) 45vw, 24vw"

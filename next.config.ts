@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
-  images: { qualities: [75, 90, 95] },
+  images: { qualities: [75, 90, 95, 100] },
   // Send retired project and legacy URLs to their current destinations.
   redirects() {
     return [
