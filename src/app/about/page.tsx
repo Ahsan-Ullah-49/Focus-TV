@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import globalSkyline from "../../../public/media/editorial/global-skyline.webp";
 import { AboutTimeline } from "@/components/pages/About/AboutTimeline";
 import { EditorialMotion } from "@/components/motion/EditorialMotion";
 import styles from "./page.module.css";
@@ -79,8 +80,8 @@ const chapters = [
     ],
     images: [
       {
-        src: "/media/editorial/global-skyline.webp",
-        alt: "Dubai skyline at sunset, from the Focus TV Danube documentary",
+        src: globalSkyline,
+        alt: "Dubai skyline at sunset",
       },
     ],
   },
@@ -136,7 +137,7 @@ export default function AboutPage() {
                 data-editorial-reveal={index % 2 === 0 ? "left" : "right"}
               >
                 {chapter.images.map((photo) => (
-                  <div className={styles.imageFrame} key={photo.src}>
+                  <div className={styles.imageFrame} key={photo.alt}>
                     <Image
                       src={photo.src}
                       alt={photo.alt}
