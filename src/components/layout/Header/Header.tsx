@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container } from "@/components/layout/Container/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle/ThemeToggle";
+import { useTheme } from "@/components/providers/ThemeProvider";
 import { Button } from "@/components/ui/Button/Button";
 import { CONTACT_PAGE_HREF } from "@/components/pages/Contact/contact.config";
 import styles from "./Header.module.css";
@@ -16,13 +17,14 @@ import blackLogo from "@/Assets/Logos/Focus TV/focus-tv-black.webp";
 
 const NAV_LINKS = [
   { href: "/", label: "Home", index: "01" },
-  { href: "/cast", label: "Projects", index: "02" },
-  { href: "/crew", label: "Team", index: "03" },
-  { href: "/gallery", label: "Gallery", index: "04" },
-  { href: "/the-answer-ai", label: "The Answer AI", index: "05" },
+  { href: "/production-services", label: "Production Services", index: "02" },
+  { href: "/about", label: "About Us", index: "03" },
+  { href: "/crew", label: "Team", index: "04" },
+  { href: "/gallery", label: "Gallery", index: "05" },
 ];
 
 export function Header() {
+  const { pagePalette } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -112,7 +114,7 @@ export function Header() {
             aria-label="FocusTV Home"
           >
             <Image
-              src={lightLogo}
+              src={pagePalette === "gold" ? blackLogo : lightLogo}
               alt="FocusTV"
               priority
               sizes="(max-width: 600px) 160px, 190px"
@@ -148,7 +150,7 @@ export function Header() {
           {/* Desktop Right Actions */}
           <div className={`${styles.actions} ${styles.desktopActions}`}>
             <ThemeToggle className={styles.headerThemeToggle} />
-            <Button href={CONTACT_PAGE_HREF} variant="primary">
+            <Button href={CONTACT_PAGE_HREF} variant="primary" className={styles.contactButton}>
               Contact Us
             </Button>
           </div>
@@ -207,7 +209,7 @@ export function Header() {
               tabIndex={mobileOpen ? 0 : -1}
             >
               <Image
-                src={blackLogo}
+                src={pagePalette === "green" || pagePalette === "dark" ? goldLogo : blackLogo}
                 alt="FocusTV"
                 sizes="185px"
                 className={styles.mobileLogoImage}

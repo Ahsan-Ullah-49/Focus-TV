@@ -1,90 +1,39 @@
 import type { MediaItem } from "@/components/pages/Media/MediaDialog";
-import { CAST } from "@/components/sections/Cast/cast.config";
 
-// IDs, access hashes and durations come from focustv.tv embeds and Focus TV's Vimeo oEmbed metadata.
-export const galleryFilms: MediaItem[] = [
-  {
-    id: "turning-thoughts",
-    title: "Turning Thoughts Into Reality",
-    kind: "film",
-    src: "/media/gallery/1075036022.webp",
-    alt: "The Answer — Turning Thoughts Into Reality film poster",
-    vimeoId: "1075036022",
-    vimeoHash: "417f274a07",
-    duration: "1:43",
-  },
-  {
-    id: "beast-philanthropy",
-    title: "Beast Philanthropy",
-    kind: "film",
-    src: "/media/gallery/1004315356.webp",
-    alt: "Beast Philanthropy film poster",
-    vimeoId: "1004315356",
-    vimeoHash: "25ad4635a2",
-    duration: "2:30",
-  },
-  {
-    id: "rizwan-sajan",
-    title: "Rizwan Sajan (Danube Group)",
-    kind: "film",
-    src: "/media/gallery/1075036381.webp",
-    alt: "Rizwan Sajan in The Answer",
-    vimeoId: "1075036381",
-    vimeoHash: "ba270ecdc4",
-    duration: "2:11",
-  },
-  {
-    id: "rorion-gracie",
-    title: "Rorion Gracie",
-    kind: "film",
-    src: "/media/gallery/1075036197.webp",
-    alt: "Rorion Gracie in The Answer",
-    vimeoId: "1075036197",
-    vimeoHash: "df3374554c",
-    duration: "2:07",
-  },
-  {
-    id: "ahmed-amwell",
-    title: "Ahmed Amwell",
-    kind: "film",
-    src: "/media/gallery/1075035916.webp",
-    alt: "Ahmed Amwell in The Answer",
-    vimeoId: "1075035916",
-    vimeoHash: "36cd6f698c",
-    duration: "1:16",
-  },
-  {
-    id: "dr-nakamatsu",
-    title: "Dr. Nakamatsu",
-    kind: "film",
-    src: "/media/gallery/996154729.webp",
-    alt: "Dr. Nakamatsu in The Answer",
-    vimeoId: "996154729",
-    vimeoHash: "aaeb75791c",
-    duration: "1:03",
-  },
-];
+export type GalleryPhoto = MediaItem & { layout: "wide" | "portrait" };
 
-const selectedPortraits = [
-  "steve-wozniak",
-  "franz-von-holzhausen",
-  "achim-anscheidt",
-  "jason-cammisa",
-  "nolan-bushnell",
-  "rizwan-sajan",
-];
+const stills = [
+  ["steve", "Steve Wozniak", "the-answer/01-steve-wozniak.webp"],
+  ["tom", "Tom Dusenberry", "gaming-legends/04-tom-dusenberry.webp"],
+  ["harada", "Katsuhiro Harada", "gaming-legends/03-katsuhiro-harada.webp"],
+  ["will", "Will Wright", "gaming-legends/02-will-wright.webp"],
+  ["rizwan", "Rizwan Sajan", "the-answer/04-rizwan-sajan.webp"],
+  ["netease", "Li Wei — NetEase Games", "gaming-legends/06-li-wei.webp"],
+  ["naveen", "Naveen Jain", "the-answer/03-naveen-jain.webp"],
+  ["nolan", "Nolan Bushnell", "gaming-legends/01-nolan-bushnell.webp"],
+  ["jason", "Jason Cammisa", "automotive-legends/06-jason-cammisa.webp"],
+  ["frank", "Frank Heyl", "automotive-legends/03-frank-heyl.webp"],
+  ["achim", "Achim Anscheidt", "automotive-legends/02-achim-anscheidt.webp"],
+  ["patrick", "Patrick Bet-David", "the-answer/02-patrick-bet-david.webp"],
+  ["aubrey", "Aubrey Marcus", "the-answer/06-aubrey-marcus.webp"],
+  ["mohamed", "Mohamed Hadid", "the-answer/05-mohamed-hadid.webp"],
+  ["franz", "Franz von Holzhausen", "automotive-legends/01-franz-von-holzhausen.webp"],
+  ["shiro", "Shiro Nakamura", "automotive-legends/05-shiro-nakamura.webp"],
+  ["chris", "Chris Bangle", "automotive-legends/04-chris-bangle.webp"],
+  ["mate", "Mate Rimac", "automotive-legends/07-mate-rimac.webp"],
+  ["sasha", "Sasha Selipanov", "automotive-legends/08-sasha-selipanov.webp"],
+  ["ahmed", "Ahmed Amwell", "automotive-legends/09-ahmed-amwell.webp"],
+  ["fawzi", "Fawzi Mesmar", "gaming-legends/05-fawzi-mesmar.webp"],
+] as const;
 
-export const galleryStills: MediaItem[] = selectedPortraits.flatMap((id) => {
-  const person = CAST.find((member) => member.id === id);
-  return person
-    ? [
-        {
-          id: `still-${person.id}`,
-          title: person.name,
-          kind: "still" as const,
-          src: person.imageSrc,
-          alt: person.imageAlt,
-        },
-      ]
-    : [];
-});
+const portraits: GalleryPhoto[] = stills.map(([id, title, file]) => ({
+  id,
+  title,
+  kind: "still",
+  layout: "portrait",
+  src: `/media/Stills/${file}`,
+  alt: `${title} during a Focus TV interview`,
+  unoptimized: true,
+}));
+
+export const galleryPhotos: GalleryPhoto[] = portraits;

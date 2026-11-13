@@ -55,7 +55,7 @@ export function Intro() {
           </div>
           <div className={styles.cutaway} aria-hidden="true">
             <Image
-              src="/media/Stills/optimized/8.webp"
+              src="/media/Stills/automotive-legends/04-chris-bangle.webp"
               alt=""
               fill
               sizes="(max-width: 820px) 38vw, 22vw"

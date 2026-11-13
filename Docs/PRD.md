@@ -17,6 +17,10 @@
 
 ## 1. Executive Summary
 
+### About, Team and Gallery — owner direction, 13 November 2026
+
+Add `/about` using the supplied company introduction and five illustrated timeline chapters. Use the existing verified assets without presenting unrelated photographs as Amazon or backyard-studio locations. Update `/crew` to “Focus TV team”, with Hammad's supplied founder credit and the requested team order, verified IMDb credits, and no Sandbox section, invented biographies or extra invitation block. Make `/gallery` photographs only, focused on BTS, Aubrey and NetEase. Remove The Answer AI from navigation; add About Us. Preserve the approved homepage and Production Services presentation. This direction supersedes the older Crew, Gallery and AI navigation requirements below.
+
 ### Homepage interaction update — 8 November 2026
 
 Use the coloured FocusTV logo across header and footer themes, keeping the mobile drawer's separate black logo. The hero must not autoplay: present its poster with a central play button. Reduce spacing after the company story, remove the selected-work and film-number labels and the introductory projects paragraph, and use the existing draggable logo-loop treatment for separately grouped automotive and gaming marks. Featured voices use gold headings and the shared primary cast button. Keep project videos usable on mobile and provide a recovery path if Vimeo cannot load.

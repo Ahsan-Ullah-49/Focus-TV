@@ -13,6 +13,7 @@ export type MediaItem = {
   vimeoId?: string;
   vimeoHash?: string;
   duration?: string;
+  unoptimized?: boolean;
 };
 
 type MediaDialogProps = {
@@ -21,9 +22,17 @@ type MediaDialogProps = {
   onPrevious?: () => void;
   onNext?: () => void;
   position?: string;
+  label?: string;
 };
 
-export function MediaDialog({ item, onClose, onPrevious, onNext, position }: MediaDialogProps) {
+export function MediaDialog({
+  item,
+  onClose,
+  onPrevious,
+  onNext,
+  position,
+  label,
+}: MediaDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const isOpen = item !== null;
 
@@ -67,7 +76,7 @@ export function MediaDialog({ item, onClose, onPrevious, onNext, position }: Med
           <header className={styles.dialogHeader}>
             <div>
               <span className={styles.dialogLabel}>
-                {item.kind === "film" ? "FocusTV Films" : "The Answer / Stills"}
+                {label ?? (item.kind === "film" ? "FocusTV Films" : "The Answer / Stills")}
               </span>
               <h2 id="media-dialog-title">{item.title}</h2>
             </div>
@@ -97,6 +106,8 @@ export function MediaDialog({ item, onClose, onPrevious, onNext, position }: Med
                 src={item.src}
                 alt={item.alt}
                 fill
+                quality={90}
+                unoptimized={item.unoptimized}
                 sizes="(max-width: 900px) 94vw, 84vw"
                 className={styles.fullImage}
               />

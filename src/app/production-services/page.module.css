@@ -1,0 +1,308 @@
+.page {
+  overflow: clip;
+  --chapter-accent: var(--color-brand);
+  color: var(--color-text);
+  transition: color 600ms var(--ease-out);
+}
+.hero {
+  padding: calc(var(--header-height) + clamp(3rem, 6vw, 6rem)) var(--page-gutter)
+    clamp(4rem, 7vw, 7rem);
+}
+.heroInner {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+  min-height: min(710px, 80svh);
+}
+.heroCopy {
+  position: relative;
+  z-index: 6;
+}
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 7.4vw, 7.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+.hero h1 em {
+  display: block;
+  color: var(--color-brand);
+  font-weight: 400;
+}
+.heroLine {
+  margin-top: var(--space-8);
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 2.6vw, 2.8rem);
+  line-height: 1.12;
+  color: var(--color-text);
+}
+.introduction {
+  max-width: 45ch;
+  margin-top: var(--space-6);
+  font-size: var(--text-base);
+  line-height: 1.75;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+.heroButton {
+  min-height: 44px;
+  margin-top: var(--space-2);
+  gap: var(--space-3);
+}
+.heroButton span {
+  transition: translate var(--duration-normal) var(--ease-out);
+}
+.heroButton:hover span {
+  translate: 0 0.2rem;
+}
+.heroScene {
+  position: relative;
+  min-width: 0;
+  height: clamp(440px, 44vw, 650px);
+}
+.heroPanel {
+  position: absolute;
+  width: 84%;
+  aspect-ratio: 16 / 9;
+  background: #0b0b0b;
+  box-shadow: 0 25px 55px rgb(0 0 0 / 24%);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.heroPanel img {
+  object-fit: cover;
+}
+.heroPanel[data-flight-origin="danube-group"] {
+  top: 0;
+  right: 0;
+}
+.heroPanel[data-flight-origin="beast-philanthropy"] {
+  z-index: 1;
+  top: 32%;
+  left: 0;
+}
+.heroPanel[data-flight-origin="atlas-fuel"] {
+  z-index: 2;
+  bottom: 0;
+  right: 0;
+  width: 90%;
+}
+.workHeading {
+  position: relative;
+  z-index: 6;
+  max-width: calc(var(--container-lg) + 2 * var(--page-gutter));
+  margin-inline: auto;
+  padding: var(--space-8) var(--page-gutter) 0;
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 8vw, 8rem);
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.work {
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+}
+.workHeading em {
+  color: var(--color-brand);
+  font-weight: 400;
+}
+.projectStage {
+  color: var(--color-text);
+}
+/* These empty transition lanes give the travelling stills room away from the copy. */
+.transition {
+  height: clamp(14rem, 32svh, 23rem);
+}
+.chapter {
+  width: 100%;
+  max-width: calc(var(--container-lg) + 2 * var(--page-gutter));
+  min-height: min(86svh, 960px);
+  margin-inline: auto;
+  padding: clamp(4rem, 7vw, 7rem) var(--page-gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: center;
+}
+.filmScene {
+  position: relative;
+  min-width: 0;
+  z-index: 5;
+  grid-column: 1;
+  grid-row: 1;
+}
+.filmPlane {
+  position: relative;
+  padding: clamp(0.5rem, 1vw, 0.875rem);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-text) 16%, var(--color-surface)),
+    var(--color-surface) 70%
+  );
+  box-shadow:
+    0 24px 60px rgb(0 0 0 / 25%),
+    inset 0 1px 0 color-mix(in srgb, var(--color-text) 15%, transparent);
+}
+.filmPlane::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 1rem);
+  bottom: 0.25rem;
+  width: 2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-brand);
+}
+.chapter[data-media-align="right"] {
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+}
+.chapter[data-media-align="right"] .filmScene {
+  grid-column: 2;
+}
+.chapter[data-media-align="right"] .story {
+  grid-column: 1;
+}
+.story {
+  position: relative;
+  z-index: 6;
+  min-width: 0;
+  grid-column: 2;
+  grid-row: 1;
+}
+.story h3 {
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 4.5vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+.story h3 > span[aria-hidden="true"] {
+  display: none;
+}
+.titleLine {
+  display: block;
+}
+.titleLine + .titleLine {
+  font-size: 0.9em;
+}
+.story h3 em {
+  display: block;
+  margin-top: var(--space-6);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+}
+.story p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.75;
+  margin-top: var(--space-6);
+}
+.pageExit {
+  height: clamp(12rem, 28svh, 20rem);
+}
+@media (max-width: 1050px) {
+  .heroInner {
+    gap: var(--space-8);
+  }
+  .hero h1 {
+    font-size: clamp(4rem, 7.4vw, 6rem);
+  }
+  .chapter {
+    gap: var(--space-8);
+  }
+}
+@media (max-width: 850px) {
+  .hero {
+    padding-top: calc(var(--header-height) + var(--space-12));
+  }
+  .heroInner {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: var(--space-12);
+  }
+  .hero h1 {
+    font-size: clamp(3.8rem, 11.5vw, 6.5rem);
+  }
+  .introduction {
+    max-width: 55ch;
+  }
+  .heroScene {
+    width: min(100%, 660px);
+    height: clamp(360px, 62vw, 510px);
+    margin-inline: auto;
+  }
+  .heroPanel {
+    width: 72%;
+  }
+  .heroPanel[data-flight-origin="atlas-fuel"] {
+    width: 78%;
+  }
+  .chapter,
+  .chapter[data-media-align="right"] {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    min-height: 0;
+  }
+  .chapter .filmScene,
+  .chapter .story,
+  .chapter[data-media-align="right"] .filmScene,
+  .chapter[data-media-align="right"] .story {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .story {
+    max-width: 700px;
+  }
+  .story h3 {
+    font-size: clamp(3rem, 8vw, 5rem);
+  }
+  .transition {
+    height: clamp(13rem, 30svh, 21rem);
+  }
+}
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: clamp(3rem, 13.5vw, 4.5rem);
+  }
+  .heroScene {
+    height: clamp(285px, 78vw, 360px);
+  }
+  .heroPanel {
+    width: 82%;
+  }
+  .heroPanel[data-flight-origin="atlas-fuel"] {
+    width: 87%;
+  }
+  .heroLine {
+    font-size: 1.8rem;
+  }
+  .story h3 {
+    font-size: clamp(2.7rem, 10vw, 4rem);
+  }
+  .titleLine + .titleLine {
+    font-size: 0.82em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .transition,
+  .pageExit {
+    height: var(--space-16);
+  }
+}

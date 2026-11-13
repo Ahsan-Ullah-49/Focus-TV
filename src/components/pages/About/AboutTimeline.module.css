@@ -1,0 +1,24 @@
+.timeline {
+  position: relative;
+}
+.rail {
+  position: absolute;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: var(--color-border);
+  pointer-events: none;
+}
+.rail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-brand);
+  transform-origin: top;
+  transform: scaleY(var(--journey-progress, 0));
+  will-change: transform;
+}
+@media (max-width: 760px) {
+  .rail {
+    left: -1px;
+  }
+}

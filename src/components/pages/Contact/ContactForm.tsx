@@ -15,8 +15,17 @@ const SEND_ERROR = "We couldn't send your enquiry right now. Please try again in
 type ContactFormVariant = "page" | "compact";
 type Submission = { status: "idle" | "sending" | "sent" } | { status: "error"; message: string };
 
-export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant }) {
+export function ContactForm({
+  variant = "page",
+  meetingRequested = false,
+  onMeetingChange,
+}: {
+  variant?: ContactFormVariant;
+  meetingRequested?: boolean;
+  onMeetingChange?: (requested: boolean) => void;
+}) {
   const isCompact = variant === "compact";
+  const [inquiry, setInquiry] = useState<string>(INQUIRY_TYPES[0]);
   const [submission, setSubmission] = useState<Submission>({ status: "idle" });
   const submitting = useRef(false);
   const lastAttempt = useRef<{ body: string; key: string } | null>(null);
@@ -78,6 +87,7 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
 
   return (
     <form
+      id="contact-form"
       className={isCompact ? `${styles.form} ${styles.homeForm}` : styles.form}
       method="post"
       onSubmit={handleSubmit}
@@ -92,7 +102,13 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
     >
       <div className={styles.formHeading}>
         {!isCompact && <span className={styles.index}>01 /</span>}
-        <h2 id={headingId}>{isCompact ? "Send an enquiry" : "Tell us what you have in mind."}</h2>
+        <h2 id={headingId}>
+          {meetingRequested
+            ? "Arrange a meeting"
+            : isCompact
+              ? "Send an enquiry"
+              : "Tell us what you have in mind."}
+        </h2>
       </div>
 
       <div className={styles.fields}>
@@ -142,35 +158,40 @@ export function ContactForm({ variant = "page" }: { variant?: ContactFormVariant
           <select
             id={`${prefix}-inquiry`}
             name="inquiry"
-            defaultValue={isCompact ? INQUIRY_TYPES[0] : MEETING_REQUEST}
+            value={meetingRequested ? MEETING_REQUEST : inquiry}
+            onChange={(event) => {
+              const value = event.target.value;
+              setInquiry(value);
+              onMeetingChange?.(value === MEETING_REQUEST);
+            }}
           >
             {INQUIRY_TYPES.map((type) => (
               <option key={type}>{type}</option>
             ))}
-            {!isCompact && <option>{MEETING_REQUEST}</option>}
+            <option>{MEETING_REQUEST}</option>
           </select>
         </div>
       </div>
 
-      {!isCompact && (
-        <fieldset className={styles.meeting}>
+      {meetingRequested && (
+        <fieldset className={styles.meeting} id={`${prefix}-meeting-details`}>
           <legend>
             A time that suits you <span className={styles.optional}>(optional)</span>
           </legend>
           <p>Share a preference. We&apos;ll confirm availability by email.</p>
           <div className={styles.fields}>
             <div className={styles.field}>
-              <label htmlFor="contact-date">Preferred date</label>
-              <input id="contact-date" name="date" type="date" />
+              <label htmlFor={`${prefix}-date`}>Preferred date</label>
+              <input id={`${prefix}-date`} name="date" type="date" />
             </div>
             <div className={styles.field}>
-              <label htmlFor="contact-time">Preferred time</label>
-              <input id="contact-time" name="time" type="time" />
+              <label htmlFor={`${prefix}-time`}>Preferred time</label>
+              <input id={`${prefix}-time`} name="time" type="time" />
             </div>
             <div className={`${styles.field} ${styles.fullWidth}`}>
-              <label htmlFor="contact-timezone">Your time zone</label>
+              <label htmlFor={`${prefix}-timezone`}>Your time zone</label>
               <input
-                id="contact-timezone"
+                id={`${prefix}-timezone`}
                 name="timezone"
                 placeholder="e.g. Perth, Australia (AWST)"
                 maxLength={CONTACT_FIELD_LIMITS.timezone}

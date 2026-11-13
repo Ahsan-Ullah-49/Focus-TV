@@ -86,14 +86,14 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
         id: "mate-rimac",
         name: "Mate Rimac",
         title: "Founder & CEO, Rimac Group",
-        imageSrc: "/media/Stills/optimized/23.webp",
+        imageSrc: "/media/Stills/automotive-legends/07-mate-rimac.webp",
       },
       ...castById(["sasha-selipanov"]),
       {
         id: "ahmed-amwell",
         name: "Ahmed Amwell",
         title: "Founder & CEO, Luxury Supercars Dubai",
-        imageSrc: "/media/Stills/optimized/19.webp",
+        imageSrc: "/media/Stills/automotive-legends/09-ahmed-amwell.webp",
       },
     ],
     logos: logosByName([

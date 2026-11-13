@@ -186,10 +186,12 @@ const additional: Array<{
 
 // Owner-confirmed interview stills, shared by the directory and homepage projects.
 const additionalInterviewStills: Record<string, string> = {
-  "shiro-nakamura": "/media/Stills/optimized/18.webp",
-  "ahmed-mansour": "/media/Stills/optimized/19.webp",
-  "will-wright": "/media/Stills/optimized/21.webp",
-  "naveen-jain": "/media/Stills/optimized/22.webp",
+  "katsuhiro-harada": "/media/Stills/gaming-legends/03-katsuhiro-harada.webp",
+  "fawzi-mesmar": "/media/Stills/gaming-legends/05-fawzi-mesmar.webp",
+  "shiro-nakamura": "/media/Stills/automotive-legends/05-shiro-nakamura.webp",
+  "ahmed-mansour": "/media/Stills/automotive-legends/09-ahmed-amwell.webp",
+  "will-wright": "/media/Stills/gaming-legends/02-will-wright.webp",
+  "naveen-jain": "/media/Stills/the-answer/03-naveen-jain.webp",
 };
 
 export const DIRECTORY_CAST: DirectoryMember[] = [

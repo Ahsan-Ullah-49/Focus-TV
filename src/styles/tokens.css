@@ -87,3 +87,49 @@ html[data-theme="dark"] {
   --color-text-secondary: #a5a5a5;
   --color-border: rgba(255, 255, 255, 0.12);
 }
+
+/* Temporary, page-owned palettes. Removing data-page-palette restores the saved theme. */
+html[data-page-palette="paper"] {
+  --color-brand: #cb840a;
+  --color-brand-hover: #a58535;
+  --color-bg: #f5f3ee;
+  --color-surface: #ffffff;
+  --color-surface-muted: #ece9e2;
+  --color-text: #121212;
+  --color-text-secondary: #686868;
+  --color-border: rgba(18, 18, 18, 0.12);
+}
+html[data-page-palette="green"] {
+  --color-brand: #d0eddd;
+  --color-brand-hover: #ffffff;
+  --color-bg: #1f6348;
+  --color-surface: #2a7255;
+  --color-surface-muted: #357f62;
+  --color-text: #f5f8f2;
+  --color-text-secondary: #dfefe5;
+  --color-border: rgba(245, 248, 242, 0.22);
+}
+html[data-page-palette="gold"] {
+  --color-brand: #251905;
+  --color-brand-hover: #4f3818;
+  --color-bg: #dba94f;
+  --color-surface: #e2b966;
+  --color-surface-muted: #ce9a3e;
+  --color-text: #251905;
+  --color-text-secondary: #3d2d14;
+  --color-border: rgba(37, 25, 5, 0.22);
+}
+html[data-page-palette="dark"] {
+  --color-brand: #e0bb74;
+  --color-brand-hover: #f3d59c;
+  --color-bg: #0b0b0b;
+  --color-surface: #131313;
+  --color-surface-muted: #1a1a1a;
+  --color-text: #f3f0e8;
+  --color-text-secondary: #c7c2b8;
+  --color-border: rgba(243, 240, 232, 0.16);
+}
+html[data-page-palette],
+html[data-page-palette] body {
+  transition: color 600ms var(--ease-out);
+}

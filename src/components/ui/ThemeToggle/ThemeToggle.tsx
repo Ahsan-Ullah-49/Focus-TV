@@ -5,8 +5,9 @@ import { useTheme } from "@/components/providers/ThemeProvider";
 import styles from "./ThemeToggle.module.css";
 
 export function ThemeToggle({ className = "" }: { className?: string }) {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+  const { preferredTheme, toggleTheme } = useTheme();
+  // Temporary scroll palettes must not change what this preference control toggles.
+  const isDark = preferredTheme === "dark";
 
   return (
     <button

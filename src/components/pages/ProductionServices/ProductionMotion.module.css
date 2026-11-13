@@ -1,0 +1,59 @@
+.root {
+  position: relative;
+  isolation: isolate;
+}
+.backdrop {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+}
+.backdropBase,
+.backdropFade {
+  position: absolute;
+  inset: 0;
+}
+.backdropBase {
+  background: var(--color-bg);
+}
+.backdropFade {
+  opacity: 0;
+  will-change: opacity;
+}
+.orbitLayer {
+  display: contents;
+  pointer-events: none;
+  visibility: hidden;
+}
+.root[data-orbit-ready="true"] .orbitLayer {
+  visibility: visible;
+}
+.root[data-orbit-ready="true"] :global([data-flight-origin]) {
+  visibility: hidden;
+}
+.flyer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 480px;
+  aspect-ratio: 16 / 9;
+  opacity: 0;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  box-shadow: 0 22px 48px rgb(0 0 0 / 25%);
+  background: #0b0b0b;
+  pointer-events: none;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.flyer img {
+  object-fit: cover;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbitLayer {
+    display: none;
+  }
+}

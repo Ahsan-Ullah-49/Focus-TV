@@ -5,6 +5,12 @@
   border-top: 1px solid var(--color-border);
 }
 
+/* Keep ordinary footer text above the production page's fixed backdrop. */
+:global(html[data-page-palette]) .footer {
+  position: relative;
+  z-index: 1;
+}
+
 :global(html[data-theme="light"]) .footer {
   background: color-mix(in srgb, var(--color-surface-muted) 96%, var(--color-text) 4%);
 }

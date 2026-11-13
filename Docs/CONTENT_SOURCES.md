@@ -1,5 +1,9 @@
 # Content sources and maintenance
 
+## Interview still organization — 12 November 2026
+
+The 21 original featured-voice stills now live in `public/media/Stills/the-answer/`, `automotive-legends/` and `gaming-legends/`. Filenames identify their project order and person. Harada and Fawzi use the newly supplied originals, replacing their promotional artwork. Shared source mappings update all homepage, directory, profile and gallery consumers. The old numbered `optimized/` paths below are historical; the complete rename map is in `MISSING_INTERVIEW_STILLS.md`. All homepage featured-voice stills have now been supplied.
+
 ## Asset cleanup — 12 November 2026
 
 Current runtime images use WebP, including transparent logos and header/footer artwork; `src/app/icon.png` remains the small framework favicon. The supplied brand-guide PDF is retained as project documentation. The homepage uses only the active project logo groups; unused logo artwork, duplicate branding files and the unrendered Atlas assets were removed. Theme variants, image dimensions and display settings are preserved. Missing active Crew, Gallery and cast source photographs were restored from the committed originals to avoid broken pages.
@@ -71,8 +75,9 @@ Keep configured filenames and intrinsic dimensions synchronized when replacing o
 
 - **Other projects:** update title and `video: { kind: "vimeo", id, hash }` or `video: { kind: "file", src, type: "video/mp4" }` in `projects.config.ts`. Vimeo embeds use browser-lazy loading; muted autoplay starts when a frame enters view, pauses offscreen, and respects reduced-motion preferences. The native Vimeo player supplies the playback controls and timeline with the FocusTV gold accent; the browser pointer is visible inside the frame while the animated FocusTV cursor hides there. An intentional in-view pause blocks scroll-triggered autoplay until refresh. Hide Vimeo branding, title and byline through embed parameters when the account supports those settings; configure Like and Watch Later in Vimeo's video embed settings. If a local video is used, provide an approved poster in `public/media/`.
 - **Cast:** edit the full-directory data for additional profiles/categories. Edit approved homepage `CAST` only when the owner asks to change that protected section. The full directory includes 28 source-backed entries, including organization entries.
-- **Crew:** update the seven profiles and Sandbox section in the crew route; avoid conflating production credits with current employment claims.
-- **Gallery:** update `galleryFilms` and `galleryStills`, plus local optimized posters. New video players load only after interaction.
+- **Crew:** update the seven profiles and linked IMDb titles in the crew route; preserve the owner-approved order. The Sandbox section and descriptive biographies were removed at the owner's request.
+- **Gallery:** update `galleryPhotos` and `galleryCategories`; use verified photographs only. The gallery now has image filtering and a still-image lightbox, with no film player.
+- **About:** update the owner-supplied introduction and five chapters in `src/app/about/page.tsx`. The timeline uses the existing artwork and photographs with literal image descriptions.
 - The approved Contact recipient is `hammad@focustv.tv`. Social accounts are `the.answer_unlocked` and `focutivity` on Instagram.
 - **Homepage footer:** the current approved destinations are Instagram `the.answer_unlocked` and `mailto:hammad@focustv.tv`, in that order. Keep these two icons under the brand note; do not add the other historical Instagram account or Facebook/YouTube without a new client request. The footer uses the coloured FocusTV logo variants for light and dark surfaces.
 - **Partner logos:** the owner-approved Partners & Media loop contains 55 configured logos, with fourteen Dark variants and three Light variants. It uses a 64px logo height and gap, a draggable left-moving track, and a responsive brand-accent heading. Remaining optional theme-contrast replacements are recorded in `Docs/PROJECT_STATUS.md`. The 72 canonical files and per-logo display settings live in `public/media/Logos/LOGOS/` and `src/components/sections/Partners/partners.config.ts`.
@@ -80,3 +85,25 @@ Keep configured filenames and intrinsic dimensions synchronized when replacing o
 ## Before production launch
 
 Confirm final project assets/titles/list; review migrated profiles/credits and Vimeo permissions; confirm recipient and email sending service; check the actual Hostinger plan; approve final content; audit old URLs beyond the two preserved navigation redirects. No production publish or push was requested in this task.
+
+## Production Services — 12 November 2026
+
+The commercial production copy is transcribed from the owner-supplied client messages. Atlas Fuel uses original Focus TV Vimeo film `1244099030` (access hash `2ff7fdbc96`). The current poster, `public/media/production-services/atlas-laboratory-logo.webp`, is the opening laboratory-door logo shot at 1 second: extracted from the original film and cropped to 16:9 after removing the encoded letterbox bars, keeping the Atlas logo in view. Beast Philanthropy and Danube Group retain the verified Vimeo IDs and stills listed above. The temporary page palettes follow the visitor's saved preference: light → Atlas green → gold → dark → light, or dark → Atlas green → gold → light → dark. Automatic changes never overwrite that saved preference.
+
+## About, Team and Gallery — 13 November 2026
+
+The owner-supplied client messages provide the About introduction and all five timeline chapters, the founder title, team order, Gallery categories and removals. About reuses current project artwork, the founder portrait, identifiable interview stills and the existing production photograph. No photograph is labelled as the Amazon rainforest or original backyard studio. Gallery uses the production photograph, Aubrey Marcus, Li Wei of NetEase Games and the existing Hammad/Dr. Nakamatsu interview still; no stock photography or substitute identities are introduced.
+
+The compact Aubrey and NetEase WebP files are served directly in both the Gallery grid and its lightbox, avoiding a redundant runtime encoding step. Larger BTS photographs retain Next.js image optimization.
+
+The team order is Hammad Chaudhry, Alan Lindsay, Hubert Krzysztofik, Daniel Mei-Tal, Rachel Soleil, Wasam Chaudhry and Brett English. Existing named portraits are retained. The [original crew page](https://focustv.tv/crew/) supplies the established roles and confirms Daniel's Avatar work. IMDb records back Alan's [Child Soldiers](https://www.imdb.com/title/tt6223480/) and [Crazy About You](https://www.imdb.com/title/tt5277030/) credits. Hubert's [Focus TV biography](https://focustv.tv/test/) names **Ted (2012)**, while [IMDb's Pinks: All Out credits](https://www.imdb.com/title/tt0913045/fullcredits/) name him as an on-line editor. The client wrote “Ted 2”; that sequel could not be verified, so the supported Ted (2012) title is used and the discrepancy has been reported to the owner. Credit links point to the corresponding IMDb records, without adding new biographical paragraphs.
+
+About Us replaces The Answer AI in the shared navigation and sitemap. The existing AI route remains accessible for old bookmarks; the request removes its navigation tab. The homepage and Production Services content are preserved.
+
+## Editorial motion and asset refinement — 13 November 2026
+
+About’s cinematic hero uses a 1920×1080 frame from the existing Focus TV footage of Hammad Chaudhry with Dr. Nakamatsu; its chapter-five image is a 1920×1080 Dubai skyline frame from the verified Danube documentary. Chapter one retains the supplied 1920×1080 _The Answer_ artwork and displays it uncropped. The scroll treatment uses the approved GSAP stack with scoped, reversible reveals and reduced-motion fallbacks.
+
+The original Alan Lindsay and Rachel Soleil crew files were 282×329 and 275×319 pixels respectively. Identity-preserving restoration created higher-resolution WebP versions (1161×1355 and 1164×1351) from those same supplied portraits; no person, credit or role was changed. Their framed treatment is CSS-only.
+
+Gallery filtering was removed at the owner’s request. The grid presents the supplied square interview stills only, ordered with the owner-requested featured names first; Steve Wozniak is again the first Gallery portrait.

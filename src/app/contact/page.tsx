@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
-  return <HomeContact />;
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ enquiry?: string | string[] }>;
+}) {
+  const query = await searchParams;
+  return <HomeContact initialMeeting={query.enquiry === "meeting"} />;
 }

@@ -1,5 +1,29 @@
 .contact {
-  padding-top: var(--header-height);
+  padding-top: calc(var(--header-height) + var(--space-16));
+}
+.pageIntro {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: end;
+  gap: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+.pageIntro h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 9vw, 9rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+.pageIntro h1 em {
+  color: var(--color-brand);
+  font-weight: 400;
+}
+.pageIntro > p {
+  max-width: 36ch;
+  font-size: var(--text-lg);
+  line-height: 1.8;
+  padding-bottom: var(--space-2);
 }
 
 .scene {
@@ -7,7 +31,7 @@
   isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  min-block-size: min(56.25vw, 100svh);
+  min-block-size: calc(100svh - var(--header-height));
   background: #171913;
 }
 
@@ -80,7 +104,7 @@
   content: "";
 }
 
-.copy h1 {
+.copy h2 {
   color: #fff;
   font-size: clamp(2.65rem, 5.3vw, 5.25rem);
   font-weight: 500;
@@ -89,7 +113,7 @@
   text-wrap: balance;
 }
 
-.copy h1 em {
+.copy h2 em {
   display: block;
   color: #f4cd88;
   font-family: var(--font-serif);
@@ -114,7 +138,7 @@
   border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--color-bg) 94%, transparent);
   color: var(--color-text);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(8px);
 }
 
 .actions {
@@ -136,6 +160,8 @@
   border-radius: var(--radius-sm);
   background: rgb(255 255 255 / 8%);
   color: #fff;
+  width: 100%;
+  text-align: left;
   transition:
     border-color var(--duration-normal) var(--ease-out),
     background-color var(--duration-normal) var(--ease-out);
@@ -166,6 +192,18 @@
 }
 
 @media (max-width: 900px) {
+  .pageIntro {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding-bottom: var(--space-12);
+  }
+  .pageIntro > p {
+    max-width: 50ch;
+  }
+  .formPanel {
+    backdrop-filter: none;
+    background: var(--color-bg);
+  }
   .backdrop {
     --parallax-travel: clamp(7rem, 19svh, 12rem);
   }
@@ -193,6 +231,14 @@
 
   .copy {
     padding-block: var(--space-3);
+  }
+}
+@media (max-width: 600px) {
+  .contact {
+    padding-top: calc(var(--header-height) + var(--space-12));
+  }
+  .pageIntro h1 {
+    font-size: clamp(3.8rem, 15vw, 5rem);
   }
 }
 

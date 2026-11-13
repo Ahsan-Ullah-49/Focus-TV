@@ -2,10 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
-  // Preserve the published WordPress navigation URLs during the redesign.
+  images: { qualities: [75, 90, 95] },
+  // Send retired project and legacy URLs to their current destinations.
   redirects() {
     return [
-      { source: "/meet-the-cast", destination: "/cast", permanent: true },
+      { source: "/cast", destination: "/production-services", permanent: false },
+      { source: "/meet-the-cast", destination: "/production-services", permanent: false },
       { source: "/contact-us", destination: "/contact", permanent: true },
     ];
   },
