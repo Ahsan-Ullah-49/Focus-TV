@@ -99,18 +99,14 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
     logos: logosByName([
       "Tesla",
       "Bugatti",
-      "BMW",
       "Nissan",
       "GTR",
       "Hagerty",
-      "Koenigsegg",
-      "Lamborghini",
       "NILU",
       "Rolls Royce",
       "Arise Racing",
       "Campos Racing",
       "Rentals",
-      "John Hughes",
     ]),
   },
   {
@@ -150,7 +146,7 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
         height: 348,
         darkBlend: "screen",
       },
-      ...logosByName(["Monopoly", "NetEase Games", "Onmyoji", "IO Interactive", "Konami"]),
+      ...logosByName(["Monopoly", "NetEase Games"]),
     ],
   },
   {
