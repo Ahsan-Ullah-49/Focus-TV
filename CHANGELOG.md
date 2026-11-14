@@ -10,6 +10,18 @@ Format is inspired by Keep a Changelog, but kept intentionally simple.
 
 ## [Unreleased]
 
+### Changed — Gallery and About image borders (14 November 2026)
+
+- Matched the new Gallery BTS hover zoom to the original stills and added a thin moving gold border to all Gallery photographs on pointer hover.
+- Added a subtle gold outline around About photographs without changing image bounds or row layouts; reduced-motion preferences disable the Gallery zoom and border movement.
+
+### Changed — About, Gallery and Team client revisions (14 November 2026)
+
+- Removed About's hero image, added and lowered the owner-confirmed 2018 timeline marker and replaced chapter images with the supplied Amazon, Founder, BTS and Perth photographs. Images follow their source proportions without oversized frames or empty background bands.
+- Preserved Gallery's original 21-still grid and order, then placed all eleven new BTS photographs below it in aligned rows, retaining their square or landscape proportions and the image viewer.
+- Used the newly supplied Hammad crew portrait on Team with Brett English's grey wall background reference, matched the other team backgrounds and colorized Wasam's portrait.
+- Enlarged IMDb labels and credit links, added six verified credits across Alan Lindsay, Hubert Krzysztofik, Daniel Mei-Tal and Rachel Soleil, and recorded the credit sources and portrait edit prompt.
+
 ### Changed — Homepage interactions (8 November 2026)
 
 - Switched header and footer to the coloured FocusTV logo in both themes, retaining the mobile drawer's black variant.

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import globalSkyline from "../../../public/media/editorial/global-skyline.webp";
 import { AboutTimeline } from "@/components/pages/About/AboutTimeline";
 import { EditorialMotion } from "@/components/motion/EditorialMotion";
 import styles from "./page.module.css";
@@ -11,8 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-// Client-supplied chapters. Existing photographs illustrate the work and people;
-// no available studio or interview photograph is presented as the Amazon location.
+// Client-supplied chapters and photographs, including the 2018 journey start.
 const chapters = [
   {
     id: "the-vision",
@@ -21,7 +19,14 @@ const chapters = [
     paragraphs: [
       "Deep in the Amazon rainforest, founder Hammad Chaudhry experienced a life-changing vision: to create films that awaken human potential and reveal the extraordinary power we possess to turn imagination into reality.",
     ],
-    images: [{ src: "/media/about/ch1.webp", alt: "Mountain landscape with a waterfall" }],
+    images: [
+      {
+        src: "/media/about/Amazon.webp",
+        alt: "River winding through the Amazon rainforest",
+        width: 1920,
+        height: 1080,
+      },
+    ],
   },
   {
     id: "humble-beginnings",
@@ -30,7 +35,14 @@ const chapters = [
     paragraphs: [
       "Starting in a small studio behind his home, Hammad Chaudhry began bringing his vision to life. With a camera, an idea and relentless determination, he set out to create meaningful films, laying the foundations for what would become Focus TV Studios.",
     ],
-    images: [{ src: "/media/about/ch2.webp", alt: "Hammad Chaudhry" }],
+    images: [
+      {
+        src: "/media/about/Founder.webp",
+        alt: "Hammad Chaudhry beside his filmmaking camera",
+        width: 1080,
+        height: 1080,
+      },
+    ],
   },
   {
     id: "going-global",
@@ -45,14 +57,20 @@ const chapters = [
       {
         src: "/media/Stills/the-answer/01-steve-wozniak.webp",
         alt: "Steve Wozniak in a Focus TV interview",
+        width: 1080,
+        height: 1080,
       },
       {
         src: "/media/Stills/gaming-legends/01-nolan-bushnell.webp",
         alt: "Nolan Bushnell in a Focus TV interview",
+        width: 1080,
+        height: 1080,
       },
       {
         src: "/media/Stills/the-answer/04-rizwan-sajan.webp",
         alt: "Rizwan Sajan in a Focus TV interview",
+        width: 1080,
+        height: 1080,
       },
     ],
   },
@@ -66,9 +84,24 @@ const chapters = [
       "Alongside its original productions, Focus TV Studios creates cinematic brand films, corporate documentaries, founder stories and ESG and community impact films, helping businesses and global brands communicate their achievements through powerful storytelling.",
     ],
     images: [
-      { src: "/media/hero/focustv-Intro-poster.webp", alt: "Automotive Legends artwork" },
-      { src: "/media/projects/gaming-legends.webp", alt: "Gaming Legends artwork" },
-      { src: "/media/projects/wa-police.webp", alt: "WA Police: Tech Reloaded film still" },
+      {
+        src: "/media/New BTS/Patric Bet David.webp",
+        alt: "Filming Hammad Chaudhry and Patrick Bet-David behind the scenes",
+        width: 1920,
+        height: 1080,
+      },
+      {
+        src: "/media/New BTS/Naveen.webp",
+        alt: "Behind the cameras during Naveen Jain's Focus TV interview",
+        width: 1920,
+        height: 1080,
+      },
+      {
+        src: "/media/New BTS/Franz.webp",
+        alt: "Franz von Holzhausen on the monitors during his Focus TV interview",
+        width: 1920,
+        height: 1080,
+      },
     ],
   },
   {
@@ -80,8 +113,10 @@ const chapters = [
     ],
     images: [
       {
-        src: globalSkyline,
-        alt: "Dubai skyline at sunset",
+        src: "/media/editorial/Perth.webp",
+        alt: "Perth skyline and Elizabeth Quay at dusk",
+        width: 1920,
+        height: 1080,
       },
     ],
   },
@@ -105,22 +140,11 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className={styles.heroScene} data-editorial-hero>
-            <div className={styles.heroImage} data-editorial-window>
-              <div className={styles.heroPhoto} data-editorial-photo>
-                <Image
-                  src="/media/editorial/about-hero.webp"
-                  alt="Hammad Chaudhry greeting Dr. Nakamatsu during filming in Japan"
-                  fill
-                  quality={90}
-                  sizes="(max-width: 1552px) 92vw, 1440px"
-                  preload
-                />
-              </div>
-            </div>
-          </div>
         </header>
         <AboutTimeline className={styles.timeline}>
+          <time className={styles.journeyStart} dateTime="2018" data-journey-start>
+            <span className="visually-hidden">Our journey began in </span>2018
+          </time>
           {chapters.map((chapter, index) => (
             <section
               className={styles.chapter}
@@ -136,17 +160,20 @@ export default function AboutPage() {
                 data-chapter={chapter.id}
                 data-editorial-reveal={index % 2 === 0 ? "left" : "right"}
               >
-                {chapter.images.map((photo) => (
+                {chapter.images.map((photo, photoIndex) => (
                   <div className={styles.imageFrame} key={photo.alt}>
                     <Image
                       src={photo.src}
                       alt={photo.alt}
-                      fill
-                      quality={chapter.id === "the-future" ? 100 : 90}
+                      width={photo.width}
+                      height={photo.height}
+                      quality={95}
                       sizes={
-                        chapter.images.length > 1
-                          ? "(max-width: 760px) 45vw, 24vw"
-                          : "(max-width: 760px) 90vw, 46vw"
+                        chapter.id === "going-global" && photoIndex === 0
+                          ? "(max-width: 760px) 55vw, 320px"
+                          : chapter.images.length > 1 && photoIndex > 0
+                            ? "(max-width: 760px) 42vw, 23vw"
+                            : "(max-width: 760px) 90vw, 46vw"
                       }
                     />
                   </div>

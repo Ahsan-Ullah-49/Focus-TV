@@ -1,6 +1,10 @@
 import type { MediaItem } from "@/components/pages/Media/MediaDialog";
 
-export type GalleryPhoto = MediaItem & { layout: "wide" | "portrait" };
+export type GalleryPhoto = MediaItem & {
+  layout: "wide" | "portrait";
+  width: number;
+  height: number;
+};
 
 const stills = [
   ["steve", "Steve Wozniak", "the-answer/01-steve-wozniak.webp"],
@@ -26,14 +30,84 @@ const stills = [
   ["fawzi", "Fawzi Mesmar", "gaming-legends/05-fawzi-mesmar.webp"],
 ] as const;
 
-const portraits: GalleryPhoto[] = stills.map(([id, title, file]) => ({
+function btsPhoto(
+  id: string,
+  title: string,
+  file: string,
+  width = 1920,
+  height = 1080
+): GalleryPhoto {
+  return {
+    id,
+    title,
+    kind: "still",
+    layout: width > height ? "wide" : "portrait",
+    width,
+    height,
+    src: `/media/New BTS/${file}`,
+    alt: `${title} — behind the scenes on a Focus TV production`,
+  };
+}
+
+export const galleryStills: GalleryPhoto[] = stills.map(([id, title, file]) => ({
   id,
   title,
   kind: "still",
   layout: "portrait",
+  width: 1080,
+  height: 1080,
   src: `/media/Stills/${file}`,
   alt: `${title} during a Focus TV interview`,
   unoptimized: true,
 }));
 
-export const galleryPhotos: GalleryPhoto[] = portraits;
+type BtsRow = {
+  layout: "landscapes" | "mixed" | "squares-wide";
+  photos: GalleryPhoto[];
+};
+
+// The original stills remain first, in their approved order. BTS follows with
+// the most recognizable guests first; each authored row preserves source ratios.
+export const galleryBtsRows: BtsRow[] = [
+  {
+    layout: "landscapes",
+    photos: [
+      btsPhoto("steve-bts", "Steve Wozniak", "Steve.webp"),
+      btsPhoto("steve-woz-bts", "Steve Wozniak — interview setup", "Steve Woz.webp"),
+    ],
+  },
+  {
+    layout: "landscapes",
+    photos: [
+      btsPhoto("patrick-bts", "Patrick Bet-David", "Patric Bet David.webp"),
+      btsPhoto("pbd-bts", "Patrick Bet-David — outdoor filming", "PBD.webp"),
+    ],
+  },
+  {
+    layout: "mixed",
+    photos: [
+      btsPhoto("naveen-bts", "Naveen Jain", "Naveen.webp"),
+      btsPhoto("hadid-bts", "Mohamed Hadid", "Hadid.webp", 3840, 3840),
+    ],
+  },
+  {
+    layout: "landscapes",
+    photos: [
+      btsPhoto("aubrey-bts", "Aubrey Marcus", "Aubrey.webp"),
+      btsPhoto("franz-bts", "Franz von Holzhausen", "Franz.webp"),
+    ],
+  },
+  {
+    layout: "squares-wide",
+    photos: [
+      btsPhoto("chris-bts", "Chris Bangle", "Chris.webp", 1080, 1080),
+      btsPhoto("jason-bts", "Jason Cammisa", "Jason.webp", 1080, 1080),
+      btsPhoto("sasha-bts", "Sasha Selipanov", "Sasha.webp"),
+    ],
+  },
+];
+
+export const galleryPhotos: GalleryPhoto[] = [
+  ...galleryStills,
+  ...galleryBtsRows.flatMap((row) => row.photos),
+];

@@ -23,7 +23,33 @@
   object-fit: cover;
   transition: transform 900ms var(--ease-out);
 }
-.photo::after {
+@property --gallery-frame-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.photo::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  content: "";
+  background: conic-gradient(
+    from var(--gallery-frame-angle),
+    transparent 10%,
+    var(--color-brand) 40%,
+    transparent 65%
+  );
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-normal);
+}
+.grid .photo::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -33,6 +59,22 @@
 @media (hover: hover) and (pointer: fine) {
   .photo:hover img {
     transform: scale(1.045);
+  }
+  .photo:hover::before {
+    animation: photoFrameOrbit 2.4s linear infinite;
+    opacity: 1;
+  }
+}
+.photo:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: var(--space-1);
+}
+.photo:focus-visible::before {
+  opacity: 1;
+}
+@keyframes photoFrameOrbit {
+  to {
+    --gallery-frame-angle: 360deg;
   }
 }
 @media (max-width: 1050px) {
@@ -58,5 +100,63 @@
   }
   .photo[data-layout="wide"] {
     grid-column: span 2;
+  }
+}
+
+.bts {
+  display: grid;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(1rem, 2vw, 2rem);
+}
+.btsRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+}
+/* Column weights are the source aspect ratios: every image in a row has
+   the same height, so mixed shapes align without cropping or empty cells. */
+.btsRow[data-row-layout="mixed"] {
+  grid-template-columns: minmax(0, 16fr) minmax(0, 9fr);
+}
+.btsRow[data-row-layout="squares-wide"] {
+  grid-template-columns: minmax(0, 9fr) minmax(0, 9fr) minmax(0, 16fr);
+}
+.btsRow .photo {
+  grid-column: auto;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.btsRow .photo[data-layout="portrait"] {
+  aspect-ratio: 1;
+}
+.btsRow .photo img {
+  object-fit: contain;
+}
+@media (max-width: 700px) {
+  .bts,
+  .btsRow {
+    gap: var(--space-3);
+  }
+  .bts {
+    margin-top: var(--space-3);
+  }
+}
+@media (max-width: 600px) {
+  .btsRow,
+  .btsRow[data-row-layout] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo img {
+    transition: none;
+  }
+  .photo:hover img {
+    transform: none;
+  }
+  .photo::before,
+  .photo:hover::before {
+    animation: none;
+    transition: none;
   }
 }

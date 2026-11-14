@@ -15,10 +15,12 @@ export function AboutTimeline({ children, className }: { children: ReactNode; cl
       chapter.querySelector<HTMLElement>("[data-journey-node]")
     );
     const rail = scope.querySelector<HTMLElement>("[data-journey-rail]");
+    const start = scope.querySelector<HTMLElement>("[data-journey-start]");
     if (!chapters.length || !rail) return;
     gsap.registerPlugin(ScrollTrigger);
     let centers: number[] = [];
     let documentTop = 0;
+    let railStart = 0;
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const getLocalCenter = (node: HTMLElement) => {
@@ -39,8 +41,10 @@ export function AboutTimeline({ children, className }: { children: ReactNode; cl
       const top = scope.getBoundingClientRect().top;
       documentTop = top + window.scrollY;
       centers = nodes.map((node) => getLocalCenter(node!));
-      rail.style.top = `${centers[0]}px`;
-      rail.style.height = `${Math.max(0, centers.at(-1)! - centers[0])}px`;
+      // Connect the year badge to the first chapter without changing chapter-node positions.
+      railStart = start ? getLocalCenter(start) + start.offsetHeight / 2 : centers[0];
+      rail.style.top = `${railStart}px`;
+      rail.style.height = `${Math.max(0, centers.at(-1)! - railStart)}px`;
     };
     const update = () => {
       const current = window.scrollY + window.innerHeight * 0.55 - documentTop;
@@ -48,7 +52,7 @@ export function AboutTimeline({ children, className }: { children: ReactNode; cl
       const finalCenter = centers.at(-1)!;
       const progress = reduced
         ? 1
-        : Math.max(0, Math.min(1, (current - centers[0]) / (finalCenter - centers[0])));
+        : Math.max(0, Math.min(1, (current - railStart) / (finalCenter - railStart)));
       // Start the dimensional motion with Chapter 01, then return it to a flat page
       // as the final chapter reaches the reading line.
       const curveProgress = reduced ? 1 : Math.max(0, Math.min(1, current / finalCenter));

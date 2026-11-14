@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image, { type StaticImageData } from "next/image";
 import alanPortrait from "../../../public/media/crew/alan-lindsay.webp";
 import rachelPortrait from "../../../public/media/crew/rachael-soleil.webp";
+import founderPortrait from "../../../public/media/crew/founder.webp";
+import wasamPortrait from "../../../public/media/crew/wasam-chaudhry.webp";
 import { EditorialMotion } from "@/components/motion/EditorialMotion";
 import styles from "@/components/pages/Crew/Crew.module.css";
 
@@ -29,6 +31,8 @@ const team: TeamPerson[] = [
     credits: [
       { title: "Child Soldiers", href: "https://www.imdb.com/title/tt6223480/" },
       { title: "Crazy About You", href: "https://www.imdb.com/title/tt5277030/" },
+      { title: "Savage Play", href: "https://www.imdb.com/title/tt0114341/" },
+      { title: "Hell on Ice", href: "https://www.imdb.com/title/tt13617016/" },
     ],
   },
   {
@@ -38,22 +42,41 @@ const team: TeamPerson[] = [
     credits: [
       { title: "Ted (2012)", href: "https://www.imdb.com/title/tt1637725/fullcredits/" },
       { title: "Pinks: All Out", href: "https://www.imdb.com/title/tt0913045/fullcredits/" },
+      {
+        title: "Jurassic World VR Expedition",
+        href: "https://www.imdb.com/title/tt8585878/fullcredits/",
+      },
     ],
   },
   {
     name: "Daniel Mei-Tal",
     role: "Associate Producer",
     image: "daniel-mei-tal",
-    credits: [{ title: "Avatar", href: "https://www.imdb.com/title/tt0499549/fullcredits/" }],
+    credits: [
+      { title: "Avatar", href: "https://www.imdb.com/title/tt0499549/fullcredits/" },
+      {
+        title: "Cirque du Soleil: Worlds Away",
+        href: "https://www.imdb.com/title/tt1792647/fullcredits/",
+      },
+    ],
   },
   {
     name: "Rachel Soleil",
     role: "Story Producer",
     image: "rachael-soleil",
     portrait: rachelPortrait,
+    credits: [
+      { title: "My Kitchen Rules", href: "https://www.imdb.com/title/tt1626459/fullcredits/" },
+      { title: "Holey Moley (USA)", href: "https://www.imdb.com/title/tt10133226/fullcredits/" },
+    ],
+  },
+  {
+    name: "Wasam Chaudhry",
+    role: "Executive Producer",
+    image: "wasam-chaudhry",
+    portrait: wasamPortrait,
     credits: [],
   },
-  { name: "Wasam Chaudhry", role: "Executive Producer", image: "wasam-chaudhry", credits: [] },
   { name: "Brett English", role: "Assistant Director", image: "brett-english", credits: [] },
 ];
 
@@ -70,10 +93,10 @@ export default function CrewPage() {
           <div className={styles.portraitFrame} data-editorial-reveal="image">
             <div className={styles.leadPortrait}>
               <Image
-                src="/media/crew/founder.webp"
+                src={founderPortrait}
                 alt="Hammad Chaudhry"
                 fill
-                quality={90}
+                quality={95}
                 sizes="(max-width: 760px) 92vw, 50vw"
                 preload
               />
@@ -102,7 +125,7 @@ export default function CrewPage() {
                     src={person.portrait ?? `/media/crew/${person.image}.webp`}
                     alt={person.name}
                     fill
-                    quality={90}
+                    quality={95}
                     sizes="(max-width: 600px) 92vw, (max-width: 1050px) 46vw, 30vw"
                   />
                 </div>
