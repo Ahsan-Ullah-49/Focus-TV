@@ -1,10 +1,10 @@
 /**
  * FocusTV — Meet the Cast section data
  *
- * Original interview stills are grouped by production in /public/media/Stills/.
+ * Original interview stills are grouped by production in /public/media/interviews/.
  * Each filename identifies its display order and featured person.
  *
- * No other files need editing to add, remove, or reorder entries.
+ * Homepage project selections and gallery order are maintained separately.
  */
 
 export interface CastMember {
@@ -30,42 +30,42 @@ export const CAST: CastMember[] = [
     id: "steve-wozniak",
     name: "Steve Wozniak",
     title: "Co-Founder, Apple",
-    imageSrc: "/media/Stills/the-answer/01-steve-wozniak.webp",
+    imageSrc: "/media/interviews/the-answer/01-steve-wozniak.webp",
     imageAlt: "Portrait of Steve Wozniak",
   },
   {
     id: "patrick-bet-david",
     name: "Patrick Bet-David",
     title: "Founder & CEO, Valuetainment",
-    imageSrc: "/media/Stills/the-answer/02-patrick-bet-david.webp",
+    imageSrc: "/media/interviews/the-answer/02-patrick-bet-david.webp",
     imageAlt: "Portrait of Patrick Bet-David",
   },
   {
     id: "franz-von-holzhausen",
     name: "Franz von Holzhausen",
     title: "Chief Designer, Tesla",
-    imageSrc: "/media/Stills/automotive-legends/01-franz-von-holzhausen.webp",
+    imageSrc: "/media/interviews/automotive-legends/01-franz-von-holzhausen.webp",
     imageAlt: "Portrait of Franz von Holzhausen",
   },
   {
     id: "achim-anscheidt",
     name: "Achim Anscheidt",
     title: "Former Director of Design, Bugatti",
-    imageSrc: "/media/Stills/automotive-legends/02-achim-anscheidt.webp",
+    imageSrc: "/media/interviews/automotive-legends/02-achim-anscheidt.webp",
     imageAlt: "Portrait of Achim Anscheidt",
   },
   {
     id: "frank-heyl",
     name: "Frank Heyl",
     title: "Design Director, Bugatti",
-    imageSrc: "/media/Stills/automotive-legends/03-frank-heyl.webp",
+    imageSrc: "/media/interviews/automotive-legends/03-frank-heyl.webp",
     imageAlt: "Portrait of Frank Heyl",
   },
   {
     id: "netease-games",
     name: "Li Wei (李炜)",
     title: "Vice President of NetEase Games / Head of Leihuo Studio",
-    imageSrc: "/media/Stills/gaming-legends/06-li-wei.webp",
+    imageSrc: "/media/interviews/gaming-legends/06-li-wei.webp",
     imageAlt: "NetEase Games — global gaming organisation",
     isOrg: true,
   },
@@ -73,56 +73,56 @@ export const CAST: CastMember[] = [
     id: "jason-cammisa",
     name: "Jason Cammisa",
     title: "Automotive Journalist & Filmmaker",
-    imageSrc: "/media/Stills/automotive-legends/06-jason-cammisa.webp",
+    imageSrc: "/media/interviews/automotive-legends/06-jason-cammisa.webp",
     imageAlt: "Portrait of Jason Cammisa",
   },
   {
     id: "chris-bangle",
     name: "Chris Bangle",
     title: "Former Chief Designer, BMW Group",
-    imageSrc: "/media/Stills/automotive-legends/04-chris-bangle.webp",
+    imageSrc: "/media/interviews/automotive-legends/04-chris-bangle.webp",
     imageAlt: "Portrait of Chris Bangle",
   },
   {
     id: "nolan-bushnell",
     name: "Nolan Bushnell",
     title: "Founder, Atari",
-    imageSrc: "/media/Stills/gaming-legends/01-nolan-bushnell.webp",
+    imageSrc: "/media/interviews/gaming-legends/01-nolan-bushnell.webp",
     imageAlt: "Portrait of Nolan Bushnell",
   },
   {
     id: "tom-dusenberry",
     name: "Tom Dusenberry",
     title: "Former CEO, Hasbro Interactive",
-    imageSrc: "/media/Stills/gaming-legends/04-tom-dusenberry.webp",
+    imageSrc: "/media/interviews/gaming-legends/04-tom-dusenberry.webp",
     imageAlt: "Portrait of Tom Dusenberry",
   },
   {
     id: "rizwan-sajan",
     name: "Rizwan Sajan",
     title: "Founder & Chairman, Danube Group",
-    imageSrc: "/media/Stills/the-answer/04-rizwan-sajan.webp",
+    imageSrc: "/media/interviews/the-answer/04-rizwan-sajan.webp",
     imageAlt: "Portrait of Rizwan Sajan",
   },
   {
     id: "sasha-selipanov",
     name: "Sasha Selipanov",
     title: "Founder & CEO, Nilu27",
-    imageSrc: "/media/Stills/automotive-legends/08-sasha-selipanov.webp",
+    imageSrc: "/media/interviews/automotive-legends/08-sasha-selipanov.webp",
     imageAlt: "Portrait of Sasha Selipanov",
   },
   {
     id: "mohamed-hadid",
     name: "Mohamed Hadid",
     title: "Real Estate Developer",
-    imageSrc: "/media/Stills/the-answer/05-mohamed-hadid.webp",
+    imageSrc: "/media/interviews/the-answer/05-mohamed-hadid.webp",
     imageAlt: "Portrait of Mohamed Hadid",
   },
   {
     id: "aubrey-marcus",
     name: "Aubrey Marcus",
     title: "Founder, Onnit",
-    imageSrc: "/media/Stills/the-answer/06-aubrey-marcus.webp",
+    imageSrc: "/media/interviews/the-answer/06-aubrey-marcus.webp",
     imageAlt: "Portrait of Aubrey Marcus",
   },
 ];

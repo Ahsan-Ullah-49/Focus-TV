@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Container } from "@/components/layout/Container/Container";
-import { Button } from "@/components/ui/Button/Button";
 import { LogoLoop } from "@/components/sections/Partners/LogoLoop";
 import { toLogoItem } from "@/components/sections/Partners/partners.config";
 import partnerStyles from "@/components/sections/Partners/Partners.module.css";
@@ -138,13 +137,6 @@ export function Projects() {
               <div className={styles.people}>
                 <div className={styles.subheading}>
                   <h4>Featured voices</h4>
-                  {project.id !== "the-answer" &&
-                    project.id !== "automotive" &&
-                    project.id !== "gaming" && (
-                      <Button href="/cast" variant="primary" className={styles.castButton}>
-                        Explore the cast <span aria-hidden="true">↗</span>
-                      </Button>
-                    )}
                 </div>
                 <CastGallery members={project.cast} label={`${project.title} cast`} />
               </div>

@@ -491,6 +491,7 @@ const createEngine = (
     }
   };
 
+  // Measure the untransformed copies so animation does not affect the loop period.
   const measure = () => {
     const cfg = config.current;
     const lists = track.children;
@@ -604,6 +605,7 @@ const createEngine = (
     return { move, hold: Math.max(0.35, cycle - move) };
   };
 
+  // Cache the last value to avoid writing unchanged styles on every frame.
   const write = (
     it: LoopItem,
     key: "t" | "o" | "v" | "z" | "s" | "p",
@@ -757,6 +759,7 @@ const createEngine = (
     }
   };
 
+  // Advance loop state and request another frame while it is visible and active.
   const frame = (now: number) => {
     st.raf = 0;
     if (st.destroyed || !st.geo || st.period <= 0) return;

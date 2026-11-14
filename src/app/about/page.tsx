@@ -1,14 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/config/seo";
+import { PageStructuredData } from "@/components/seo/StructuredData";
 import Image from "next/image";
 import { AboutTimeline } from "@/components/pages/About/AboutTimeline";
 import { EditorialMotion } from "@/components/motion/EditorialMotion";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "About Focus TV",
-  description: "Every Great Creation Begins With a Vision.",
-  alternates: { canonical: "/about" },
-};
+export const metadata = pageMetadata("/about");
 
 // Client-supplied chapters and photographs, including the 2018 journey start.
 const chapters = [
@@ -21,7 +18,7 @@ const chapters = [
     ],
     images: [
       {
-        src: "/media/about/Amazon.webp",
+        src: "/media/editorial/amazon-rainforest.webp",
         alt: "River winding through the Amazon rainforest",
         width: 1920,
         height: 1080,
@@ -37,7 +34,7 @@ const chapters = [
     ],
     images: [
       {
-        src: "/media/about/Founder.webp",
+        src: "/media/editorial/founder-with-camera.webp",
         alt: "Hammad Chaudhry beside his filmmaking camera",
         width: 1080,
         height: 1080,
@@ -55,19 +52,19 @@ const chapters = [
     ],
     images: [
       {
-        src: "/media/Stills/the-answer/01-steve-wozniak.webp",
+        src: "/media/interviews/the-answer/01-steve-wozniak.webp",
         alt: "Steve Wozniak in a Focus TV interview",
         width: 1080,
         height: 1080,
       },
       {
-        src: "/media/Stills/gaming-legends/01-nolan-bushnell.webp",
+        src: "/media/interviews/gaming-legends/01-nolan-bushnell.webp",
         alt: "Nolan Bushnell in a Focus TV interview",
         width: 1080,
         height: 1080,
       },
       {
-        src: "/media/Stills/the-answer/04-rizwan-sajan.webp",
+        src: "/media/interviews/the-answer/04-rizwan-sajan.webp",
         alt: "Rizwan Sajan in a Focus TV interview",
         width: 1080,
         height: 1080,
@@ -85,19 +82,19 @@ const chapters = [
     ],
     images: [
       {
-        src: "/media/New BTS/Patric Bet David.webp",
+        src: "/media/behind-the-scenes/patrick-bet-david-filming.webp",
         alt: "Filming Hammad Chaudhry and Patrick Bet-David behind the scenes",
         width: 1920,
         height: 1080,
       },
       {
-        src: "/media/New BTS/Naveen.webp",
+        src: "/media/behind-the-scenes/naveen-jain.webp",
         alt: "Behind the cameras during Naveen Jain's Focus TV interview",
         width: 1920,
         height: 1080,
       },
       {
-        src: "/media/New BTS/Franz.webp",
+        src: "/media/behind-the-scenes/franz-von-holzhausen.webp",
         alt: "Franz von Holzhausen on the monitors during his Focus TV interview",
         width: 1920,
         height: 1080,
@@ -113,7 +110,7 @@ const chapters = [
     ],
     images: [
       {
-        src: "/media/editorial/Perth.webp",
+        src: "/media/editorial/perth-skyline.webp",
         alt: "Perth skyline and Elizabeth Quay at dusk",
         width: 1920,
         height: 1080,
@@ -125,6 +122,7 @@ const chapters = [
 export default function AboutPage() {
   return (
     <EditorialMotion>
+      <PageStructuredData path="/about" />
       <article className={styles.page}>
         <header className={styles.hero}>
           <div className={styles.heroCopy}>

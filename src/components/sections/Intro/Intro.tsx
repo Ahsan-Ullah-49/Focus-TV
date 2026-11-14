@@ -46,7 +46,7 @@ export function Intro() {
         <figure className={styles.sequence} data-reveal="soft">
           <div className={styles.mainFrame}>
             <Image
-              src="/media/story/main%20image.webp"
+              src="/media/editorial/interview-set.webp"
               alt="Cameras and lights set up to film an interview"
               fill
               sizes="(max-width: 820px) 90vw, (max-width: 1440px) 50vw, 720px"
@@ -55,7 +55,7 @@ export function Intro() {
           </div>
           <div className={styles.cutaway} aria-hidden="true">
             <Image
-              src="/media/Stills/automotive-legends/04-chris-bangle.webp"
+              src="/media/interviews/automotive-legends/04-chris-bangle.webp"
               alt=""
               fill
               sizes="(max-width: 820px) 38vw, 22vw"

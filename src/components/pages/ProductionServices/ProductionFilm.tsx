@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./ProductionFilm.module.css";
 
+// Notify the other film cards so only the newly selected embed stays open.
 const PLAY_EVENT = "production-film-play";
 
 type ProductionFilmProps = {

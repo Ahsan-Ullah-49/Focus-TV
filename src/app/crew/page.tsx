@@ -1,20 +1,16 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/config/seo";
+import { PageStructuredData } from "@/components/seo/StructuredData";
 import Image, { type StaticImageData } from "next/image";
-import alanPortrait from "../../../public/media/crew/alan-lindsay.webp";
-import rachelPortrait from "../../../public/media/crew/rachael-soleil.webp";
-import founderPortrait from "../../../public/media/crew/founder.webp";
-import wasamPortrait from "../../../public/media/crew/wasam-chaudhry.webp";
+import alanPortrait from "../../../public/media/team/alan-lindsay.webp";
+import rachelPortrait from "../../../public/media/team/rachael-soleil.webp";
+import founderPortrait from "../../../public/media/team/hammad-chaudhry.webp";
+import wasamPortrait from "../../../public/media/team/wasam-chaudhry.webp";
 import { EditorialMotion } from "@/components/motion/EditorialMotion";
 import styles from "@/components/pages/Crew/Crew.module.css";
 
-export const metadata: Metadata = {
-  title: "Focus TV team",
-  description: "Hammad Chaudhry — Founder, CEO & Producer, Focus TV Studios.",
-  alternates: { canonical: "/crew" },
-};
+export const metadata = pageMetadata("/crew");
 
-// Owner-approved order and original crew portraits. Source-backed film titles
-// replace the previous descriptive biographies; credit links lead to IMDb.
+// Owner-approved order and portraits; source-backed film credits link to IMDb.
 type TeamPerson = {
   name: string;
   role: string;
@@ -83,6 +79,7 @@ const team: TeamPerson[] = [
 export default function CrewPage() {
   return (
     <EditorialMotion>
+      <PageStructuredData path="/crew" />
       <article className={styles.page}>
         <header className={styles.intro}>
           <h1 data-editorial-reveal="heading">
@@ -122,7 +119,7 @@ export default function CrewPage() {
               <div className={styles.portraitFrame}>
                 <div className={styles.teamPortrait}>
                   <Image
-                    src={person.portrait ?? `/media/crew/${person.image}.webp`}
+                    src={person.portrait ?? `/media/team/${person.image}.webp`}
                     alt={person.name}
                     fill
                     quality={95}

@@ -1,5 +1,31 @@
 # FocusTV Website Rebuild
 
+## Reading this log
+
+This is a history of project decisions. Older entries describe the scope and implementation at the time and may refer to retired sections, paths or behavior. For the current site, use [project status](PROJECT_STATUS.md), [product requirements](PRD.md) and [technical plan](TECHNICAL_PLAN.md). A later owner instruction takes priority over an earlier decision.
+
+## DEC-040 - Remove The Answer AI Page
+
+**Status:** Owner-directed, implemented 14 November 2026; supersedes DEC-012 and the AI route-retention part of DEC-038.
+
+Remove the Coming Soon page and its route. The Answer documentary remains on the homepage. The removed AI URL returns the site's 404 page.
+
+## DEC-039 - Public Image Library
+
+**Status:** Owner-directed, implemented 14 November 2026.
+
+Keep the images used by the current website as WebP in subject-based folders under `public/media/`. Reuse one file where an image appears in multiple places. Remove unused images and retain theme-specific logo variants that are in use. The Next.js app icon and supplied brand artwork remain in their existing locations. The former Cast page has been removed; its legacy URL redirects. A future directory would require a new page and approved content and images. See [content sources](CONTENT_SOURCES.md).
+
+## DEC-038 - About, Team and Gallery Scope
+
+**Status:** Owner-directed, implemented for review in November 2026; AI route retention superseded by DEC-040.
+
+Add About to navigation, keep the owner-supplied five-chapter story and 2018 marker, update Team with the supplied order and credits, and show photographs in Gallery without category filtering. Remove The Answer AI from navigation while retaining its Coming Soon URL. Keep the existing homepage and Production Services presentation protected from unrelated changes.
+
+## Hero playback review
+
+DEC-037 records the owner's click-to-play direction. The current `HeroPlayer.tsx` attempts playback when the player is ready and visible for visitors without reduced motion; it does not currently implement the recorded central play control. This discrepancy is open and does not supersede the owner's direction. See [project status](PROJECT_STATUS.md).
+
 ## DEC-037 - Homepage Playback and Project Logo Loops
 
 **Status:** Owner-directed (8 November 2026); supersedes earlier hero autoplay, monochrome header/footer logo and project logo-grid choices.
@@ -184,7 +210,7 @@ Use an expandable preview/modal/drawer rather than dedicated pages for v1 unless
 
 ## DEC-012 - The Answer AI
 
-**Status:** Accepted
+**Status:** Superseded by DEC-040.
 
 **Decision:**  
 The Answer AI will remain a Coming Soon experience.
@@ -380,7 +406,7 @@ Keep both theme variants available and use the existing Header theme selection w
 
 ## DEC-028 - Partners & Media Logo Loop Finalization
 
-**Status:** Complete — owner-approved for current supplied assets (25 October 2026)
+**Status:** Historical — owner-approved on 25 October 2026; the standalone section and its former asset set are not the current homepage configuration.
 
 **Decision:** Keep the 55 active partner logos and identify the section with the heading “Brands & organizations we’ve worked with.” Store all base and theme-specific files together in `public/media/Logos/LOGOS/`; select supplied Dark/Light artwork for matching entries. Preserve the approved left-moving, draggable loop and brand colors. Use fixed-width slots for NetEase, Nissan, PBD Podcast, Silent Hill 2 and Universal Music Group so changing themes does not move their loop positions. Keep Danube Group as one entry with its matched horizontal theme files.
 

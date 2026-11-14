@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Cormorant_Garamond } from "next/font/google";
 import { siteConfig } from "@/config/site";
+import { isIndexable, pageMetadata } from "@/config/seo";
+import { SiteStructuredData } from "@/components/seo/StructuredData";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Header } from "@/components/layout/Header/Header";
@@ -22,35 +24,24 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
+  // The current serif token uses system fonts; avoid competing with the hero request.
+  preload: false,
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: `${siteConfig.name} | Film & Media Production`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
+  ...pageMetadata("/"),
+  applicationName: siteConfig.name,
   metadataBase: new URL(siteConfig.productionUrl),
-  openGraph: {
-    type: "website",
-    siteName: siteConfig.name,
-    title: "FocusTV | Stories worth telling",
-    description: siteConfig.description,
-    images: [
-      {
-        url: "/media/hero/focustv-Hero-poster.webp",
-        alt: "Automotive documentary imagery from FocusTV",
-      },
-    ],
-  },
-  twitter: { card: "summary_large_image" },
   robots: {
-    index:
-      process.env.VERCEL_ENV === "production" ||
-      (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV),
-    follow:
-      process.env.VERCEL_ENV === "production" ||
-      (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV),
+    index: isIndexable,
+    follow: isIndexable,
+    googleBot: {
+      index: isIndexable,
+      follow: isIndexable,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -82,6 +73,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body id="top" suppressHydrationWarning>
+        <SiteStructuredData />
         <ThemeProvider>
           <SmoothScrollProvider>
             <CustomCursor />

@@ -58,7 +58,7 @@
   font-style: italic;
 }
 
-.columns h3 {
+.columns h2 {
   margin-bottom: var(--space-6);
   color: var(--color-brand);
   font-size: clamp(1.125rem, 1.35vw, 1.35rem);
@@ -289,7 +289,7 @@
     justify-items: center;
   }
 
-  .navigation h3 {
+  .navigation h2 {
     text-align: center;
   }
 
@@ -299,7 +299,7 @@
     gap: 0 var(--space-6);
   }
 
-  .connect h3 {
+  .connect h2 {
     grid-column: 1 / -1;
     margin-bottom: var(--space-4);
   }

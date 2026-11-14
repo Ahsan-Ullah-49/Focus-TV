@@ -446,10 +446,6 @@
   font-weight: 600;
 }
 
-.castButton {
-  min-height: 44px;
-}
-
 .logoTrail {
   --trail-height: clamp(3rem, 6vw, 4.5rem);
   --trail-gap: clamp(2.125rem, 4.3vw, 3.75rem);
@@ -618,9 +614,5 @@
   .introduction::before,
   .introduction::after {
     display: none;
-  }
-
-  .castButton {
-    padding-inline: var(--space-3);
   }
 }

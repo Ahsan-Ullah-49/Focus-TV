@@ -9,7 +9,7 @@ import styles from "./HomeContact.module.css";
 const PHOTO_SCROLL_SPEED = 0.4;
 
 const { props: desktopPhoto } = getImageProps({
-  src: "/media/story/contact%20section%20desktop%20version.webp",
+  src: "/media/backgrounds/contact-desktop.webp",
   alt: "",
   fill: true,
   sizes: "(max-width: 1920px) 1920px, 100vw",
@@ -18,7 +18,7 @@ const { props: desktopPhoto } = getImageProps({
 const {
   props: { srcSet: portraitSrcSet, sizes: portraitSizes },
 } = getImageProps({
-  src: "/media/story/contact%20section%20mobile%20version.webp",
+  src: "/media/backgrounds/contact-mobile.webp",
   alt: "",
   fill: true,
   sizes: "(max-width: 420px) 420px, 100vw",

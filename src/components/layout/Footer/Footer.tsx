@@ -133,7 +133,7 @@ export function Footer() {
               </nav>
             </div>
             <nav className={styles.navigation} aria-label="Footer navigation">
-              <h3>Explore</h3>
+              <h2>Explore</h2>
               <ul>
                 {explore.map((link) => (
                   <li key={link.href}>
@@ -143,7 +143,7 @@ export function Footer() {
               </ul>
             </nav>
             <section className={styles.connect} aria-labelledby="footer-contact-heading">
-              <h3 id="footer-contact-heading">Get in touch</h3>
+              <h2 id="footer-contact-heading">Get in touch</h2>
               <div className={styles.contactActions}>
                 <Link
                   href={CONTACT_PAGE_HREF}

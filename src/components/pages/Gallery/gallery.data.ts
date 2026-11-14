@@ -44,7 +44,7 @@ function btsPhoto(
     layout: width > height ? "wide" : "portrait",
     width,
     height,
-    src: `/media/New BTS/${file}`,
+    src: `/media/behind-the-scenes/${file}`,
     alt: `${title} — behind the scenes on a Focus TV production`,
   };
 }
@@ -56,7 +56,7 @@ export const galleryStills: GalleryPhoto[] = stills.map(([id, title, file]) => (
   layout: "portrait",
   width: 1080,
   height: 1080,
-  src: `/media/Stills/${file}`,
+  src: `/media/interviews/${file}`,
   alt: `${title} during a Focus TV interview`,
   unoptimized: true,
 }));
@@ -72,37 +72,41 @@ export const galleryBtsRows: BtsRow[] = [
   {
     layout: "landscapes",
     photos: [
-      btsPhoto("steve-bts", "Steve Wozniak", "Steve.webp"),
-      btsPhoto("steve-woz-bts", "Steve Wozniak — interview setup", "Steve Woz.webp"),
+      btsPhoto("steve-bts", "Steve Wozniak", "steve-wozniak-filming.webp"),
+      btsPhoto(
+        "steve-woz-bts",
+        "Steve Wozniak — interview setup",
+        "steve-wozniak-interview-setup.webp"
+      ),
     ],
   },
   {
     layout: "landscapes",
     photos: [
-      btsPhoto("patrick-bts", "Patrick Bet-David", "Patric Bet David.webp"),
-      btsPhoto("pbd-bts", "Patrick Bet-David — outdoor filming", "PBD.webp"),
+      btsPhoto("patrick-bts", "Patrick Bet-David", "patrick-bet-david-filming.webp"),
+      btsPhoto("pbd-bts", "Patrick Bet-David — outdoor filming", "patrick-bet-david-outdoors.webp"),
     ],
   },
   {
     layout: "mixed",
     photos: [
-      btsPhoto("naveen-bts", "Naveen Jain", "Naveen.webp"),
-      btsPhoto("hadid-bts", "Mohamed Hadid", "Hadid.webp", 3840, 3840),
+      btsPhoto("naveen-bts", "Naveen Jain", "naveen-jain.webp"),
+      btsPhoto("hadid-bts", "Mohamed Hadid", "mohamed-hadid.webp", 3840, 3840),
     ],
   },
   {
     layout: "landscapes",
     photos: [
-      btsPhoto("aubrey-bts", "Aubrey Marcus", "Aubrey.webp"),
-      btsPhoto("franz-bts", "Franz von Holzhausen", "Franz.webp"),
+      btsPhoto("aubrey-bts", "Aubrey Marcus", "aubrey-marcus.webp"),
+      btsPhoto("franz-bts", "Franz von Holzhausen", "franz-von-holzhausen.webp"),
     ],
   },
   {
     layout: "squares-wide",
     photos: [
-      btsPhoto("chris-bts", "Chris Bangle", "Chris.webp", 1080, 1080),
-      btsPhoto("jason-bts", "Jason Cammisa", "Jason.webp", 1080, 1080),
-      btsPhoto("sasha-bts", "Sasha Selipanov", "Sasha.webp"),
+      btsPhoto("chris-bts", "Chris Bangle", "chris-bangle.webp", 1080, 1080),
+      btsPhoto("jason-bts", "Jason Cammisa", "jason-cammisa.webp", 1080, 1080),
+      btsPhoto("sasha-bts", "Sasha Selipanov", "sasha-selipanov.webp"),
     ],
   },
 ];

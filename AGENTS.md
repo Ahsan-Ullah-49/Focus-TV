@@ -410,6 +410,14 @@ Follow the approved FocusTV visual language instead.
 
 **Build carefully, change narrowly, validate fully, and protect everything already working.**
 
+## 25. Current Project Context
+
+- Read `README.md` for setup and the route overview, and `Docs/PROJECT_STATUS.md` for the current state, known discrepancies and launch checks.
+- Use `Docs/CONTENT_SOURCES.md` before changing factual copy, credits, images or video. Keep shared public images in their existing subject folders and use WebP.
+- The Cast URLs redirect to Production Services. The former directory page has been removed; homepage cast data is still in use.
+- The recorded owner direction for the home hero is click-to-play, but the current code attempts playback when visible. Treat this as an unresolved discrepancy, not permission to change it during an unrelated task.
+- Update the relevant documents and changelog when a task changes project behavior, content, assets or decisions. Keep historical decisions distinguishable from current implementation.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

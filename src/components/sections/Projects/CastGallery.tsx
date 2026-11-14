@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useId, useRef } from "react";
-import type { DirectoryMember } from "@/components/pages/CastDirectory/cast-directory.data";
+import type { FeaturedVoice } from "./featured-voices.data";
 import styles from "./CastGallery.module.css";
 
-type CastPortrait = Pick<DirectoryMember, "id" | "name" | "title"> & { imageSrc?: string };
+type CastPortrait = Pick<FeaturedVoice, "id" | "name" | "title"> & { imageSrc?: string };
 
 const DRIFT_SPEED = 54; // Pixels per second at full speed.
 

@@ -1,15 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/config/seo";
+import { PageStructuredData } from "@/components/seo/StructuredData";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button/Button";
 import { ProductionMotion } from "@/components/pages/ProductionServices/ProductionMotion";
 import { ProductionFilm } from "@/components/pages/ProductionServices/ProductionFilm";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Production Services",
-  description: "Your Story. Our Expertise. Extraordinary Films.",
-  alternates: { canonical: "/production-services" },
-};
+export const metadata = pageMetadata("/production-services");
 
 const films = [
   {
@@ -17,7 +14,7 @@ const films = [
     palette: "green",
     title: "ATLAS FUEL",
     category: "AUSTRALIAN FUEL SUPPLIER & DISTRIBUTOR",
-    poster: "/media/production-services/atlas-laboratory-logo.webp",
+    poster: "/media/posters/commercial/atlas-fuel.webp",
     videoId: "1244099030",
     videoHash: "2ff7fdbc96",
     paragraphs: [
@@ -30,7 +27,7 @@ const films = [
     palette: "gold",
     title: "MR BEAST PHILANTHROPY",
     category: "ESG & COMMUNITY IMPACT",
-    poster: "/media/gallery/1004315356.webp",
+    poster: "/media/posters/commercial/beast-philanthropy.webp",
     videoId: "1004315356",
     videoHash: "25ad4635a2",
     paragraphs: [
@@ -43,7 +40,7 @@ const films = [
     palette: "contrast",
     title: "DANUBE GROUP",
     category: "BILLIONAIRE FOUNDER STORY",
-    poster: "/media/gallery/1075036381.webp",
+    poster: "/media/posters/commercial/danube-group.webp",
     videoId: "1075036381",
     videoHash: "ba270ecdc4",
     paragraphs: [
@@ -56,6 +53,7 @@ const films = [
 export default function ProductionServicesPage() {
   return (
     <ProductionMotion films={films.map(({ id, poster }) => ({ id, poster }))}>
+      <PageStructuredData path="/production-services" />
       <article className={styles.page} data-production-page>
         <section className={styles.hero} aria-labelledby="production-heading">
           <div className={styles.heroInner}>

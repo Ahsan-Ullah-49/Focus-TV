@@ -30,7 +30,8 @@ function HeroPoster({ hidden = false }: { hidden?: boolean }) {
       src={heroConfig.posterSrc}
       alt=""
       fill
-      preload
+      loading="eager"
+      fetchPriority="high"
       sizes="100vw"
       className={`${styles.poster} ${hidden ? styles.posterHidden : ""}`}
     />

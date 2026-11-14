@@ -40,6 +40,7 @@ export function MediaDialog({
     const dialog = dialogRef.current;
     if (!dialog || !isOpen) return;
 
+    // Restore the existing body lock when the native dialog closes.
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     dialog.showModal();

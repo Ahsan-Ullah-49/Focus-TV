@@ -1,18 +1,14 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/config/site";
+import { absoluteUrl, isIndexable } from "@/config/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction =
-    process.env.VERCEL_ENV === "production" ||
-    (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV);
-
-  if (isProduction) {
+  if (isIndexable) {
     return {
       rules: {
         userAgent: "*",
         allow: "/",
       },
-      sitemap: `${siteConfig.productionUrl}/sitemap.xml`,
+      sitemap: absoluteUrl("/sitemap.xml"),
     };
   }
 

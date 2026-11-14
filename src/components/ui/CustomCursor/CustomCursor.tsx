@@ -126,7 +126,7 @@ export function CustomCursor() {
       }
 
       // Arrow snaps to the exact pointer position immediately.
-      // The tip offset is used for the arrow since its hotpot is top-left.
+      // The tip offset is used for the arrow since its hotspot is top-left.
       positionArrow(mouseX, mouseY, ARROW_TIP_OFFSET);
     };
 

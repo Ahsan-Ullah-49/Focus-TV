@@ -1,7 +1,4 @@
-import {
-  DIRECTORY_CAST,
-  type DirectoryMember,
-} from "@/components/pages/CastDirectory/cast-directory.data";
+import { FEATURED_VOICES, type FeaturedVoice } from "./featured-voices.data";
 import { PARTNER_LOGOS, type PartnerLogo } from "@/components/sections/Partners/partners.config";
 import { heroConfig } from "@/components/sections/Hero/hero.config";
 
@@ -22,12 +19,12 @@ export type HomepageProject = StudioProject & {
   description: readonly string[];
   poster: string;
   video: ProjectVideo;
-  cast: (Pick<DirectoryMember, "id" | "name" | "title"> & { imageSrc?: string })[];
+  cast: (Pick<FeaturedVoice, "id" | "name" | "title"> & { imageSrc?: string })[];
   logos: PartnerLogo[];
 };
 
 const castById = (ids: string[]) =>
-  ids.flatMap((id) => DIRECTORY_CAST.filter((person) => person.id === id));
+  ids.flatMap((id) => FEATURED_VOICES.filter((person) => person.id === id));
 const logosByName = (names: string[]) =>
   names.flatMap((name) => PARTNER_LOGOS.filter((logo) => logo.name === name));
 
@@ -46,7 +43,7 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
       "Through the unwavering love and strength of his partner, Hammad discovers a force far greater than success, challenging everything he believed about creation, masculinity and reality itself.",
       "A powerful journey revealing the unseen influence of women, the true cost of ambition and the extraordinary forces that shape our reality.",
     ],
-    poster: "/media/projects/the-answer/poster.webp",
+    poster: "/media/posters/the-answer.webp",
     video: {
       kind: "vimeo",
       id: "1075036022",
@@ -71,7 +68,7 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
       "As the automotive world enters a new era, Automotive Legends pays tribute to the combustion engine and the visionary minds who pushed the boundaries of engineering, performance and design.",
       "Featuring the pioneers behind some of the world's most iconic cars and automotive brands, this documentary explores how extraordinary imagination, ambition and bold ideas were manifested into reality shaping the machines and industry we know today.",
     ],
-    poster: "/media/hero/focustv-Intro-poster.webp",
+    poster: "/media/posters/automotive-legends.webp",
     video: { kind: "vimeo", id: heroConfig.videoId, hash: heroConfig.hash },
     cast: [
       ...castById([
@@ -86,14 +83,14 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
         id: "mate-rimac",
         name: "Mate Rimac",
         title: "Founder & CEO, Rimac Group",
-        imageSrc: "/media/Stills/automotive-legends/07-mate-rimac.webp",
+        imageSrc: "/media/interviews/automotive-legends/07-mate-rimac.webp",
       },
       ...castById(["sasha-selipanov"]),
       {
         id: "ahmed-amwell",
         name: "Ahmed Amwell",
         title: "Founder & CEO, Luxury Supercars Dubai",
-        imageSrc: "/media/Stills/automotive-legends/09-ahmed-amwell.webp",
+        imageSrc: "/media/interviews/automotive-legends/09-ahmed-amwell.webp",
       },
     ],
     logos: logosByName([
@@ -119,7 +116,7 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
       "Gaming Legends takes us inside the minds of the pioneers who broke the boundaries of imagination, revolutionised gaming and built some of the world's most iconic games and gaming empires.",
       "Through their extraordinary journeys, we uncover the risks, sacrifices and relentless determination it took to turn seemingly impossible ideas into reality creating digital worlds that would change entertainment forever.",
     ],
-    poster: "/media/projects/gaming-legends.webp",
+    poster: "/media/posters/gaming-legends.webp",
     video: { kind: "vimeo", id: "1090472083", hash: "f7de1ad21b" },
     cast: castById([
       "nolan-bushnell",
@@ -159,7 +156,7 @@ export const STUDIO_PROJECTS: HomepageProject[] = [
       "Host Hammad Chaudhry goes behind the scenes of Western Australia Police to uncover the cutting-edge technology, specialised units and extraordinary people keeping our communities safe.",
       "From tactical operations and aerial policing to advanced surveillance and innovation, discover how technology and human ingenuity are transforming the future of policing.",
     ],
-    poster: "/media/projects/wa-police.webp",
+    poster: "/media/posters/wa-police.webp",
     video: { kind: "vimeo", id: "1205405287", hash: "89f0d3a4ac" },
     cast: [],
     logos: [],

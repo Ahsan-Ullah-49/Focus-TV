@@ -15,6 +15,7 @@ const INVALID_ENQUIRY =
   "Please check your name, email address and enquiry details, then try again.";
 const UNAVAILABLE = "We couldn't send your enquiry right now. Please try again in a moment.";
 
+// These limits are per server process; they are not shared across instances.
 const LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const MAX_CLIENT_ATTEMPTS = 5;
 const MAX_INSTANCE_ATTEMPTS = 30;

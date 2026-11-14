@@ -30,7 +30,7 @@ interface PartnerLogoVariant {
 
 /** Preserve each supplied logo's theme artwork and sizing in every logo loop. */
 export function toLogoItem(logo: PartnerLogo): Extract<LogoItem, { src: string }> {
-  const asset = (filename: string) => `/media/Logos/LOGOS/${encodeURIComponent(filename)}`;
+  const asset = (filename: string) => `/media/logos/partners/${encodeURIComponent(filename)}`;
   return {
     src: asset(logo.filename),
     darkSrc: logo.darkVariant ? asset(logo.darkVariant.filename) : undefined,
@@ -86,12 +86,6 @@ export const PARTNER_LOGOS: PartnerLogo[] = [
     outlineOnLight: true,
   },
   {
-    filename: "bmw.webp",
-    name: "BMW",
-    width: 1200,
-    height: 1200,
-  },
-  {
     filename: "bugatti.webp",
     name: "Bugatti",
     width: 2189,
@@ -122,38 +116,6 @@ export const PARTNER_LOGOS: PartnerLogo[] = [
     width: 2803,
     height: 526,
     lowContrast: "light",
-  },
-  {
-    filename: "io-interactive.webp",
-    name: "IO Interactive",
-    width: 1106,
-    height: 614,
-    lowContrast: "dark",
-  },
-  {
-    filename: "john-hughes.webp",
-    name: "John Hughes",
-    width: 835,
-    height: 595,
-  },
-  {
-    filename: "koenigsegg.webp",
-    name: "Koenigsegg",
-    width: 1830,
-    height: 2560,
-  },
-  {
-    filename: "konami.webp",
-    name: "Konami",
-    width: 1600,
-    height: 270,
-  },
-  {
-    filename: "lamborghini.webp",
-    name: "Lamborghini",
-    width: 1836,
-    height: 2065,
-    outlineOnDark: true,
   },
   {
     filename: "monopoly.webp",
@@ -193,12 +155,6 @@ export const PARTNER_LOGOS: PartnerLogo[] = [
       width: 1220,
       height: 1032,
     },
-  },
-  {
-    filename: "onmyoji.webp",
-    name: "Onmyoji",
-    width: 1600,
-    height: 1002,
   },
   {
     filename: "pong.webp",

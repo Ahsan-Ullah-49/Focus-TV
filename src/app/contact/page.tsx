@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/config/seo";
+import { PageStructuredData } from "@/components/seo/StructuredData";
 import { HomeContact } from "@/components/sections/HomeContact/HomeContact";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Start a conversation with FocusTV about productions, partnerships, guest enquiries or a meeting.",
-  alternates: { canonical: "/contact" },
-};
+export const metadata = pageMetadata("/contact");
 
 export default async function ContactPage({
   searchParams,
@@ -14,5 +10,10 @@ export default async function ContactPage({
   searchParams: Promise<{ enquiry?: string | string[] }>;
 }) {
   const query = await searchParams;
-  return <HomeContact initialMeeting={query.enquiry === "meeting"} />;
+  return (
+    <>
+      <PageStructuredData path="/contact" />
+      <HomeContact initialMeeting={query.enquiry === "meeting"} />
+    </>
+  );
 }
